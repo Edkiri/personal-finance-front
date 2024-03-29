@@ -31,7 +31,10 @@ function focusInput() {
       @focus="focused = true"
       @focusout="focused = false"  
     />
-    <label class="input-label pf-medium-text" :class="{ 'input-label-centered': text.length || focused }">{{ label }}</label>
+    <div class="label-container">
+      <label class="input-label pf-medium-text" :class="{ 'input-label-centered': text.length || focused }">{{ label }}</label>
+    </div>
+
   </div>
 </template>
 
@@ -42,11 +45,13 @@ function focusInput() {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgb(73, 73, 73);
+  border: 1px solid var(--color-white-300);
   border-radius: 4px;
-  color: rgb(202, 201, 201);
   min-height: 50px;
   cursor: text;
+}
+.input-container:hover {
+  border: 1px solid var(--color-white-500);
 }
 
 .input-container.focused {
@@ -57,10 +62,10 @@ function focusInput() {
   background-color: transparent;
   display: block;
   width: 100%;
+  color: var(--color-white-900);
   outline: none;
   padding-left: 16px;
 }
-
 .input-label {
   position: absolute;
   display: block;
@@ -68,18 +73,22 @@ function focusInput() {
   top: 50%;
   left: 16px;
   transform: translateY(-50%);
-  transition: all 0.1s ease-in-out; 
+  transition: top 0.1s ease-in-out, left 0.1s ease-in-out; 
   pointer-events: none;
   z-index: 20;
   padding: 0px 4px;
-  color: rgba(160, 159, 159, 0.6);
-  background-color: rgb(19, 19, 20);
+  background-color: var(--color-background);
+  color: var(--color-white-300);
+}
+.input-container:hover .input-label {
+  color: var(--color-white-500);
 }
 
 .input-label-centered {
   top: -4px;
   padding: 0px 8px;
   font-size: 14px;
-  color: rgb(173, 172, 172, .6); 
+  background-color: var(--color-background);
+  color: var(--color-white-500);
 }
 </style>

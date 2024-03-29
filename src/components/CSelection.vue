@@ -75,8 +75,8 @@ async function handleFocusOut(_event: FocusEvent) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-white-300);
   border-radius: 4px;
+  border: 1px solid var(--color-white-300);
   color: var(--color-white-900);
   min-height: 50px;
 }
@@ -114,7 +114,7 @@ async function handleFocusOut(_event: FocusEvent) {
 }
 
 .select-container button:focus {
-  outline: 1px solid var(--color-white-900);
+  outline: 1px solid var(--color-white-700);
 }
 
 .select-list-container {
