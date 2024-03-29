@@ -3,17 +3,20 @@ import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div class="main-container">
+  <div class="layout-container">
     <router-view></router-view>
   </div>
 </template>
 
 <style scoped>
-.main-container {
+.layout-container {
   width: 100%;
-  padding: 8px;
+  max-width: 1024px;
+  margin: 0 auto;
+  border-left: 1px solid var(--color-white-300);
+  border-right: 1px solid var(--color-white-300);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  border-radius: 4px;
+  flex-grow: 1;
 }
 </style>
