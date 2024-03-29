@@ -4,6 +4,7 @@
 
 :root {
   --color-background: rgb(19, 19, 20);
+  --color-background-800: rgb(32, 32, 32);
   --color-primary: #0d37bf; 
   --color-primary-hover: #0e4bd8;
   --color-white-300: rgb(73, 73, 73);

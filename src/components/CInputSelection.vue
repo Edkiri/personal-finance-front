@@ -24,7 +24,6 @@ const filteredSelections = computed(() => {
   if (!props.text) return [];
 
   const formatedText = formatString(props.text);
-  
   const filtered = props.selecctions
     .filter(
       seleccition => formatString(seleccition.text).includes(formatedText)
@@ -85,7 +84,6 @@ async function handleFocusOut(_event: FocusEvent) {
 
 <template>
   <div class="input-container" :class="{ focused }" @click="focusInput">
-
     <input 
       class="pf-input pf-normal-text" 
       type="text" 
@@ -97,24 +95,26 @@ async function handleFocusOut(_event: FocusEvent) {
       @keydown.down="inputArrowDown" 
     />
 
-    <div class="select-container" v-if="show">
+    <div class="select-container" v-if="true">
       <div class="select-list-container">
-
-        <button 
-          type="button" 
-          class="text-white pf-normal-text" 
-          v-for="selecction in filteredSelections" 
-          @click="() => selectSource(selecction)"
-          @keydown.down.prevent="selectionArrowDown" 
-          @keydown.up.prevent="handleArrowUp"
-        >
-          {{ selecction.text }}
-        </button>
+        <div class="button-container" v-for="selecction in filteredSelections">
+          <button 
+            type="button" 
+            class="pf-normal-text" 
+            @click="() => selectSource(selecction)"
+            @keydown.down.prevent="selectionArrowDown" 
+            @keydown.up.prevent="handleArrowUp"
+          >
+            {{ selecction.text }}
+          </button>
+        </div>
       </div>
     </div>
+
     <div class="label-container">
       <label class="input-label pf-medium-text" :class="{ 'input-label-centered': text.length || focused }">{{ label }}</label>
     </div>
+
   </div>
 </template>
 
@@ -126,15 +126,14 @@ async function handleFocusOut(_event: FocusEvent) {
   align-items: center;
   justify-content: center;
   padding: 12px;
-  border: 1px solid rgb(173, 172, 172);
   border-radius: 4px;
-  color: rgb(202, 201, 201);
+  border: 1px solid var(--color-white-300);
+  color: var(--color-white-900);
   min-height: 50px;
   cursor: text;
-  opacity: .4;
 }
 .input-container:hover {
-  opacity: .6;
+  border: 1px solid var(--color-white-500);
 }
 .pf-input {
   vertical-align: middle;
@@ -148,19 +147,30 @@ async function handleFocusOut(_event: FocusEvent) {
   min-height: 50px;
   right: -2px;
   left: -2px;
-  padding: 8px 4px;
   top: 50px;
-  background-color: rgb(29, 29, 37);
+  background-color: var(--color-background-800);
+  border-right: 1px solid rgb(97, 96, 96);
+  border-left: 1px solid rgb(97, 96, 96);
   z-index: 30;
 }
-
-.select-container button {
-  background-color: transparent;
-  text-align: start;
+.select-container .button-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 45px;
   border-bottom: 1px solid rgb(97, 96, 96);
-  height: 50px;
-  padding: 16px;
+}
+.select-container .button-container button {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  text-align: start;
+  width: 100%;
   outline: none;
+  padding-left: 16px;
 }
 
 .select-container button:focus {
