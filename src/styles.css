@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-background: rgb(19, 19, 20);
+  --color-primary: #0d37bf; 
+  --color-primary-hover: #0e4bd8;
+  --color-white-300: rgb(73, 73, 73);
+  --color-white-500: rgb(111, 111, 111);
+  --color-white-700: rgb(125, 125, 125);
+  --color-white-900: rgb(192, 192, 192);
+}
+
 html {
-  background-color: rgb(19, 19, 20);
+  background-color: var(--color-background);
+}
+
+.pf-small-text {
+  font-family: "Encode Sans Expanded", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.pf-normal-text {
+  font-family: "Encode Sans Expanded", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pf-medium-text {
+  font-family: "Encode Sans Expanded", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.pf-bold-text {
+  font-family: "Encode Sans Expanded", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }

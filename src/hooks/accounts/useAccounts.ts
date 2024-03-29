@@ -1,6 +1,6 @@
 import axios from "axios";
 import { onMounted, ref } from "vue";
-import { API } from "../constants";
+import { API } from "../../constants";
 
 type Bank = {
   id: number;

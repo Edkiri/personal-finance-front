@@ -11,7 +11,7 @@ interface SelectionProps<T> {
   selecctions: Array<SelectionItem>,
   selected?: T,
   text: string,
-  placeholder?: string;
+  label: string,
 }
 const props = defineProps<SelectionProps<any>>();
 const emit = defineEmits(['update:text']);
@@ -24,6 +24,7 @@ const filteredSelections = computed(() => {
   if (!props.text) return [];
 
   const formatedText = formatString(props.text);
+  
   const filtered = props.selecctions
     .filter(
       seleccition => formatString(seleccition.text).includes(formatedText)
@@ -39,6 +40,10 @@ const show = computed(() => {
   if (!focused.value || !props.text || filteredSelections.value.length === 0) return false;
   return true;
 });
+
+async function focusInput() {
+  input.value?.focus();
+}
 
 function focusSelection(index: number) {
   selectionIndex.value = index;
@@ -79,14 +84,13 @@ async function handleFocusOut(_event: FocusEvent) {
 </script>
 
 <template>
-  <div class="input-container" :class="{ focused }">
+  <div class="input-container" :class="{ focused }" @click="focusInput">
 
     <input 
-      class="pf-input" 
+      class="pf-input pf-normal-text" 
       type="text" 
       ref="input" 
       :value="text"
-      :placeholder="placeholder ?? ''" 
       @input="$emit('update:text', ($event.target as HTMLInputElement).value)" 
       @focus="focused = true, selectionIndex = null"
       @focusout="handleFocusOut" 
@@ -98,7 +102,7 @@ async function handleFocusOut(_event: FocusEvent) {
 
         <button 
           type="button" 
-          class="text-white" 
+          class="text-white pf-normal-text" 
           v-for="selecction in filteredSelections" 
           @click="() => selectSource(selecction)"
           @keydown.down.prevent="selectionArrowDown" 
@@ -106,8 +110,10 @@ async function handleFocusOut(_event: FocusEvent) {
         >
           {{ selecction.text }}
         </button>
-
       </div>
+    </div>
+    <div class="label-container">
+      <label class="input-label pf-medium-text" :class="{ 'input-label-centered': text.length || focused }">{{ label }}</label>
     </div>
   </div>
 </template>
@@ -119,28 +125,40 @@ async function handleFocusOut(_event: FocusEvent) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  border: 1px solid grey;
+  padding: 12px;
+  border: 1px solid rgb(173, 172, 172);
   border-radius: 4px;
   color: rgb(202, 201, 201);
-  min-height: 55px;
+  min-height: 50px;
+  cursor: text;
+  opacity: .4;
 }
-
+.input-container:hover {
+  opacity: .6;
+}
+.pf-input {
+  vertical-align: middle;
+  background-color: transparent;
+  width: 100%;
+  outline: none;
+}
 .select-container {
   position: absolute;
   width: 100%;
-  min-height: 55px;
-  right: 0;
-  left: 0;
-  top: 55px;
-  background-color: rgb(37, 37, 37);
+  min-height: 50px;
+  right: -2px;
+  left: -2px;
+  padding: 8px 4px;
+  top: 50px;
+  background-color: rgb(29, 29, 37);
+  z-index: 30;
 }
 
 .select-container button {
   background-color: transparent;
   text-align: start;
   border-bottom: 1px solid rgb(97, 96, 96);
-  height: 55px;
+  height: 50px;
   padding: 16px;
   outline: none;
 }
@@ -158,13 +176,27 @@ async function handleFocusOut(_event: FocusEvent) {
 .input-container.focused {
   border-color: rgb(173, 172, 172);
 }
-
-.pf-input {
-  line-height: normal;
-  vertical-align: middle;
+.label-container {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all 0.1s ease-in-out; 
+  pointer-events: none;
+  z-index: 200;
   background-color: transparent;
-  width: 100%;
-  font-size: 18px;
-  outline: none;
+  padding: 4px 12px;
 }
+.label-container {
+  top: -4px;
+  color: rgb(173, 172, 172, .6); 
+}
+.input-label {
+  color: rgb(173, 172, 172);
+  opacity: .4;
+}
+.input-container:hover .input-label {
+  color: rgb(111, 111, 111);
+}
+
 </style>

@@ -1,5 +1,5 @@
 import { onMounted, ref } from "vue";
-import { API } from "../constants";
+import { API } from "../../constants";
 import axios from "axios";
 
 export type ExpenseSource = {

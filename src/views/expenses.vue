@@ -1,18 +1,36 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import InputSelection from '../components/InputSelection.vue';
-import Selection from '../components/Selection.vue';
-import { useExpensesSources } from '../hooks/useExpensesSources';
-import { useAccounts } from '../hooks/useAccounts';
+import { onMounted, reactive } from 'vue';
+import CInputSelection from '../components/CInputSelection.vue';
+import CSelection from '../components/CSelection.vue';
+import CButton from '../components/CButton.vue';
+import CInput from '../components/CInput.vue';
+import { useExpensesSources } from '../hooks/expenses/useExpensesSources';
+import { useAccounts } from '../hooks/accounts/useAccounts';
+import { useExpenses } from '../hooks/expenses/useExpenses';
 
 const { sources } = useExpensesSources();
 const { accounts } = useAccounts();
+const { expenses, findExpenses, createExpense } = useExpenses();
+
+onMounted(() => {
+  findExpenses();
+});
 
 const formData = reactive({
   source: '',
-  accountId: 1
+  accountId: 1,
+  description: '',
+  amount: ''
 })
 
+async function handleClick() {
+  await createExpense({ 
+    accountId: formData.accountId,
+    expenseSourceName: formData.source,
+    description: formData.description,
+    amount: formData.amount
+  })
+} 
 
 </script>
 <template>
@@ -21,18 +39,33 @@ const formData = reactive({
     <form>
       <h4 class="">Crear gasto</h4>
 
-      <Selection 
-        placeholder="Cuenta"
+      <CInputSelection 
+        label="Source"
+        v-model:text="formData.source"
+        :selecctions="sources.map(source => ({ text: source.name, value: source.id }))"
+      />
+
+      <CInput label="Amount" v-model:text="formData.amount" />
+
+      <CInput label="Description" v-model:text="formData.description" />
+
+      <CSelection 
+        placeholder="Account"
         v-model:selected-value="formData.accountId"
         :selecctions="accounts.map(account => ({ text: account.name, value: account.id }))"
       />
 
-      <InputSelection 
-        placeholder="Fuente"
-        v-model:text="formData.source"
-        :selecctions="sources.map(source => ({ text: source.name, value: source.id }))"
-      />
+      <CButton text="Create" :click-function="handleClick" />
     </form>
+
+    <div class="flex flex-col gap-2 max-w-xl m-auto text-white">
+      <div class="flex gap-4 p-2" v-for="expense in expenses">
+        <span>{{ expense.amount }}</span>
+        <span>{{ expense.expenseSource.name }}</span>
+        <span>{{ expense.description }}</span>
+        <span>{{ expense.date }}</span>
+      </div>
+    </div>
   </div>
 </template>
 

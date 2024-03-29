@@ -44,7 +44,7 @@ async function handleFocusOut(_event: FocusEvent) {
   <div class="input-container" :class="{ focused }">
 
     <button
-      class="text-left"
+      class="text-left pf-normal-text"
       @focus="focused = true"
       @focusout="handleFocusOut" 
     >
@@ -56,7 +56,7 @@ async function handleFocusOut(_event: FocusEvent) {
 
         <button 
           type="button" 
-          class="text-white text-left" 
+          class="text-white pf-normal-text" 
           v-for="selecction in selecctions" 
           @click="() => selectSource(selecction)"
         >
@@ -75,23 +75,30 @@ async function handleFocusOut(_event: FocusEvent) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid grey;
-  padding: 0px 16px;
+  border: 1px solid var(--color-white-300);
   border-radius: 4px;
-  color: rgb(202, 201, 201);
-  min-height: 55px;
+  color: var(--color-white-900);
+  min-height: 50px;
+}
+.input-container:hover {
+  border: 1px solid var(--color-white-500);
 }
 .input-container > button {
   width: 100%;
-  min-height: 55px;
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  padding-left: 12px;
 }
 
 .select-container {
   position: absolute;
-  min-height: 55px;
+  min-height: 50px;
   right: -1px;
   left: -1px;
-  top: 55px;
+  top: 50px;
   border: 1px solid transparent;
   background-color: rgb(37, 37, 37);
   z-index: 10;
@@ -100,14 +107,14 @@ async function handleFocusOut(_event: FocusEvent) {
 .select-container button {
   background-color: transparent;
   text-align: start;
-  border-bottom: 1px solid rgb(97, 96, 96);
-  height: 55px;
+  border-bottom: 1px solid var(--color-white-500);
+  height: 50px;
   padding: 16px;
   outline: none;
 }
 
 .select-container button:focus {
-  outline: 1px solid rgb(124, 123, 123);
+  outline: 1px solid var(--color-white-900);
 }
 
 .select-list-container {
@@ -117,15 +124,7 @@ async function handleFocusOut(_event: FocusEvent) {
 }
 
 .input-container.focused {
-  border-color: rgb(173, 172, 172);
+  border-color: var(--color-white-900);
 }
 
-.pf-input {
-  line-height: normal;
-  vertical-align: middle;
-  background-color: transparent;
-  width: 100%;
-  font-size: 18px;
-  outline: none;
-}
 </style>
