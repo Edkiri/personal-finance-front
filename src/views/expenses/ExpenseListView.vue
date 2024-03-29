@@ -36,7 +36,7 @@ async function handleCreate() {
 
 <template>
   <form>
-    <h4 class="">Crear gasto</h4>
+    <h4 class="pf-bold-text">Create expense</h4>
 
     <CInputSelection label="Source" v-model:text="formData.source"
       :selecctions="sources.map(source => ({ text: source.name, value: source.id }))" />

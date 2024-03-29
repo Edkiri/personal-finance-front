@@ -41,4 +41,5 @@ html {
   font-family: "Encode Sans Expanded", sans-serif;
   font-weight: 700;
   font-style: normal;
+  color: var(--color-white-900);
 }
