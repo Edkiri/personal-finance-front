@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
-import CInputSelection from '../components/CInputSelection.vue';
-import CSelection from '../components/CSelection.vue';
-import CButton from '../components/CButton.vue';
-import CInput from '../components/CInput.vue';
-import { useExpensesSources } from '../hooks/expenses/useExpensesSources';
-import { useAccounts } from '../hooks/accounts/useAccounts';
-import { useExpenses } from '../hooks/expenses/useExpenses';
+import { useExpenses, useExpensesSources } from '@/hooks/expenses';
+import { useAccounts } from '@/hooks/accounts/useAccounts';
 
 const { sources } = useExpensesSources();
 const { accounts } = useAccounts();
@@ -39,7 +34,7 @@ async function handleClick() {
     <form>
       <h4 class="">Crear gasto</h4>
 
-      <CInputSelection 
+      <CInputSelection
         label="Source"
         v-model:text="formData.source"
         :selecctions="sources.map(source => ({ text: source.name, value: source.id }))"
