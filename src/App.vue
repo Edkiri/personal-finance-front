@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
+import { CHeader } from '@components/layout';
 </script>
 
 <template>
   <div class="layout-container">
-    <router-view></router-view>
+    <CHeader />
+    <div class="body-container">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -16,7 +20,10 @@ import { RouterView } from 'vue-router';
   border-left: 1px solid var(--color-white-300);
   border-right: 1px solid var(--color-white-300);
   min-height: 100vh;
-  border-radius: 4px;
+}
+.body-container {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
 }
 </style>

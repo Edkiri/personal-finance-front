@@ -21,7 +21,7 @@ const formData = reactive({
 })
 
 async function handleCreate() {
-  await createExpense({ 
+  await createExpense({
     accountId: formData.accountId,
     expenseSourceName: formData.source,
     description: formData.description,
@@ -30,42 +30,33 @@ async function handleCreate() {
   formData.source = '';
   formData.description = '';
   formData.amount = '';
-} 
+}
 
 </script>
 
 <template>
-  <div class="layout-container">
-    <h1>Hola</h1>
-    <form>
-      <h4 class="">Crear gasto</h4>
+  <form>
+    <h4 class="">Crear gasto</h4>
 
-      <CInputSelection
-        label="Source"
-        v-model:text="formData.source"
-        :selecctions="sources.map(source => ({ text: source.name, value: source.id }))"
-      />
+    <CInputSelection label="Source" v-model:text="formData.source"
+      :selecctions="sources.map(source => ({ text: source.name, value: source.id }))" />
 
-      <CInput label="Amount" v-model:text="formData.amount" />
+    <CInput label="Amount" v-model:text="formData.amount" />
 
-      <CInput label="Description" v-model:text="formData.description" />
+    <CInput label="Description" v-model:text="formData.description" />
 
-      <CSelection 
-        placeholder="Account"
-        v-model:selected-value="formData.accountId"
-        :selecctions="accounts.map(account => ({ text: account.name, value: account.id }))"
-      />
+    <CSelection placeholder="Account" v-model:selected-value="formData.accountId"
+      :selecctions="accounts.map(account => ({ text: account.name, value: account.id }))" />
 
-      <CButton text="Create" :click-function="handleCreate" />
-    </form>
+    <CButton text="Create" :click-function="handleCreate" />
+  </form>
 
-    <div class="flex flex-col gap-2 max-w-xl m-auto text-white">
-      <div class="flex gap-4 p-2" v-for="expense in expenses">
-        <span>{{ expense.amount }}</span>
-        <span>{{ expense.expenseSource.name }}</span>
-        <span>{{ expense.description }}</span>
-        <span>{{ expense.date }}</span>
-      </div>
+  <div class="flex flex-col gap-2 max-w-xl m-auto text-white">
+    <div class="flex gap-4 p-2" v-for="expense in expenses">
+      <span>{{ expense.amount }}</span>
+      <span>{{ expense.expenseSource.name }}</span>
+      <span>{{ expense.description }}</span>
+      <span>{{ expense.date }}</span>
     </div>
   </div>
 </template>
