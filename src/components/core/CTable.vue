@@ -35,14 +35,19 @@ function getItemValue(header: TableHeader, item: TableItem) {
       <th 
         v-for="header in headers" 
         :key="header.itemKey"
-        :style="{ width: `${header.width}px` || 'auto' }"
+        :style="{ width: header.width ? header.width + 'px' : 'auto' }"
       >
         {{ header.text }}
       </th>
     </tr>
     <tr v-for="item in items">
       <td v-for="header in headers">
-        <slot :name="`item-${header.itemKey}`" :item="item">{{ getItemValue(header, item) }}</slot>
+        <slot 
+          :name="`item-${header.itemKey}`" 
+          :item="item"
+        >
+          {{ getItemValue(header, item) }}
+        </slot>
       </td>
     </tr>
   </table>
