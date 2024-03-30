@@ -15,6 +15,7 @@ import { CHeader } from '@components/layout';
 <style scoped>
 .layout-container {
   width: 100%;
+  position: relative;
   max-width: 1024px;
   margin: 0 auto;
   border-left: 1px solid var(--color-white-300);

@@ -13,12 +13,19 @@ export type Expense = {
 export function useExpenses() {
   const expenses = ref<Expense[]>([]);
 
-  const { fetchApi: create, loading: creating } = useAxios();
+  const {
+    fetchApi: create,
+    loading: creating,
+    error: errorCreating,
+  } = useAxios();
   const { fetchApi: find, loading: finding } = useAxios();
 
-  async function createExpense(payload: object) {
+  async function createExpense(payload: object): Promise<boolean> {
     await create({ method: "POST", path: "expenses", payload });
-    await findExpenses();
+    if (!errorCreating.value) {
+      return true;
+    }
+    return false;
   }
 
   async function findExpenses() {
