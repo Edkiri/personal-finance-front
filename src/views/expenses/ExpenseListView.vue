@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
-import { CButton, CInput, CInputSelection, CSelection } from '@components/core';
+import { CButton, CInput, CInputSelection, CSelection, CTable } from '@components/core';
 import { useExpenses, useExpensesSources } from '@/hooks/expenses';
 import { useAccounts } from '@/hooks/accounts';
-
+import { TableHeader } from '@/components/core/CTable.vue';
 
 const { sources } = useExpensesSources();
 const { accounts } = useAccounts();
@@ -32,6 +32,13 @@ async function handleCreate() {
   formData.amount = '';
 }
 
+const headers: TableHeader[] = [
+  { text: 'amount', itemKey: 'amount', width: 50 },
+  { text: 'description', itemKey: 'description' },
+  { text: 'date', itemKey: 'date' },
+  { text: 'source', itemKey: 'source' }
+];
+
 </script>
 
 <template>
@@ -45,20 +52,21 @@ async function handleCreate() {
 
     <CInput label="Description" v-model:text="formData.description" />
 
-    <CSelection placeholder="Account" v-model:selected-value="formData.accountId"
-      :selecctions="accounts.map(account => ({ text: account.name, value: account.id }))" />
+    <CSelection 
+      placeholder="Account" 
+      v-model:selected-value="formData.accountId"
+      :selecctions="accounts.map(account => ({ text: account.name, value: account.id }))" 
+    />
 
     <CButton text="Create" :click-function="handleCreate" />
   </form>
 
-  <div class="flex flex-col gap-2 max-w-xl m-auto text-white">
-    <div class="flex gap-4 p-2" v-for="expense in expenses">
-      <span>{{ expense.amount }}</span>
-      <span>{{ expense.expenseSource.name }}</span>
-      <span>{{ expense.description }}</span>
-      <span>{{ expense.date }}</span>
-    </div>
-  </div>
+  <CTable :headers="headers" :items="expenses">
+    <template #item-source="{ item }">
+      <p class="text-red-500">{{ item.expenseSource.name }}</p>
+    </template>
+  </CTable>
+
 </template>
 
 <style scoped>
