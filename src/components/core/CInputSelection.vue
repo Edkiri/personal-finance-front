@@ -23,15 +23,14 @@ const selectionIndex = ref<number | null>(null);
 const filteredSelections = computed(() => {
   if (!props.text) return [];
 
-  const formatedText = formatString(props.text);
   const filtered = props.selecctions
     .filter(
-      seleccition => formatString(seleccition.text).includes(formatedText)
+      seleccition => {
+        return (
+          seleccition.text !== props.text &&
+          formatString(seleccition.text).includes(formatString(props.text)))
+      }
     );
-
-  if (filtered.length === 1) {
-    return [];
-  }
   return filtered;
 })
 
