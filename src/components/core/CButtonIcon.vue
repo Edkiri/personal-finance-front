@@ -16,10 +16,11 @@ const iconColor = computed(() => {
 
 <template>
   <button
+    @click="clickFunction"
     @mouseover="hovered = true"
     @mouseleave="hovered = false"
   >
-    <CIcon :name="icon" :color="iconColor" />
+    <CIcon :name="icon" :color="iconColor" :size="30" />
   </button>
 </template>
 

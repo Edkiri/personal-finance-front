@@ -4,10 +4,13 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset" | undefined,
   clickFunction?: () => void,
   color?: string;
+  backgroundColor?: string;
+  width?: number;
 }
 const props = defineProps<ButtonProps>();
 
 const textColor = props.color ? props.color : "white";
+const textBackgroundColor = props.backgroundColor ?? "var(--color-primary)";
 </script>
 
 <template>
@@ -15,7 +18,11 @@ const textColor = props.color ? props.color : "white";
     class="button pf-bold-text"
     :type="type ? type : 'button'"
     @click="clickFunction"
-    :style="{ color: textColor }"
+    :style="{ 
+      color: textColor, 
+      backgroundColor: 
+      textBackgroundColor, width: width ?? '100%'
+    }"
   >
     {{ text }}
   </button>

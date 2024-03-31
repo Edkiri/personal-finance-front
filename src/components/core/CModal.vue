@@ -15,7 +15,7 @@ defineEmits(['update:show']);
   </div>
 </template>
 
-<style>
+<style scoped>
 .modal-layout {
   position: absolute;
   top: 0;
@@ -26,12 +26,10 @@ defineEmits(['update:show']);
   transition: opacity .06s linear;
   z-index: -1;
 }
-
 .modal-layout.show {
   opacity: 1;
   z-index: 50;
 }
-
 .modal-background {
   position: absolute;
   top: 0;
@@ -41,7 +39,6 @@ defineEmits(['update:show']);
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 49;
 }
-
 .modal-container {
   position: relative;
   width: 100%;
