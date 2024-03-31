@@ -11,7 +11,7 @@ export type ExpenseSource = {
 export function useExpensesSources() {
   const sources = ref<ExpenseSource[]>([]);
 
-  async function fetchExpenses() {
+  async function fetchExpensesSource() {
     const { data } = await axios.get<ExpenseSource[]>(
       `${API}/expenses/sources`
     );
@@ -19,8 +19,8 @@ export function useExpensesSources() {
   }
 
   onMounted(async () => {
-    await fetchExpenses();
+    await fetchExpensesSource();
   });
 
-  return { sources };
+  return { sources, fetchExpensesSource };
 }

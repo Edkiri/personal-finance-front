@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { CTable, CModal } from '@components/core';
+import { CTable, CModal, CIcon } from '@components/core';
 import { useExpenses } from '@/hooks/expenses';
 import { TableHeader } from '@/components/core/CTable.vue';
 import CreateExpenseForm from '@/components/expenses/CreateExpenseForm.vue';
@@ -33,6 +33,7 @@ const creating = ref(false);
     </template>
   </CTable>
   <button class="text-white" @click="creating = !creating">asd</button>
+  <CIcon name="icon"/>
   <CModal v-model:show="creating">
     <CreateExpenseForm :on-create="handleCreate" />
   </CModal>

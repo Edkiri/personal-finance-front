@@ -4,7 +4,7 @@ import { CButton, CInput, CInputSelection, CSelection } from '@/components/core'
 import { useAccounts } from '@/hooks/accounts';
 import { useExpenses, useExpensesSources } from '@/hooks/expenses';
 
-const { sources } = useExpensesSources();
+const { sources, fetchExpensesSource } = useExpensesSources();
 const { accounts } = useAccounts();
 const { createExpense } = useExpenses();
 
@@ -28,7 +28,8 @@ async function handleCreate() {
     amount: formData.amount
   })
   if(!response) return;
-  // TODO: Handle error response; 
+  // TODO: Handle error response;
+  await fetchExpensesSource();
   formData.source = '';
   formData.description = '';
   formData.amount = '';
