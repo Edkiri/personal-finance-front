@@ -24,7 +24,7 @@ export default function useAxios() {
     error.value = err.response?.data.message || 'An error occurred';
   };
 
-  async function fetchApi<T>(fetchParams: fetchParams): Promise<T | undefined> {
+  async function fetchApi<T>(fetchParams: fetchParams): Promise<AxiosResponse<T> | undefined> {
     try {
       loading.value = true;
 
@@ -33,13 +33,17 @@ export default function useAxios() {
       }
 
       if (fetchParams.method === 'POST') {
-        const response: AxiosResponse<T> = await AxiosClient.post(fetchParams.path, fetchParams.payload);    
-        return response.data;
+        const response = await AxiosClient.post(fetchParams.path, fetchParams.payload);    
+        return response;
       }
 
       if (fetchParams.method === 'GET') {
-        const response: AxiosResponse<T> = await AxiosClient.get(fetchParams.path, { params: fetchParams.payload });
-        return response.data;
+        const response = await AxiosClient.get(fetchParams.path, { params: fetchParams.payload });
+        return response;
+      }
+
+      if (fetchParams.method === 'DELETE') {
+        return AxiosClient.delete(fetchParams.path);
       }
 
     } catch (err) {

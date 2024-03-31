@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import useAxios from "../shared/useAxios";
 import { ExpenseSource } from "./useExpensesSources";
+import { AxiosResponse } from "axios";
 
 export type Expense = {
   id: number;
@@ -28,12 +29,23 @@ export function useExpenses() {
     return false;
   }
 
-  async function findExpenses() {
-    const expensesResponse = await find<Expense[]>({ path: "expenses" });
-    if (expensesResponse) {
-      expenses.value = expensesResponse;
+  const {
+    fetchApi: fetchDelete,
+  } = useAxios();
+
+  async function deleteExpense({ expenseId }: { expenseId: number }) {
+    const response = await fetchDelete<AxiosResponse>({ method: 'DELETE', path: `expenses/${expenseId}` });
+    if(response?.status === 204) {
+      findExpenses();
     }
   }
 
-  return { expenses, creating, finding, createExpense, findExpenses };
+  async function findExpenses() {
+    const expensesResponse = await find<Expense[]>({ path: "expenses" });
+    if (expensesResponse?.data) {
+      expenses.value = expensesResponse.data;
+    }
+  }
+
+  return { expenses, creating, finding, createExpense, findExpenses, deleteExpense };
 }
