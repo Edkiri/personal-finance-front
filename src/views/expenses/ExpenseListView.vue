@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { CTable } from '@components/core';
+import { CTable, CModal } from '@components/core';
 import { useExpenses } from '@/hooks/expenses';
 import { TableHeader } from '@/components/core/CTable.vue';
 import CreateExpenseForm from '@/components/expenses/CreateExpenseForm.vue';
@@ -33,48 +33,9 @@ const creating = ref(false);
     </template>
   </CTable>
   <button class="text-white" @click="creating = !creating">asd</button>
-  <div class="modal-layout" :class="{ show: creating }">
-    <div class="modal-background" @click="creating = false"></div>
-    <div class="modal-container">
-      <CreateExpenseForm :on-create="handleCreate" />
-    </div>
-  </div>
+  <CModal v-model:show="creating">
+    <CreateExpenseForm :on-create="handleCreate" />
+  </CModal>
 </template>
 
-<style scoped>
-.modal-layout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity .08s linear;
-  z-index: -1;
-}
-.modal-layout.show {
-  opacity: 1;
-  z-index: 50;
-}
-.modal-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 49;
-}
-.modal-container {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  margin-top: 96px;
-  padding: 24px;
-  border-radius: 8px;
-  z-index: 50;
-  background-color: var(--color-background);
-  border: 1px solid var(--color-white-300);
-}
-</style>
+<style scoped></style>
