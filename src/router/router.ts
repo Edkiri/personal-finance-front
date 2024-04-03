@@ -10,6 +10,10 @@ const routes = [
     path: ROUTES.EXPENSES,
     component: () => import("@/views/expenses/ExpenseListView.vue"),
   },
+  {
+    path: ROUTES.INCOMES,
+    component: () => import("@/views/incomes/IncomeListView.vue"),
+  },
 ];
 
 const router = createRouter({
