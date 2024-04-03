@@ -37,7 +37,9 @@ function getItemValue(header: TableHeader, item: TableItem) {
         :key="header.itemKey"
         :style="{ width: header.width ? header.width + 'px' : 'auto' }"
       >
+      <slot :item="header" :name="`header-${header.itemKey}`">
         {{ header.text }}
+      </slot>
       </th>
     </tr>
     <tr v-for="item in items">

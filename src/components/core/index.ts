@@ -7,3 +7,4 @@ export { default as CModal } from './CModal.vue';
 export { default as CIcon } from './CIcon.vue';
 export { default as CButtonIcon } from './CButtonIcon.vue';
 export { default as CConfirmationModal } from './CConfirmationModal.vue';
+export { default as CircleButton } from './CircleButton.vue';

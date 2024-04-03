@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { CTable, CModal, CButtonIcon, CConfirmationModal } from '@components/core';
+import { CTable, CModal, CButtonIcon, CConfirmationModal, CircleButton } from '@components/core';
 import { useExpenses } from '@/hooks/expenses';
 import { TableHeader } from '@/components/core/CTable.vue';
 import CreateExpenseForm from '@/components/expenses/CreateExpenseForm.vue';
@@ -55,9 +55,14 @@ async function confirmDelete() {
       </div>
     </template>
 
-  </CTable>
+    <template #header-actions="{ item: _item }">
+      <CircleButton
+        color="var(--color-success)"
+        :click-function="() => creating = true"
+      />
+    </template>
 
-  <button class="text-white" @click="creating = !creating">asd</button>
+  </CTable>
 
   <CModal v-model:show="creating">
     <CreateExpenseForm :on-create="handleCreate" />
