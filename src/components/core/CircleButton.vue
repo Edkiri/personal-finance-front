@@ -22,7 +22,7 @@ const initialColor = props.color ?? 'var(--color-primary)';
 const focused = ref(false);
 const styles = computed(() => ({
   color: focused.value ? 'white' : initialColor,
-  border: `3px solid ${initialColor}`,
+  border: `2px solid ${initialColor}`,
   backgroundColor: focused.value ? initialColor : 'transparent',
 }));
 </script>
