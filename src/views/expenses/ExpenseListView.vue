@@ -20,7 +20,7 @@ const headers: TableHeader[] = [
 ];
 
 const creating = ref(false);
-  async function handleCreate() {
+async function handleCreate() {
   await findExpenses();
   creating.value = false;
 }
