@@ -1,46 +1,47 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive } from 'vue';
 import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
 import { useAccounts } from '@/hooks/accounts';
-import { useExpenses, useExpensesSources } from '@/hooks/expenses';
-
-const { sources, fetchExpensesSource } = useExpensesSources();
-const { accounts } = useAccounts();
-const { createExpense } = useExpenses();
+import { useIncomeSources, useIncomes } from '@/hooks/incomes';
 
 interface ButtonProps {
   onCreate: () => void,
 }
 const props = defineProps<ButtonProps>();
 
+const { sources, findSources } = useIncomeSources();
+const { accounts } = useAccounts();
+const { createIncome } = useIncomes();
+
 const formData = reactive({
-  source: '',
   accountId: 1,
   description: '',
-  amount: ''
-})
+  source: '',
+  amount: '',
+});
 
 async function handleCreate() {
-  const response = await createExpense({
+  const response = await createIncome({
     accountId: formData.accountId,
-    expenseSourceName: formData.source,
+    incomeSourceName: formData.source,
     description: formData.description,
     amount: formData.amount
   })
   if(!response) return;
   // TODO: Handle error response;
-  await fetchExpensesSource();
+  await findSources();
   formData.source = '';
   formData.description = '';
   formData.amount = '';
   formData.accountId = 1;
   props.onCreate();
 }
+
 </script>
 
 <template>
   <form>
-    <h4 class="pf-bold-text">Create expense</h4>
+    <h4 class="pf-bold-text">Create income</h4>
 
     <CInputSelection
       label="Source"

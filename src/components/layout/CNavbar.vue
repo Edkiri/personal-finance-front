@@ -27,6 +27,13 @@ function navigate(path: string) {
     >
       Expenses
     </button>
+    <button 
+      class="navbar-btn pf-text-bold" 
+      :class="{ current: currentRute === ROUTES.INCOMES }"
+      @click="() => navigate(ROUTES.INCOMES)"
+    >
+      Incomes
+    </button>
   </div>
 </template>
 
