@@ -2,7 +2,7 @@
 import { reactive } from 'vue';
 import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
 import { useAccounts } from '@/hooks/accounts';
-import { useIncomeSources, useIncomes } from '@/hooks/incomes';
+import { useIncomeSources, useIncomes } from '@/incomes/hooks';
 
 interface ButtonProps {
   onCreate: () => void,

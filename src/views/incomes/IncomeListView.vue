@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue';
 import { CTable, CModal, CButtonIcon, CConfirmationModal, CircleButton } from '@components/core';
 import { TableHeader } from '@/components/core/CTable.vue';
-import { useIncomes } from '@/hooks/incomes';
-import CreateIncomeSource from '@/components/incomes/CreateIncomeSource.vue';
+import { useIncomes } from '@/incomes/hooks';
+import { CreateIncomeSource } from '@/incomes/components';
 
 const { incomes, deleteIncome, findIncomes } = useIncomes();
 
