@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { CTable, CModal, CButtonIcon, CConfirmationModal, CircleButton } from '@components/core';
-import { useExpenses } from '@/hooks/expenses';
+import { useExpenses } from '@/expenses/hooks';
 import { TableHeader } from '@/components/core/CTable.vue';
-import CreateExpenseForm from '@/components/expenses/CreateExpenseForm.vue';
+import { CreateExpenseForm } from '@/expenses/components';
 
 const { expenses, findExpenses, deleteExpense } = useExpenses();
 
