@@ -9,25 +9,28 @@ interface ButtonProps {
 }
 const props = defineProps<ButtonProps>();
 
-const textColor = props.color ?? "var(--color-white-800)";
+const textColor = props.color ?? "var(--color-white-900)";
 const textBackgroundColor = props.backgroundColor ?? "var(--color-primary)";
 </script>
 
 <template>
-  <div class="btn-container" :style="{
-    color: textColor,
-    backgroundColor:
-      textBackgroundColor, width: width ?? '100%'
-  }">
-    <button class="button pf-bold-text" :type="type ? type : 'button'" @click="clickFunction" :style="{
-  }">
+  <div class="btn-container">
+    <button 
+    class="button pf-bold-text" 
+    :type="type ? type : 'button'" 
+    @click="clickFunction" 
+    :style="{
+      color: textColor,
+      backgroundColor:
+        textBackgroundColor, width: width ?? '100%'
+      }">
       {{ text }}
     </button>
   </div>
 </template>
 
 <style scoped>
-.btn-container {
+.button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -35,17 +38,8 @@ const textBackgroundColor = props.backgroundColor ?? "var(--color-primary)";
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.btn-container:hover {
-  background-color: var(--color-primary-hover);
-}
-
-.btn-container:active {
-  background-color: var(--color-primary-500);
-}
-
-.button {
-  background-color: transparent;
+  position: relative;
+  min-width: 120px;
+  outline: none;
 }
 </style>
