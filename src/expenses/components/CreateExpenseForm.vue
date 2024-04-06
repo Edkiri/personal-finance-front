@@ -4,9 +4,8 @@ import { CButton, CInput, CInputSelection, CSelection } from '@/components/core'
 import { useAccounts } from '@/accounts/hooks';
 import { useExpenses, useExpensesSources } from '@/expenses/hooks';
 
-const { sources, fetchExpensesSource } = useExpensesSources();
 const { accounts } = useAccounts();
-const { createExpense } = useExpenses();
+const { sources, fetchExpensesSource } = useExpensesSources();
 
 interface ButtonProps {
   onCreate: () => void,
@@ -19,6 +18,8 @@ const formData = reactive({
   description: '',
   amount: ''
 })
+
+const { createExpense } = useExpenses();
 
 async function handleCreate() {
   const response = await createExpense({

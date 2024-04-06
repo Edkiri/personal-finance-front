@@ -13,5 +13,7 @@ import CNavbar from './CNavbar.vue';
 .header {
   display: flex;
   padding: 12px 24px;
+  border-bottom: 1px solid var(--color-white-100);
+  box-shadow: 0 2px 4px rgba(102, 102, 102, 0.1);
 }
 </style>
