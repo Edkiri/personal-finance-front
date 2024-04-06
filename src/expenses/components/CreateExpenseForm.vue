@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
-import { useAccounts } from '@/hooks/accounts';
+import { useAccounts } from '@/accounts/hooks';
 import { useExpenses, useExpensesSources } from '@/expenses/hooks';
 
 const { sources, fetchExpensesSource } = useExpensesSources();

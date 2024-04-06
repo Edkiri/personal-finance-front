@@ -1,5 +1,5 @@
 import { onMounted, ref } from "vue";
-import useAxios from "../../hooks/shared/useAxios";
+import useAxios from "../../hooks/useAxios";
 
 export type IncomeSource = {
   id: number;

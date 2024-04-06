@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import useAxios from "../../hooks/shared/useAxios";
+import useAxios from "../../hooks/useAxios";
 import { ExpenseSource } from "./useExpensesSources";
 import { AxiosResponse } from "axios";
 

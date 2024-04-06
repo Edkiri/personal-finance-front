@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { IncomeSource } from "./useIncomeSources";
-import useAxios from "../../hooks/shared/useAxios";
+import useAxios from "../../hooks/useAxios";
 
 export type Income = {
   id: number;
