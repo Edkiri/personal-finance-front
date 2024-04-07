@@ -44,7 +44,7 @@ const styles = computed(() => ({
   font-size: 25px;
   font-weight: bold;
   position: absolute;
-  top: -6px;
-  left: 7px;
+  top: -4px;
+  left: 8px;
 }
 </style>

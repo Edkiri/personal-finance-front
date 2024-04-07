@@ -20,28 +20,36 @@
 
 html {
   background-color: var(--color-background);
+  font-family: "Encode Sans Expanded", sans-serif;
+  color: var(--color-white-700);
+  font-size: 14px;
+}
+h1, h2, h3, h4 { 
+  color: var(--color-white-900);
+}
+h1, h2 {
+  font-size: 20px;
+}
+h3, h4 {
+  font-size: 16px;
 }
 
 .pf-small-text {
-  font-family: "Encode Sans Expanded", sans-serif;
   font-weight: 100;
   font-style: normal;
 }
 
 .pf-normal-text {
-  font-family: "Encode Sans Expanded", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .pf-medium-text {
-  font-family: "Encode Sans Expanded", sans-serif;
   font-weight: 500;
   font-style: normal;
 }
 
 .pf-bold-text {
-  font-family: "Encode Sans Expanded", sans-serif;
   font-weight: 700;
   font-style: normal;
   color: var(--color-white-900);

@@ -29,13 +29,14 @@ export function useExpenses() {
     return false;
   }
 
-  const {
-    fetchApi: fetchDelete,
-  } = useAxios();
+  const { fetchApi: fetchDelete } = useAxios();
 
   async function deleteExpense({ expenseId }: { expenseId: number }) {
-    const response = await fetchDelete<AxiosResponse>({ method: 'DELETE', path: `expenses/${expenseId}` });
-    if(response?.status === 204) {
+    const response = await fetchDelete<AxiosResponse>({
+      method: "DELETE",
+      path: `expenses/${expenseId}`,
+    });
+    if (response?.status === 204) {
       findExpenses();
     }
   }
@@ -47,5 +48,12 @@ export function useExpenses() {
     }
   }
 
-  return { expenses, creating, finding, createExpense, findExpenses, deleteExpense };
+  return {
+    expenses,
+    creating,
+    finding,
+    createExpense,
+    findExpenses,
+    deleteExpense,
+  };
 }
