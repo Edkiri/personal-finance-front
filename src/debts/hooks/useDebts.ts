@@ -20,6 +20,7 @@ export function useDebts() {
 
   const { fetchApi: fetchDebts, loading: finding } = useAxios();
   const { fetchApi: fetchCreate } = useAxios();
+  const { fetchApi: fetchPaymentDebt } = useAxios();
 
   async function find() {
     const response = await fetchDebts<Debt[]>({ path: 'debts' });
@@ -36,5 +37,14 @@ export function useDebts() {
     return false;
   }
 
-  return { debts, find, finding, create };
+  async function createPaymentDebt(payload: object): Promise<boolean> {
+    const response = await fetchPaymentDebt({ method: 'POST', path: 'debts/pay', payload });
+    if(response?.status === 204) {
+      find();
+      return true;
+    }
+    return false;
+  }
+
+  return { debts, find, finding, create, createPaymentDebt };
 }
