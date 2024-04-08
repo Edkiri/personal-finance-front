@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {  computed } from 'vue';
-import { formatDate } from '@/utils';
+import { formatDate, formatFloat } from '@/utils';
 import { Expense } from '../hooks/useExpenses';
 
 export interface ExpensesByDate {
@@ -45,7 +45,7 @@ const expensesByDate = computed(() => {
         </div>
       </div>
       <div class="self-end">
-        <span>Total {{ group.expenses.reduce((acc, exp) => (acc + exp.amount), 0) }}</span>
+        <span>Total {{ formatFloat(group.expenses.reduce((acc, exp) => (acc + exp.amount), 0)) }}</span>
       </div>
     </div>
   </div>

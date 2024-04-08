@@ -7,6 +7,10 @@ export function validateFloat(string: string) {
   return regex.test(string);
 }
 
+export function formatFloat(n: number): string {
+  return n.toFixed(2);
+}
+
 export function formatDate(fecha: string) {
   const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
