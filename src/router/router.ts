@@ -14,6 +14,10 @@ const routes = [
     path: ROUTES.INCOMES,
     component: () => import("@/views/incomes/IncomeListView.vue"),
   },
+  {
+    path: ROUTES.DEBTS,
+    component: () => import("@/views/debts/DebtListView.vue"),
+  },
 ];
 
 const router = createRouter({

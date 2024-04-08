@@ -1,6 +1,7 @@
 const routes = {
   HOME: '/',
   EXPENSES: '/expenses',
-  INCOMES: '/incomes'
+  INCOMES: '/incomes',
+  DEBTS: '/debts'
 };
 export default routes;
