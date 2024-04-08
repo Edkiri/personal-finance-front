@@ -1,4 +1,4 @@
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { ExpenseSource } from "@/expenses/hooks/useExpensesSources";
 import useAxios from "@/hooks/useAxios";
 
@@ -19,6 +19,7 @@ export function useDebts() {
   const debts = ref<Debt[]>([]);
 
   const { fetchApi: fetchDebts, loading: finding } = useAxios();
+  const { fetchApi: fetchCreate } = useAxios();
 
   async function find() {
     const response = await fetchDebts<Debt[]>({ path: 'debts' });
@@ -27,9 +28,13 @@ export function useDebts() {
     }
   }
 
-  onMounted(() => {
-    find();
-  })
+  async function create(payload: object): Promise<boolean> {
+    const response = await fetchCreate({ method: 'POST', path: 'debts', payload });
+    if(response?.status === 204) {
+      return true;
+    }
+    return false;
+  }
 
-  return { debts, find, finding };
+  return { debts, find, finding, create };
 }
