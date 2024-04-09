@@ -16,9 +16,10 @@ export type Account = {
   id: number;
   name: string;
   amount: string;
-  description?: string;
   bank: Bank;
   currency: Currency;
+  description?: string;
+  mixedName?: string;
 };
 
 export function useAccounts() {
@@ -28,7 +29,7 @@ export function useAccounts() {
     const { data } = await axios.get<Account[]>(`${API}/accounts`);
     accounts.value = data.map(account => ({ 
       ...account,
-      name: `${account.bank.name} - ${account.name} - ${account.amount} ${account.currency.symbol}`
+      mixedName: `${account.bank.name} - ${account.name} - ${account.amount} ${account.currency.symbol}`
     }));
   }
 

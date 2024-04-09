@@ -43,7 +43,7 @@ function handleCreate() {
       placeholder="Account" 
       v-model:selected-value="formData.accountId" 
       :selecctions="accounts.map(account => ({
-        text: `${account.bank} - ${account.name}`,
+        text: `${account.mixedName}`,
         value: account.id
       }))" 
     />

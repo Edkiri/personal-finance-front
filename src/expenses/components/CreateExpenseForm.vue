@@ -62,7 +62,7 @@ async function handleCreate() {
     <CSelection
       placeholder="Account"
       v-model:selected-value="formData.accountId"
-      :selecctions="accounts.map(account => ({ text: account.name, value: account.id }))"
+      :selecctions="accounts.map(account => ({ text: account.mixedName!, value: account.id }))"
     />
 
     <CButton
