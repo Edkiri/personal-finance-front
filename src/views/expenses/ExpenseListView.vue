@@ -26,8 +26,9 @@ async function handleCreated() {
       :width="120"
     />
   </div>
+  
   <ExpenseFilterForm :filters="filters" />
-  <ExpenseStats :expenses="expenses"/>
+  <ExpenseStats :expenses="expenses" :filters="filters" />
   <ExpensesListByDate :expenses="expenses" />
 
   <CModal v-model:show="creating">
