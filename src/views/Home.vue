@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useAccountStore } from '@/accounts/stores';
 import { CTable } from '@/components/core';
-import { useAccounts } from '@/accounts/hooks';
 import { TableHeader } from '@/components/core/CTable.vue';
 
-const { accounts } = useAccounts();
+const accountStore = useAccountStore();
+const { accounts } = storeToRefs(accountStore);
 
 const headers: TableHeader[] = [
   { text: 'bank', itemKey: 'bank.name' },

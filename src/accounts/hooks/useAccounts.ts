@@ -38,5 +38,5 @@ export function useAccounts() {
     await fetchAccounts();
   });
 
-  return { accounts };
+  return { accounts, fetchAccounts };
 }

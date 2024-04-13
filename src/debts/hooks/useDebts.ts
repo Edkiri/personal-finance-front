@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { ExpenseSource } from "@/expenses/hooks/useExpensesSources";
 import useAxios from "@/hooks/useAxios";
+import { useAccountStore } from "@/accounts/stores";
 
 export type Debt = {
   id: number;
@@ -17,6 +18,7 @@ export type Debt = {
 
 export function useDebts() {
   const debts = ref<Debt[]>([]);
+  const accountStore = useAccountStore();
 
   const { fetchApi: fetchDebts, loading: finding } = useAxios();
   const { fetchApi: fetchCreate } = useAxios();
@@ -41,6 +43,7 @@ export function useDebts() {
     const response = await fetchPaymentDebt({ method: 'POST', path: 'debts/pay', payload });
     if(response?.status === 204) {
       find();
+      accountStore.update();
       return true;
     }
     return false;

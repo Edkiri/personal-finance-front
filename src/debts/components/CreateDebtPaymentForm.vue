@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
 import { CButton, CInput, CSelection } from '@/components/core';
-import { useAccounts } from '@/accounts/hooks';
+import { useAccountStore } from '@/accounts/stores';
 
-const { accounts } = useAccounts();
+
+const accountStore = useAccountStore();
+const { accounts } = storeToRefs(accountStore);
 
 export type CreateDebtPaymentPayload = {
   accountId: number;

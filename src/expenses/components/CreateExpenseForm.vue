@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
-import { useAccounts } from '@/accounts/hooks';
+
+import { useAccountStore } from '@/accounts/stores';
 import { useExpenses, useExpensesSources } from '@/expenses/hooks';
 
-const { accounts } = useAccounts();
+const accountStore = useAccountStore();
+const { accounts } = storeToRefs(accountStore);
 const { sources, fetchExpensesSource } = useExpensesSources();
 
 interface ButtonProps {
@@ -29,12 +32,12 @@ async function handleCreate() {
     amount: formData.amount
   })
   if(!response) return;
-  // TODO: Handle error response;
   await fetchExpensesSource();
   formData.source = '';
   formData.description = '';
   formData.amount = '';
   formData.accountId = 1;
+  accountStore.update();
   props.onCreate();
 }
 </script>

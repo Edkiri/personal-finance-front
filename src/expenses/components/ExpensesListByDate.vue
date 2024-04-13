@@ -35,7 +35,7 @@ const expensesByDate = computed(() => {
 <template>
   <div class="group-list">
     <div class="group" v-for="group in Object.values(expensesByDate)">
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-6">
         <h4 class="date">{{ group.date }}</h4>
         <div class="expense-list">
           <div class="expense-row" v-for="expense in group.expenses">
@@ -44,10 +44,14 @@ const expensesByDate = computed(() => {
           </div>
         </div>
       </div>
-      <div class="self-end">
+      <div class="self-end mt-2">
         <span>Total {{ formatFloat(group.expenses.reduce((acc, exp) => (acc + exp.amount), 0)) }}</span>
       </div>
     </div>
+  </div>
+
+  <div class="">
+    <h3>Total: {{ expenses.reduce((acc, cur) => (acc + cur.amount), 0) }}</h3>
   </div>
 </template>
 

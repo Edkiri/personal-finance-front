@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
-import { useAccounts } from '@/accounts/hooks';
+import { storeToRefs } from 'pinia';
+import { useAccountStore } from '@/accounts/stores';
 import { useIncomeSources, useIncomes } from '@/incomes/hooks';
 
 interface ButtonProps {
@@ -10,7 +11,8 @@ interface ButtonProps {
 const props = defineProps<ButtonProps>();
 
 const { sources, findSources } = useIncomeSources();
-const { accounts } = useAccounts();
+const accountStore = useAccountStore();
+const { accounts } = storeToRefs(accountStore);
 const { createIncome } = useIncomes();
 
 const formData = reactive({
@@ -33,6 +35,7 @@ async function handleCreate() {
   formData.description = '';
   formData.amount = '';
   formData.accountId = 1;
+  accountStore.update();
   props.onCreate();
 }
 

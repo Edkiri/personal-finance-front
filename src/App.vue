@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import { CHeader } from '@components/layout';
+
+import { useAccountStore } from '@/accounts/stores';
+useAccountStore();
 </script>
 
 <template>
@@ -16,7 +19,6 @@ import { CHeader } from '@components/layout';
 .layout-container {
   width: 100%;
   position: relative;
-  max-width: 1024px;
   margin: 0 auto;
   border-left: 1px solid var(--color-white-300);
   border-right: 1px solid var(--color-white-300);

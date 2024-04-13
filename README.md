@@ -2,7 +2,7 @@
   - [x] CRD incomes
   - [x] CRD debts
   - [ ] ### Financial summary based on main account:
-    - [ ] 1. **Current Balance:** Calculate the current balance in your account.
+    - [x] 1. **Current Balance:** Calculate the current balance in your account.
     - [ ] 2. **Average Daily Spending:** Divide the current balance by the number of days elapsed in the month up to the current date to calculate the average daily spending.
     - [ ] 3. **Remaining Spending:** Subtract the average daily spending multiplied by the number of days remaining until the next payment from the current balance to estimate the remaining spending until the next payment.
     - [ ] 4. **Utilization Percentage:** Calculate the percentage utilization of your current balance compared to your expected balance after the next payment.
