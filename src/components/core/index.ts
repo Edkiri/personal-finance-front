@@ -9,3 +9,4 @@ export { default as CButtonIcon } from './CButtonIcon.vue';
 export { default as CConfirmationModal } from './CConfirmationModal.vue';
 export { default as CircleButton } from './CircleButton.vue';
 export { default as CButtonOutline } from './CButtonOutline.vue';
+export { default as CDateInput } from './CDateInput.vue';

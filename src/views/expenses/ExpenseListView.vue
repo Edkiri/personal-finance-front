@@ -2,9 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { CModal, CButtonOutline } from '@components/core';
 import { useExpenses } from '@/expenses/hooks';
-import { CreateExpenseForm, ExpensesListByDate } from '@/expenses/components';
+import { CreateExpenseForm, ExpensesListByDate, ExpenseStats, ExpenseFilterForm } from '@/expenses/components';
 
-const { expenses, findExpenses } = useExpenses();
+const { expenses, findExpenses, filters } = useExpenses();
 
 onMounted(() => {
   findExpenses();
@@ -26,12 +26,13 @@ async function handleCreated() {
       :width="120"
     />
   </div>
+  <ExpenseFilterForm :filters="filters" />
+  <ExpenseStats :expenses="expenses"/>
+  <ExpensesListByDate :expenses="expenses" />
 
   <CModal v-model:show="creating">
     <CreateExpenseForm :on-create="handleCreated" />
   </CModal>
-
-  <ExpensesListByDate :expenses="expenses" />
 
 </template>
 

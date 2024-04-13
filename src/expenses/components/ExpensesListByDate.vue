@@ -49,10 +49,6 @@ const expensesByDate = computed(() => {
       </div>
     </div>
   </div>
-
-  <div class="">
-    <h3>Total: {{ expenses.reduce((acc, cur) => (acc + cur.amount), 0) }}</h3>
-  </div>
 </template>
 
 <style scoped>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 // TODO: Refactor useAxios hook
 import { API } from "../../constants";
 
@@ -34,9 +34,11 @@ export function useAccounts() {
     }));
   }
 
+  const mainAccount = computed(() => accounts.value.find(account => account.id === 1));
+
   onMounted(async () => {
     await fetchAccounts();
   });
 
-  return { accounts, fetchAccounts };
+  return { accounts, mainAccount, fetchAccounts };
 }

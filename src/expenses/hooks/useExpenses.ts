@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import useAxios from "../../hooks/useAxios";
 import { ExpenseSource } from "./useExpensesSources";
 import { AxiosResponse } from "axios";
@@ -11,8 +11,22 @@ export type Expense = {
   description?: string;
 };
 
+export type ExpenseFilter = {
+  dateFrom: Date,
+  dateTo: Date
+}
+
 export function useExpenses() {
   const expenses = ref<Expense[]>([]);
+
+  const filters = reactive<ExpenseFilter>({
+    dateFrom: new Date(Date.now() - (9 * 24 * 60 * 60 * 1000)), // 14 days ago
+    dateTo: new Date(),
+  });
+
+  watch(filters, () => {
+    findExpenses();
+  })
 
   const {
     fetchApi: create,
@@ -42,7 +56,13 @@ export function useExpenses() {
   }
 
   async function findExpenses() {
-    const expensesResponse = await find<Expense[]>({ path: "expenses" });
+    const expensesResponse = await find<Expense[]>({ 
+      path: "expenses", 
+      payload: {
+        dateFrom: filters.dateFrom.toISOString(),
+        dateTo: filters.dateTo.toISOString(),
+      } 
+    });
     if (expensesResponse?.data) {
       expenses.value = expensesResponse.data;
     }
@@ -50,6 +70,7 @@ export function useExpenses() {
 
   return {
     expenses,
+    filters,
     creating,
     finding,
     createExpense,
