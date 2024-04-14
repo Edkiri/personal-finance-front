@@ -13,7 +13,7 @@
   --color-white-300: rgb(73, 73, 73);
   --color-white-500: rgb(111, 111, 111);
   --color-white-700: rgb(164, 164, 164);
-  --color-white-900: rgb(192, 192, 192);
+  --color-white-900: rgb(218, 216, 216);
   --color-success: rgb(26, 124, 24);
   --color-red: rgb(210, 26, 26);
 }
@@ -25,7 +25,7 @@ html {
   font-size: 14px;
 }
 h1, h2, h3, h4 { 
-  color: var(--color-white-900);
+  color: var(--color-white-900);  
 }
 h1, h2 {
   font-size: 20px;

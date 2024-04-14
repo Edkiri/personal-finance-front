@@ -11,17 +11,15 @@ export function formatFloat(n: number): string {
   return n.toFixed(2);
 }
 
-export function formatDate(fecha: string) {
+export function formatDate(date: Date, full: boolean = false): string {
   const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-  const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
+  const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
-  const parts = fecha.split('-');
-  let day = parts[2].replace(/^0+/, '');
-  const month = months[parseInt(parts[1], 10) - 1];
-  const year = parts[0];
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
 
-  const date = new Date(fecha);
   const dayOfWeek = daysOfWeek[date.getDay()];
 
-  return `${dayOfWeek}, ${day} de ${month} del ${year} `;
+  return `${dayOfWeek} ${day} de ${month} ${ full ? ` del ${year}` : ''} `;
 }

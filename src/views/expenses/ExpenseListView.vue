@@ -19,15 +19,17 @@ async function handleCreated() {
 </script>
 
 <template>
-  <div class="flex justify-end pt-2 pr-2">
+  <div class="flex justify-between pt-2 pr-2">
+    <ExpenseFilterForm :filters="filters" />
+    
     <CButtonOutline 
       text="add expense" 
       :click-function="() => creating = true" 
       :width="120"
     />
+    
   </div>
-  
-  <ExpenseFilterForm :filters="filters" />
+
   <ExpenseStats :expenses="expenses" :filters="filters" />
   <ExpensesListByDate :expenses="expenses" />
 
