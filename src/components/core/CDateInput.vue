@@ -2,6 +2,7 @@
 import { formatDate as formatLabel } from '@/utils';
 interface CDateInputProps {
   date: Date,
+  dateLabel?: string,
 }
 const props = defineProps<CDateInputProps>();
 const emits = defineEmits(['update:date']);
@@ -20,14 +21,15 @@ const formatDate = (date: Date): string => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-2">
+    <span class=" text-xl">{{ dateLabel ? dateLabel : formatLabel(props.date) }}</span>
     <input 
       type="date"
       class="dark-input" 
+      :max="formatDate(new Date())"
       :value="formatDate(props.date)" 
       @change="handleChange($event)"
     />
-    <span>{{ formatLabel(props.date) }}</span>
   </div>
 </template>
 
@@ -37,7 +39,8 @@ const formatDate = (date: Date): string => {
   color: var(--color-white-900);
   border: 1px solid var(--color-white-900);
   padding: 2px;
-  width: 200px;
+  width: 250px;
   border-radius: 4px;
 }
+
 </style>

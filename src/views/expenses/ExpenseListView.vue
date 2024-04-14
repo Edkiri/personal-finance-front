@@ -19,7 +19,7 @@ async function handleCreated() {
 </script>
 
 <template>
-  <div class="flex justify-between pt-2 pr-2">
+  <div class="flex justify-between items-center pt-2 pr-2">
     <ExpenseFilterForm :filters="filters" />
     
     <CButtonOutline 
@@ -27,7 +27,7 @@ async function handleCreated() {
       :click-function="() => creating = true" 
       :width="120"
     />
-    
+
   </div>
 
   <ExpenseStats :expenses="expenses" :filters="filters" />

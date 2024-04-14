@@ -20,7 +20,7 @@ const expensesByDate = computed(() => {
     props.expenses.forEach((expense) => {
       if (!grouped[expense.date]) {
         grouped[expense.date] = {
-          date: formatDate(expense.date),
+          date: formatDate(new Date(expense.date)),
           expenses: [expense],
         };
       } else {
