@@ -18,7 +18,9 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
   watch(
     value,
     (newValue) => {
-      localStorage.setItem(key, JSON.stringify(newValue));
+      if(newValue) {
+        localStorage.setItem(key, JSON.stringify(newValue));
+      }
     },
     { deep: true }
   );

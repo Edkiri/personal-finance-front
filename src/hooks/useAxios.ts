@@ -1,5 +1,6 @@
 import { ref, Ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
+import { useAuthStorage } from '@/auth/stores';
 
 const AxiosClient = axios.create({
   baseURL: 'http://localhost:3000',
@@ -9,6 +10,16 @@ const AxiosClient = axios.create({
   }
 });
 
+AxiosClient.interceptors.request.use(config => {
+  const authStorage = useAuthStorage();
+  if (authStorage.token) {
+    config.headers.Authorization = `Bearer ${authStorage.token}`;
+  }
+  return config;
+}, error => {
+  return Promise.reject(error);
+});
+
 interface fetchParams {
   method?: 'POST' | 'GET' | 'DELETE';
   payload?: any;
@@ -16,7 +27,6 @@ interface fetchParams {
 }
 
 export default function useAxios() {
-  
   const error: Ref<string | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
 

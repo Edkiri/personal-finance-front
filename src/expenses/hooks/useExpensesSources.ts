@@ -1,7 +1,6 @@
 import { onMounted, ref } from "vue";
-// TODO: Refactor useAxios hook
 import { API } from "../../constants";
-import axios from "axios";
+import { useAxios } from "@/hooks";
 
 export type ExpenseSource = {
   id: number;
@@ -12,11 +11,13 @@ export type ExpenseSource = {
 export function useExpensesSources() {
   const sources = ref<ExpenseSource[]>([]);
 
+  const { fetchApi, loading, error } = useAxios();
+
   async function fetchExpensesSource() {
-    const { data } = await axios.get<ExpenseSource[]>(
-      `${API}/expenses/sources`
-    );
-    sources.value = data;
+    const response = await fetchApi<ExpenseSource[]>({ path: `${API}/expenses/sources` });
+    if(response?.status === 200) {
+      sources.value = response.data;
+    }
   }
 
   onMounted(async () => {
