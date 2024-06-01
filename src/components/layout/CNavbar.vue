@@ -34,20 +34,12 @@ function navigate(path: string) {
     >
       Incomes
     </button>
-    <button 
+    <button
       class="navbar-btn pf-text-bold" 
       :class="{ current: currentRute === ROUTES.DEBTS }"
       @click="() => navigate(ROUTES.DEBTS)"
     >
       Debts
-    </button>
-
-    <button 
-      class="navbar-btn pf-text-bold" 
-      :class="{ current: currentRute === ROUTES.LOGIN }"
-      @click="() => navigate(ROUTES.LOGIN)"
-    >
-      Login
     </button>
   </div>
 </template>
@@ -63,6 +55,9 @@ function navigate(path: string) {
   color: var(--color-white-500);
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
+}
+.navbar-btn:hover {
+  color: var(--color-white-700);;
 }
 .navbar-btn.current {
   color: var(--color-white-900);

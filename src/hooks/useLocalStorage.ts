@@ -1,9 +1,20 @@
 import { ref, watch } from "vue";
 
-export default function useLocalStorage<T>(key: string, initialValue?: string | undefined) {
+export default function useLocalStorage<T>(key: string, initialValue: T) {
+  let parsedValue: T;
   const storedValue = localStorage.getItem(key);
-  const value = ref<T>(storedValue ? JSON.parse(storedValue) : initialValue);
 
+  if (storedValue) {
+    try {
+      parsedValue = JSON.parse(storedValue);
+    } catch (error) {
+      parsedValue = initialValue;
+    }
+  } else {
+    parsedValue = initialValue;
+  }
+
+  const value = ref<T>(parsedValue);
   watch(
     value,
     (newValue) => {
@@ -12,5 +23,5 @@ export default function useLocalStorage<T>(key: string, initialValue?: string | 
     { deep: true }
   );
 
-  return { value };
+  return value;
 }
