@@ -4,6 +4,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset" | undefined,
   clickFunction?: () => void,
   color?: string;
+  loading?: boolean;
   backgroundColor?: string;
   width?: string;
 }
@@ -18,7 +19,8 @@ const textBackgroundColor = props.backgroundColor ?? "var(--color-primary)";
     <button 
     class="button pf-bold-text" 
     :type="type ? type : 'button'" 
-    @click="clickFunction" 
+    @click="clickFunction"
+    :disabled="loading"
     :style="{
       color: textColor,
       backgroundColor:

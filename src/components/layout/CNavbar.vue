@@ -41,6 +41,14 @@ function navigate(path: string) {
     >
       Debts
     </button>
+
+    <button 
+      class="navbar-btn pf-text-bold" 
+      :class="{ current: currentRute === ROUTES.LOGIN }"
+      @click="() => navigate(ROUTES.LOGIN)"
+    >
+      Login
+    </button>
   </div>
 </template>
 

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-interface SelectionProps {
+interface InputProps {
   text: string,
   label: string,
+  type?: string,
 }
-defineProps<SelectionProps>();
+defineProps<InputProps>();
 const emit = defineEmits(['update:text']);
 
 const input = ref<HTMLInputElement>();
@@ -24,7 +25,7 @@ function focusInput() {
   <div class="input-container" :class="{ focused }" @click="focusInput">
     <input 
       class="input pf-normal-text" 
-      type="text" 
+      :type="type ?? 'text'" 
       ref="input"
       :value="text"
       @input="$emit('update:text', ($event.target as HTMLInputElement).value)" 

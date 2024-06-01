@@ -3,6 +3,10 @@ import ROUTES from "./routes";
 
 const routes = [
   {
+    path: ROUTES.LOGIN,
+    component: () => import("@/views/auth/Login.vue"),
+  },
+  {
     path: ROUTES.HOME,
     component: () => import("@/views/Home.vue"),
   },
