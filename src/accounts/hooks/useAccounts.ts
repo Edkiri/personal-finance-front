@@ -16,7 +16,7 @@ type Currency = {
 export type Account = {
   id: number;
   name: string;
-  amount: string;
+  amount: number;
   bank: Bank;
   currency: Currency;
   description?: string;

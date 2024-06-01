@@ -25,8 +25,8 @@ const avgPerDay = computed(() => {
 
 <template>
   <div class="flex items-center w-100 gap-8 p-4">
-    <h3>Account balance: {{ accountStore.mainAccount?.amount }}</h3>
-    <h3>Total expenses: {{ expenses.reduce((acc, cur) => (acc + cur.amount), 0) }}</h3>
+    <h3>Account balance: {{ accountStore.mainAccount?.amount.toFixed(2) }}</h3>
+    <h3>Total expenses: {{ expenses.reduce((acc, cur) => (acc + cur.amount), 0).toFixed(2) }}</h3>
     <h3>Expenses average per day ({{ days }} days): {{ avgPerDay }}</h3>
   </div>
 </template>
