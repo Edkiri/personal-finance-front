@@ -2,8 +2,10 @@ import { ref, Ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
 import { useAuthStorage } from '@/auth/stores/useAuthStore';
 
+const baseURL = import.meta.env.VITE_API_BASE_URL as string;
+
 const AxiosClient = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: baseURL,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
