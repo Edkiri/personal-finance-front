@@ -1,7 +1,7 @@
 import { ref, watch } from "vue";
 
-export default function useLocalStorage<T>(key: string, initialValue: T) {
-  let parsedValue: T;
+export default function useLocalStorage<T>(key: string, initialValue?: T | null | undefined) {
+  let parsedValue: T | null | undefined;
   const storedValue = localStorage.getItem(key);
 
   if (storedValue) {
@@ -14,7 +14,8 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
     parsedValue = initialValue;
   }
 
-  const value = ref<T>(parsedValue);
+  const value = ref<T | null | undefined>(parsedValue);
+  
   watch(
     value,
     (newValue) => {
