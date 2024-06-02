@@ -1,5 +1,4 @@
 import { computed, onMounted, ref } from "vue";
-import { API } from "../../constants";
 import { useAxios } from "@/hooks";
 
 type Bank = {
@@ -28,7 +27,7 @@ export function useAccounts() {
   const { fetchApi } = useAxios();
 
   async function fetchAccounts() {
-    const response = await fetchApi<Account[]>({ path:`${API}/accounts` })
+    const response = await fetchApi<Account[]>({ path:`accounts` })
     
     if(response?.status === 200) {
       accounts.value = response.data.map(account => ({ 

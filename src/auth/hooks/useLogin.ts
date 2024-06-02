@@ -1,5 +1,4 @@
 import useAxios from "../../hooks/useAxios";
-import { API } from "@/constants";
 import { useAuthStorage } from "../stores/useAuthStore";
 
 export function useLogin() {
@@ -10,7 +9,7 @@ export function useLogin() {
   async function login(password: string): Promise<boolean> {
     const response = await fetchApi<{ access_token: string }>({
       method: "POST",
-      path: `${API}/auth/login`,
+      path: `auth/login`,
       payload: { password },
     });
     if(response?.status === 200) {
