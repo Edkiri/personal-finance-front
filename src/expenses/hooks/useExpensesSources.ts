@@ -24,5 +24,5 @@ export function useExpensesSources() {
     await fetchExpensesSource();
   });
 
-  return { sources, fetchExpensesSource };
+  return { sources, fetchExpensesSource, loading, error };
 }

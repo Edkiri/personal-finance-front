@@ -12,10 +12,10 @@ onMounted(() => {
 });
 
 const headers: TableHeader[] = [
+  { text: 'source', itemKey: 'incomeSource.name', width: 200 },
   { text: 'amount', itemKey: 'amount', width: 50 },
-  { text: 'description', itemKey: 'description' },
   { text: 'date', itemKey: 'date' },
-  { text: 'source', itemKey: 'incomeSource.name' },
+  { text: 'description', itemKey: 'description' },
   { text: '', itemKey: 'actions' }
 ];
 
@@ -45,6 +45,10 @@ async function confirmDelete() {
 
 <template>
   <CTable :headers="headers" :items="incomes">
+
+    <template #item-amount="{ item }">
+      {{ item.amount }}
+    </template>
 
     <template #item-actions="{ item }">
       <div class="flex justify-center">

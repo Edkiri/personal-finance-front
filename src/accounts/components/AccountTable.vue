@@ -11,6 +11,7 @@ const headers: TableHeader[] = [
   { text: 'bank', itemKey: 'bank.name' },
   { text: 'account', itemKey: 'name' },
   { text: 'amount', itemKey: 'amount' },
+  { text: '', itemKey: 'actions' }, 
 ]
 </script>
 
