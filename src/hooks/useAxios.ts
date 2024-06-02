@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
-import { useAuthStorage } from '@/auth/stores';
+import { useAuthStorage } from '@/auth/stores/useAuthStore';
 
 const AxiosClient = axios.create({
   baseURL: 'http://localhost:3000',

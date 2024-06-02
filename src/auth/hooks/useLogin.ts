@@ -1,6 +1,6 @@
 import useAxios from "../../hooks/useAxios";
 import { API } from "@/constants";
-import { useAuthStorage } from "../stores";
+import { useAuthStorage } from "../stores/useAuthStore";
 
 export function useLogin() {
   const authStorage = useAuthStorage();
