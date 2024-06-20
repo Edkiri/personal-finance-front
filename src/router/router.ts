@@ -5,7 +5,7 @@ import ROUTES from './routes';
 const routes = [
   {
     path: ROUTES.HOME,
-    component: () => import('@/views/Home.vue'),
+    component: () => import('@/views/Home/index.vue'),
     meta: { requiresAuth: false },
   },
   // {

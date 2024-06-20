@@ -18,7 +18,7 @@ const DEFAULT_COLOR = 'var(--color-white-300)';
     :is="icon"
     :width="size ?? DEFAULT_SIZE"
     :height="size ?? DEFAULT_SIZE"
-    :style="{ stroke: color ?? DEFAULT_COLOR }"
+    :style="{ stroke: color ?? DEFAULT_COLOR, fill: color ?? DEFAULT_COLOR }"
   />
 </template>
 
