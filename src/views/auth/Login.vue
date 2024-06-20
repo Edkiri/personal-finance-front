@@ -6,11 +6,12 @@ import { router, ROUTES } from '@/router';
 import { useLogin } from '@/auth/hooks';
 
 const { loading, error, login } = useLogin();
+const email = ref<string>('');
 const password = ref<string>('');
 
 async function handleLogin() {
-  if(!password.value.length) return;
-  const success = await login(password.value);
+  if(!password.value.length || !email.value.length) return;
+  const success = await login(email.value, password.value);
   if(success) {
     router.push(ROUTES.EXPENSES);
   }
@@ -20,6 +21,8 @@ async function handleLogin() {
 <template>
   <form>
     
+    <CInput v-model:text="email" label="Email" />
+
     <CInput v-model:text="password" label="Password" />
 
     <CButton text="Login" :click-function="handleLogin" />

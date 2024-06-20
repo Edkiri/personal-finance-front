@@ -6,11 +6,11 @@ export function useLogin() {
 
   const { fetchApi, error, loading } = useAxios();
 
-  async function login(password: string): Promise<boolean> {
+  async function login(email: string, password: string): Promise<boolean> {
     const response = await fetchApi<{ access_token: string }>({
       method: "POST",
       path: `auth/login`,
-      payload: { password },
+      payload: { email, password },
     });
     if(response?.status === 200) {
       authStorage.token = response.data?.access_token;
