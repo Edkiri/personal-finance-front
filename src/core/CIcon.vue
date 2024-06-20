@@ -7,9 +7,7 @@ interface IconProps {
   color?: string;
 }
 const props = defineProps<IconProps>();
-const icon = defineAsyncComponent(
-  () => import(`../../assets/${props.name}.svg`),
-);
+const icon = defineAsyncComponent(() => import(`@/assets/${props.name}.svg`));
 const DEFAULT_SIZE = 35;
 const DEFAULT_COLOR = 'var(--color-white-300)';
 </script>
