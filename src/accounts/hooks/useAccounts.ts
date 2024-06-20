@@ -1,5 +1,5 @@
-import { computed, onMounted, ref } from "vue";
-import { useAxios } from "@/hooks";
+import { computed, onMounted, ref } from 'vue';
+import { useAxios } from '@/hooks';
 
 type Bank = {
   id: number;
@@ -27,17 +27,19 @@ export function useAccounts() {
   const { fetchApi } = useAxios();
 
   async function fetchAccounts() {
-    const response = await fetchApi<Account[]>({ path:`accounts` })
-    
-    if(response?.status === 200) {
-      accounts.value = response.data.map(account => ({ 
+    const response = await fetchApi<Account[]>({ path: `accounts` });
+
+    if (response?.status === 200) {
+      accounts.value = response.data.map((account) => ({
         ...account,
-        mixedName: `${account.bank.name} - ${account.name} - ${account.amount} ${account.currency.symbol}`
+        mixedName: `${account.bank.name} - ${account.name} - ${account.amount} ${account.currency.symbol}`,
       }));
     }
   }
 
-  const mainAccount = computed(() => accounts.value.find(account => account.id === 1));
+  const mainAccount = computed(() =>
+    accounts.value.find((account) => account.id === 1),
+  );
 
   onMounted(async () => {
     await fetchAccounts();

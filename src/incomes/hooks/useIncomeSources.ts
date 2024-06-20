@@ -1,5 +1,5 @@
-import { onMounted, ref } from "vue";
-import useAxios from "../../hooks/useAxios";
+import { onMounted, ref } from 'vue';
+import useAxios from '../../hooks/useAxios';
 
 export type IncomeSource = {
   id: number;
@@ -9,11 +9,13 @@ export type IncomeSource = {
 
 export function useIncomeSources() {
   const sources = ref<IncomeSource[]>([]);
-  
+
   const { fetchApi, loading } = useAxios();
-  
+
   async function findSources() {
-    const response = await fetchApi<IncomeSource[]>({ path: "incomes/sources" });
+    const response = await fetchApi<IncomeSource[]>({
+      path: 'incomes/sources',
+    });
     if (response?.data) {
       sources.value = response.data;
     }
@@ -21,7 +23,7 @@ export function useIncomeSources() {
 
   onMounted(() => {
     findSources();
-  })
+  });
 
   return { sources, loading, findSources };
 }

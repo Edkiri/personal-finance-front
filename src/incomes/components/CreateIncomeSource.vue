@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
 import { storeToRefs } from 'pinia';
+import {
+  CButton,
+  CInput,
+  CInputSelection,
+  CSelection,
+} from '@/components/core';
 import { useAccountStore } from '@/accounts/stores';
 import { useIncomeSources, useIncomes } from '@/incomes/hooks';
 
 interface ButtonProps {
-  onCreate: () => void,
+  onCreate: () => void;
 }
 const props = defineProps<ButtonProps>();
 
@@ -27,9 +32,9 @@ async function handleCreate() {
     accountId: formData.accountId,
     incomeSourceName: formData.source,
     description: formData.description,
-    amount: formData.amount
-  })
-  if(!response) return;
+    amount: formData.amount,
+  });
+  if (!response) return;
   await findSources();
   formData.source = '';
   formData.description = '';
@@ -38,7 +43,6 @@ async function handleCreate() {
   accountStore.update();
   props.onCreate();
 }
-
 </script>
 
 <template>
@@ -48,29 +52,27 @@ async function handleCreate() {
     <CInputSelection
       label="Source"
       v-model:text="formData.source"
-      :selecctions="sources.map(source => ({ text: source.name, value: source.id }))"
+      :selecctions="
+        sources.map((source) => ({ text: source.name, value: source.id }))
+      "
     />
 
-    <CInput
-      label="Amount"
-      v-model:text="formData.amount"
-    />
+    <CInput label="Amount" v-model:text="formData.amount" />
 
-    <CInput
-      label="Description"
-      v-model:text="formData.description"
-    />
+    <CInput label="Description" v-model:text="formData.description" />
 
     <CSelection
       placeholder="Account"
       v-model:selected-value="formData.accountId"
-      :selecctions="accounts.map(account => ({ text: account.mixedName!, value: account.id }))"
+      :selecctions="
+        accounts.map((account) => ({
+          text: account.mixedName!,
+          value: account.id,
+        }))
+      "
     />
 
-    <CButton
-      text="Create"
-      :click-function="handleCreate"
-    />
+    <CButton text="Create" :click-function="handleCreate" />
   </form>
 </template>
 

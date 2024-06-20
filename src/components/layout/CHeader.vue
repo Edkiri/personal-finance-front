@@ -4,14 +4,12 @@ import CNavbar from './CNavbar.vue';
 import CButton from '../core/CButton.vue';
 import { ROUTES, router } from '@/router';
 
-
 const authStorage = useAuthStorage();
 
 function logout() {
   authStorage.token = '';
-  router.push(ROUTES.LOGIN)
+  router.push(ROUTES.LOGIN);
 }
-
 </script>
 
 <template>
@@ -19,7 +17,11 @@ function logout() {
     <CNavbar />
 
     <CButton :click-function="logout" text="Logout" v-if="authStorage.token" />
-    <CButton v-if="!authStorage.token" text="Login" :click-function="() => router.push(ROUTES.LOGIN)" />
+    <CButton
+      v-if="!authStorage.token"
+      text="Login"
+      :click-function="() => router.push(ROUTES.LOGIN)"
+    />
   </header>
 </template>
 

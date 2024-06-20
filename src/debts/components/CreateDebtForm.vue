@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { CButton, CInput, CInputSelection, CSelection } from '@/components/core';
+import {
+  CButton,
+  CInput,
+  CInputSelection,
+  CSelection,
+} from '@/components/core';
 import { useExpensesSources } from '@/expenses/hooks';
 import { useCurrencies } from '@/accounts/hooks/useCurrencies';
 import { useDebts } from '@/debts/hooks';
@@ -19,7 +24,7 @@ const formData = reactive({
   expenseSourceName: '',
   amount: '',
   description: '',
-  currencyId: 1
+  currencyId: 1,
 });
 
 async function handleCreate() {
@@ -28,7 +33,7 @@ async function handleCreate() {
     expenseSourceName: formData.expenseSourceName,
     amount: formData.amount,
     description: formData.description,
-    currencyId: formData.currencyId
+    currencyId: formData.currencyId,
   });
   if (!created) return;
   await fetchExpensesSource();
@@ -39,50 +44,39 @@ async function handleCreate() {
   formData.description = '';
   props.onCreate();
 }
-
 </script>
 
 <template>
   <form>
     <h4 class="pf-bold-text">Create debt</h4>
 
-    <CInput 
-      label="Creditor" 
-      v-model:text="formData.creditor" 
-    />
+    <CInput label="Creditor" v-model:text="formData.creditor" />
 
-    <CInputSelection 
-      label="Source" 
+    <CInputSelection
+      label="Source"
       v-model:text="formData.expenseSourceName"
-      :selecctions="sources.map(source => ({ text: source.name, value: source.id }))" 
+      :selecctions="
+        sources.map((source) => ({ text: source.name, value: source.id }))
+      "
     />
 
-    <CInput 
-      label="Amount" 
-      v-model:text="formData.amount" 
+    <CInput label="Amount" v-model:text="formData.amount" />
+
+    <CInput label="Description" v-model:text="formData.description" />
+
+    <CSelection
+      placeholder="Currency"
+      v-model:selected-value="formData.currencyId"
+      :selecctions="
+        currencies.map((currency) => ({
+          text: `${currency.name} (${currency.symbol})`,
+          value: currency.id,
+        }))
+      "
     />
 
-    <CInput 
-      label="Description" 
-      v-model:text="formData.description" 
-    />
-
-    <CSelection 
-      placeholder="Currency" 
-      v-model:selected-value="formData.currencyId" 
-      :selecctions="currencies.map(currency => ({
-        text: `${currency.name} (${currency.symbol})`,
-        value: currency.id
-      }))" 
-    />
-
-    <CButton 
-      text="Create" 
-      :click-function="handleCreate" 
-    />
-
+    <CButton text="Create" :click-function="handleCreate" />
   </form>
-
 </template>
 
 <style scoped>

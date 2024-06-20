@@ -3,8 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 import { CTable, CModal, CButtonOutline } from '@/components/core';
 import { useDebts } from '@/debts/hooks/useDebts';
 import { TableHeader } from '@/components/core/CTable.vue';
-import { CreateDebtForm } from '@/debts/components';
-import { CreateDebtPaymentForm } from '@/debts/components';
+import { CreateDebtForm, CreateDebtPaymentForm } from '@/debts/components';
 import { CreateDebtPaymentPayload } from '@/debts/components/CreateDebtPaymentForm.vue';
 
 const { debts, find, createPaymentDebt } = useDebts();
@@ -31,7 +30,7 @@ async function handleCreated() {
 const creatingPayment = ref(false);
 const selectedDebtId = ref<number | null>(null);
 watch(creatingPayment, () => {
-  if(creatingPayment.value === false) selectedDebtId.value = null; 
+  if (creatingPayment.value === false) selectedDebtId.value = null;
 });
 
 function selectDebtPayment(debtId: number) {
@@ -43,7 +42,6 @@ async function handleCreatePayment(payload: CreateDebtPaymentPayload) {
   await createPaymentDebt({ ...payload, debtId: selectedDebtId.value });
   creatingPayment.value = false;
 }
-
 </script>
 
 <template>
@@ -52,14 +50,21 @@ async function handleCreatePayment(payload: CreateDebtPaymentPayload) {
       <span>{{ item.amount - item.totalPaid }}</span>
     </template>
 
-    <template #header-actions="{ item: _item }">
+    <template #header-actions="{}">
       <div class="flex">
-        <CButtonOutline text="add debt" :click-function="() => creating = true" :width="120" />
+        <CButtonOutline
+          text="add debt"
+          :click-function="() => (creating = true)"
+          :width="120"
+        />
       </div>
     </template>
 
     <template #item-actions="{ item }">
-      <CButtonOutline text="pay" :click-function="() => selectDebtPayment(item.id)" />
+      <CButtonOutline
+        text="pay"
+        :click-function="() => selectDebtPayment(item.id)"
+      />
     </template>
   </CTable>
 

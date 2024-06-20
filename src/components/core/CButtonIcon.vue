@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { CIcon } from '@/components/core';
 import { computed, ref } from 'vue';
+import { CIcon } from '@/components/core';
+
 interface CButtonIcon {
   clickFunction: () => void;
   icon: string;
@@ -10,7 +11,7 @@ interface CButtonIcon {
 const props = defineProps<CButtonIcon>();
 const hovered = ref(false);
 const iconColor = computed(() => {
-  return hovered.value ? props.hoverColor : undefined; 
+  return hovered.value ? props.hoverColor : undefined;
 });
 </script>
 

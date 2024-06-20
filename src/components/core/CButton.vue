@@ -1,8 +1,8 @@
 <script setup lang="ts">
 interface ButtonProps {
-  text: string,
-  type?: "button" | "submit" | "reset" | undefined,
-  clickFunction?: () => void,
+  text: string;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+  clickFunction?: () => void;
   color?: string;
   loading?: boolean;
   backgroundColor?: string;
@@ -10,22 +10,23 @@ interface ButtonProps {
 }
 const props = defineProps<ButtonProps>();
 
-const textColor = props.color ?? "var(--color-white-900)";
-const textBackgroundColor = props.backgroundColor ?? "var(--color-primary)";
+const textColor = props.color ?? 'var(--color-white-900)';
+const textBackgroundColor = props.backgroundColor ?? 'var(--color-primary)';
 </script>
 
 <template>
   <div class="btn-container">
-    <button 
-    class="button pf-bold-text" 
-    :type="type ? type : 'button'" 
-    @click="clickFunction"
-    :disabled="loading"
-    :style="{
-      color: textColor,
-      backgroundColor:
-        textBackgroundColor, width: width ?? '100%'
-      }">
+    <button
+      class="button pf-bold-text"
+      :type="type ? type : 'button'"
+      @click="clickFunction"
+      :disabled="loading"
+      :style="{
+        color: textColor,
+        backgroundColor: textBackgroundColor,
+        width: width ?? '100%',
+      }"
+    >
       {{ text }}
     </button>
   </div>

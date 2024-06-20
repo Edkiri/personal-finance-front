@@ -1,35 +1,35 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+
 interface ButtonProps {
-  text: string,
-  type?: "button" | "submit" | "reset" | undefined,
-  clickFunction?: () => void,
+  text: string;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+  clickFunction?: () => void;
   color?: string;
   width?: number;
 }
 const props = defineProps<ButtonProps>();
-const currentColor = props.color ?? "var(--color-primary)";
+const currentColor = props.color ?? 'var(--color-primary)';
 const hovered = ref(false);
 
 const styles = computed(() => {
   return {
     color: hovered.value ? 'var(--color-white-900)' : currentColor,
     width: props.width ? `${props.width}px` : '100%',
-    backgroundColor: hovered.value ? currentColor : 'transparent', 
+    backgroundColor: hovered.value ? currentColor : 'transparent',
     border: `1px solid ${currentColor}`,
-  }
+  };
 });
-
 </script>
 
 <template>
-  <button 
-    class="button pf-bold-text" 
-    :type="type ? type : 'button'" 
+  <button
+    class="button pf-bold-text"
+    :type="type ? type : 'button'"
     :style="styles"
     @mouseover="hovered = true"
     @mouseout="hovered = false"
-    @click="clickFunction" 
+    @click="clickFunction"
   >
     {{ text }}
   </button>

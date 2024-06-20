@@ -26,6 +26,10 @@
       "import/no-unresolved": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "vue/multi-word-component-names": "off",
+      "import/prefer-default-export": "off",
+      "no-restricted-syntax": "off",
+      "vue/require-v-for-key": "warn",
+      "no-param-reassign": "off",
       "import/extensions": [
         "off",
         "ignorePackages",

@@ -1,37 +1,37 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import ROUTES from "./routes";
-import { useAuthStorage } from "@/auth/stores/useAuthStore";
+import { createRouter, createWebHashHistory } from 'vue-router';
+import ROUTES from './routes';
+import { useAuthStorage } from '@/auth/stores/useAuthStore';
 
 const routes = [
   {
-    path: ROUTES.LOGIN,
-    component: () => import("@/views/auth/Login.vue"),
-  },
-  {
     path: ROUTES.HOME,
-    component: () => import("@/views/Home.vue"),
-    meta: { requiresAuth: true },
+    component: () => import('@/views/Home.vue'),
+    meta: { requiresAuth: false },
   },
-  {
-    path: ROUTES.EXPENSES,
-    component: () => import("@/views/expenses/ExpenseListView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: ROUTES.INCOMES,
-    component: () => import("@/views/incomes/IncomeListView.vue"),
-    meta: { requiresAuth: true },
-  },
-  {
-    path: ROUTES.DEBTS,
-    component: () => import("@/views/debts/DebtListView.vue"),
-    meta: { requiresAuth: true },
-  },
+  // {
+  //   path: ROUTES.LOGIN,
+  //   component: () => import('@/views/auth/Login.vue'),
+  // },
+  // {
+  //   path: ROUTES.EXPENSES,
+  //   component: () => import('@/views/expenses/ExpenseListView.vue'),
+  //   meta: { requiresAuth: true },
+  // },
+  // {
+  //   path: ROUTES.INCOMES,
+  //   component: () => import('@/views/incomes/IncomeListView.vue'),
+  //   meta: { requiresAuth: true },
+  // },
+  // {
+  //   path: ROUTES.DEBTS,
+  //   component: () => import('@/views/debts/DebtListView.vue'),
+  //   meta: { requiresAuth: true },
+  // },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
-  strict: true, 
+  strict: true,
   routes,
 });
 

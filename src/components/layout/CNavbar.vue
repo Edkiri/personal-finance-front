@@ -4,7 +4,7 @@ import { router, ROUTES } from '@/router';
 
 const currentRute = computed(() => {
   return router.currentRoute.value.path;
-})
+});
 
 function navigate(path: string) {
   router.push(path);
@@ -13,29 +13,29 @@ function navigate(path: string) {
 
 <template>
   <div class="navbar">
-    <button 
+    <button
       class="navbar-btn pf-text-bold"
       :class="{ current: currentRute === ROUTES.HOME }"
       @click="() => navigate(ROUTES.HOME)"
     >
       Home
     </button>
-    <button 
-      class="navbar-btn pf-text-bold" 
+    <button
+      class="navbar-btn pf-text-bold"
       :class="{ current: currentRute === ROUTES.EXPENSES }"
-      @click="() => navigate(ROUTES.EXPENSES)"  
+      @click="() => navigate(ROUTES.EXPENSES)"
     >
       Expenses
     </button>
-    <button 
-      class="navbar-btn pf-text-bold" 
+    <button
+      class="navbar-btn pf-text-bold"
       :class="{ current: currentRute === ROUTES.INCOMES }"
       @click="() => navigate(ROUTES.INCOMES)"
     >
       Incomes
     </button>
     <button
-      class="navbar-btn pf-text-bold" 
+      class="navbar-btn pf-text-bold"
       :class="{ current: currentRute === ROUTES.DEBTS }"
       @click="() => navigate(ROUTES.DEBTS)"
     >
@@ -57,7 +57,7 @@ function navigate(path: string) {
   border-bottom: 2px solid transparent;
 }
 .navbar-btn:hover {
-  color: var(--color-white-700);;
+  color: var(--color-white-700);
 }
 .navbar-btn.current {
   color: var(--color-white-900);

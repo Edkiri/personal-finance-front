@@ -1,5 +1,5 @@
-import { onMounted, ref } from "vue";
-import { useAxios } from "@/hooks";
+import { onMounted, ref } from 'vue';
+import { useAxios } from '@/hooks';
 
 export type ExpenseSource = {
   id: number;
@@ -13,8 +13,10 @@ export function useExpensesSources() {
   const { fetchApi, loading, error } = useAxios();
 
   async function fetchExpensesSource() {
-    const response = await fetchApi<ExpenseSource[]>({ path: `expenses/sources` });
-    if(response?.status === 200) {
+    const response = await fetchApi<ExpenseSource[]>({
+      path: `expenses/sources`,
+    });
+    if (response?.status === 200) {
       sources.value = response.data;
     }
   }

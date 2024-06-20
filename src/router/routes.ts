@@ -3,6 +3,6 @@ const routes = {
   LOGIN: '/login',
   EXPENSES: '/expenses',
   INCOMES: '/incomes',
-  DEBTS: '/debts'
+  DEBTS: '/debts',
 };
 export default routes;

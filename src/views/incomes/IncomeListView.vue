@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { CTable, CModal, CButtonIcon, CConfirmationModal, CircleButton } from '@components/core';
+import {
+  CTable,
+  CModal,
+  CButtonIcon,
+  CConfirmationModal,
+  CircleButton,
+} from '@components/core';
 import { TableHeader } from '@/components/core/CTable.vue';
 import { useIncomes } from '@/incomes/hooks';
 import { CreateIncomeSource } from '@/incomes/components';
@@ -16,7 +22,7 @@ const headers: TableHeader[] = [
   { text: 'amount', itemKey: 'amount', width: 50 },
   { text: 'date', itemKey: 'date' },
   { text: 'description', itemKey: 'description' },
-  { text: '', itemKey: 'actions' }
+  { text: '', itemKey: 'actions' },
 ];
 
 const creating = ref(false);
@@ -35,38 +41,35 @@ function handleDelete(id: number) {
 }
 
 async function confirmDelete() {
-  if(!deletingIncomeId.value) return;
+  if (!deletingIncomeId.value) return;
   await deleteIncome({ incomeId: deletingIncomeId.value });
   deletingIncomeId.value = null;
   deleting.value = false;
 }
-
 </script>
 
 <template>
   <CTable :headers="headers" :items="incomes">
-
     <template #item-amount="{ item }">
       {{ item.amount }}
     </template>
 
     <template #item-actions="{ item }">
       <div class="flex justify-center">
-        <CButtonIcon 
-          icon="delete" 
-          hover-color="rgb(210, 26, 26)" 
+        <CButtonIcon
+          icon="delete"
+          hover-color="rgb(210, 26, 26)"
           :click-function="() => handleDelete(item.id)"
         />
       </div>
     </template>
 
-    <template #header-actions="{ item: _item }">
+    <template #header-actions="{}">
       <CircleButton
         color="var(--color-success)"
-        :click-function="() => creating = true"
+        :click-function="() => (creating = true)"
       />
     </template>
-
   </CTable>
 
   <CModal v-model:show="creating">
@@ -75,11 +78,13 @@ async function confirmDelete() {
 
   <CConfirmationModal
     message="Are you sure you want to delete?"
-    :confirm-function="(confirmed: boolean) => {
-      if(!confirmed) return;
-      confirmDelete();
-    }" 
+    :confirm-function="
+      (confirmed: boolean) => {
+        if (!confirmed) return;
+        confirmDelete();
+      }
+    "
     v-model:show="deleting"
-  >  
+  >
   </CConfirmationModal>
 </template>

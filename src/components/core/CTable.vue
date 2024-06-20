@@ -1,16 +1,17 @@
 <script lang="ts" setup>
-
 export type TableHeader = {
-  itemKey: string
-  text: string,
+  itemKey: string;
+  text: string;
   width?: number;
-}
+};
 export type TableItem = {
+  // TODO: Find a better way to do this
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
-}
+};
 export interface TableProps {
-  headers: TableHeader[],
-  items: TableItem[]
+  headers: TableHeader[];
+  items: TableItem[];
 }
 defineProps<TableProps>();
 
@@ -21,9 +22,7 @@ function getItemValue(header: TableHeader, item: TableItem) {
   }
   let itemValue: TableItem | null = null;
   for (const path of paths) {
-    itemValue = itemValue === null
-      ? item[path]
-      : itemValue[path];
+    itemValue = itemValue === null ? item[path] : itemValue[path];
   }
   return itemValue ?? '';
 }
@@ -32,22 +31,19 @@ function getItemValue(header: TableHeader, item: TableItem) {
 <template>
   <table class="table">
     <tr>
-      <th 
-        v-for="header in headers" 
+      <th
+        v-for="header in headers"
         :key="header.itemKey"
         :style="{ width: header.width ? header.width + 'px' : 'auto' }"
       >
-      <slot :item="header" :name="`header-${header.itemKey}`">
-        {{ header.text }}
-      </slot>
+        <slot :item="header" :name="`header-${header.itemKey}`">
+          {{ header.text }}
+        </slot>
       </th>
     </tr>
     <tr v-for="item in items">
       <td v-for="header in headers">
-        <slot 
-          :name="`item-${header.itemKey}`" 
-          :item="item"
-        >
+        <slot :name="`item-${header.itemKey}`" :item="item">
           {{ getItemValue(header, item) }}
         </slot>
       </td>
@@ -61,7 +57,7 @@ function getItemValue(header: TableHeader, item: TableItem) {
   color: var(--color-white-500);
 }
 
-.table th, 
+.table th,
 .table td {
   border: 1px solid var(--color-white-300);
   padding: 8px;

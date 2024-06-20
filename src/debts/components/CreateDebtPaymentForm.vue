@@ -4,60 +4,52 @@ import { reactive } from 'vue';
 import { CButton, CInput, CSelection } from '@/components/core';
 import { useAccountStore } from '@/accounts/stores';
 
-
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
 
 export type CreateDebtPaymentPayload = {
   accountId: number;
   amount: number;
-}
+};
 
 export interface CreateDebtPaymentForm {
-  createFunction: (payload: CreateDebtPaymentPayload) => void
+  createFunction: (payload: CreateDebtPaymentPayload) => void;
 }
 const props = defineProps<CreateDebtPaymentForm>();
 
 const formData = reactive({
   amount: '',
-  accountId: 1
+  accountId: 1,
 });
 
 function handleCreate() {
-  if( !formData.amount || !formData.accountId ) return;
+  if (!formData.amount || !formData.accountId) return;
   props.createFunction({
     accountId: formData.accountId,
     amount: parseFloat(formData.amount),
   });
 }
-
 </script>
 
 <template>
   <form>
     <h4 class="pf-bold-text">Create payment</h4>
 
-    <CInput 
-      label="Amount" 
-      v-model:text="formData.amount" 
+    <CInput label="Amount" v-model:text="formData.amount" />
+
+    <CSelection
+      placeholder="Account"
+      v-model:selected-value="formData.accountId"
+      :selecctions="
+        accounts.map((account) => ({
+          text: `${account.mixedName}`,
+          value: account.id,
+        }))
+      "
     />
 
-    <CSelection 
-      placeholder="Account" 
-      v-model:selected-value="formData.accountId" 
-      :selecctions="accounts.map(account => ({
-        text: `${account.mixedName}`,
-        value: account.id
-      }))" 
-    />
-
-    <CButton 
-      text="Create" 
-      :click-function="handleCreate" 
-    />
-
+    <CButton text="Create" :click-function="handleCreate" />
   </form>
-
 </template>
 
 <style scoped>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { CButton } from '@/components/core';
+
 interface ModalProps {
   show: boolean;
   message: string;
@@ -23,12 +24,9 @@ function cancel() {
     <div class="modal-container">
       <h3 class="pf-medium-text">{{ message }}</h3>
       <div class="buttons-container">
-        <CButton 
-          text="Confirm" 
-          :click-function="confirm"
-        />
-        <CButton 
-          text="Cancel" 
+        <CButton text="Confirm" :click-function="confirm" />
+        <CButton
+          text="Cancel"
           background-color="rgb(210, 26, 26)"
           :click-function="cancel"
         />
@@ -45,7 +43,7 @@ function cancel() {
   right: 0;
   bottom: 0;
   opacity: 0;
-  transition: opacity .08s ease-in;
+  transition: opacity 0.08s ease-in;
   z-index: -1;
 }
 .modal-layout.show {

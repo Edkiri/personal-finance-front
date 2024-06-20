@@ -2,12 +2,11 @@
 import { ref } from 'vue';
 
 interface InputProps {
-  text: string,
-  label: string,
-  type?: string,
+  text: string;
+  label: string;
+  type?: string;
 }
 defineProps<InputProps>();
-const emit = defineEmits(['update:text']);
 
 const input = ref<HTMLInputElement>();
 const focused = ref(false);
@@ -18,24 +17,26 @@ function focusInput() {
     input.value.focus();
   }
 }
-
 </script>
 
 <template>
   <div class="input-container" :class="{ focused }" @click="focusInput">
-    <input 
-      class="input pf-normal-text" 
-      :type="type ?? 'text'" 
+    <input
+      class="input pf-normal-text"
+      :type="type ?? 'text'"
       ref="input"
       :value="text"
-      @input="$emit('update:text', ($event.target as HTMLInputElement).value)" 
+      @input="$emit('update:text', ($event.target as HTMLInputElement).value)"
       @focus="focused = true"
-      @focusout="focused = false"  
+      @focusout="focused = false"
     />
     <div class="label-container">
-      <label class="input-label pf-medium-text" :class="{ 'input-label-centered': text.length || focused }">{{ label }}</label>
+      <label
+        class="input-label pf-medium-text"
+        :class="{ 'input-label-centered': text.length || focused }"
+        >{{ label }}</label
+      >
     </div>
-
   </div>
 </template>
 
@@ -74,7 +75,9 @@ function focusInput() {
   top: 50%;
   left: 16px;
   transform: translateY(-50%);
-  transition: top 0.1s ease-in-out, left 0.1s ease-in-out; 
+  transition:
+    top 0.1s ease-in-out,
+    left 0.1s ease-in-out;
   pointer-events: none;
   z-index: 20;
   padding: 0px 4px;

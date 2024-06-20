@@ -1,7 +1,7 @@
-import { ref } from "vue";
-import { ExpenseSource } from "@/expenses/hooks/useExpensesSources";
-import useAxios from "@/hooks/useAxios";
-import { useAccountStore } from "@/accounts/stores";
+import { ref } from 'vue';
+import { ExpenseSource } from '@/expenses/hooks/useExpensesSources';
+import useAxios from '@/hooks/useAxios';
+import { useAccountStore } from '@/accounts/stores';
 
 export type Debt = {
   id: number;
@@ -26,22 +26,30 @@ export function useDebts() {
 
   async function find() {
     const response = await fetchDebts<Debt[]>({ path: 'debts' });
-    if(response?.data) {
+    if (response?.data) {
       debts.value = response.data;
     }
   }
 
   async function create(payload: object): Promise<boolean> {
-    const response = await fetchCreate({ method: 'POST', path: 'debts', payload });
-    if(response?.status === 204) {
+    const response = await fetchCreate({
+      method: 'POST',
+      path: 'debts',
+      payload,
+    });
+    if (response?.status === 204) {
       return true;
     }
     return false;
   }
 
   async function createPaymentDebt(payload: object): Promise<boolean> {
-    const response = await fetchPaymentDebt({ method: 'POST', path: 'debts/pay', payload });
-    if(response?.status === 204) {
+    const response = await fetchPaymentDebt({
+      method: 'POST',
+      path: 'debts/pay',
+      payload,
+    });
+    if (response?.status === 204) {
       find();
       accountStore.update();
       return true;

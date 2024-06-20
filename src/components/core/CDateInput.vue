@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { formatDate as formatLabel } from '@/utils';
+
 interface CDateInputProps {
-  date: Date,
-  dateLabel?: string,
+  date: Date;
+  dateLabel?: string;
 }
 const props = defineProps<CDateInputProps>();
 const emits = defineEmits(['update:date']);
@@ -17,17 +18,18 @@ const handleChange = (event: Event) => {
 const formatDate = (date: Date): string => {
   return date.toISOString().split('T')[0];
 };
-
 </script>
 
 <template>
   <div class="flex flex-col gap-2">
-    <span class=" text-xl">{{ dateLabel ? dateLabel : formatLabel(props.date) }}</span>
-    <input 
+    <span class="text-xl">{{
+      dateLabel ? dateLabel : formatLabel(props.date)
+    }}</span>
+    <input
       type="date"
-      class="dark-input" 
+      class="dark-input"
       :max="formatDate(new Date())"
-      :value="formatDate(props.date)" 
+      :value="formatDate(props.date)"
       @change="handleChange($event)"
     />
   </div>
@@ -42,5 +44,4 @@ const formatDate = (date: Date): string => {
   width: 250px;
   border-radius: 4px;
 }
-
 </style>

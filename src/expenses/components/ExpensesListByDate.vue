@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {  computed } from 'vue';
+import { computed } from 'vue';
 import { formatDate, formatFloat } from '@/utils';
 import { Expense } from '../hooks/useExpenses';
 
@@ -11,25 +11,24 @@ export interface ExpensesByDate {
 }
 
 interface ExpesesByDateProps {
-  expenses: Expense[]
+  expenses: Expense[];
 }
 const props = defineProps<ExpesesByDateProps>();
 
 const expensesByDate = computed(() => {
-    const grouped: ExpensesByDate = {};
-    props.expenses.forEach((expense) => {
-      if (!grouped[expense.date]) {
-        grouped[expense.date] = {
-          date: formatDate(new Date(expense.date)),
-          expenses: [expense],
-        };
-      } else {
-        grouped[expense.date].expenses.push(expense);
-      }
-    });
-    return grouped;
+  const grouped: ExpensesByDate = {};
+  props.expenses.forEach((expense) => {
+    if (!grouped[expense.date]) {
+      grouped[expense.date] = {
+        date: formatDate(new Date(expense.date)),
+        expenses: [expense],
+      };
+    } else {
+      grouped[expense.date].expenses.push(expense);
+    }
   });
-
+  return grouped;
+});
 </script>
 
 <template>
@@ -45,7 +44,14 @@ const expensesByDate = computed(() => {
         </div>
       </div>
       <div class="self-end mt-2">
-        <span>Total {{ formatFloat(group.expenses.reduce((acc, exp) => (acc + exp.amount), 0)) }}</span>
+        <span
+          >Total
+          {{
+            formatFloat(
+              group.expenses.reduce((acc, exp) => acc + exp.amount, 0),
+            )
+          }}</span
+        >
       </div>
     </div>
   </div>

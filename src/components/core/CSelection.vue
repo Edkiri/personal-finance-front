@@ -2,13 +2,17 @@
 import { computed, ref } from 'vue';
 
 type SelectionItem = {
-  value: any,
-  text: string,
-}
+  // TODO: Find a better way to do this
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
+  text: string;
+};
 
 interface SelectionProps {
-  selecctions: Array<SelectionItem>,
-  selectedValue: any,
+  selecctions: Array<SelectionItem>;
+  // TODO: Find a better way to do this
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  selectedValue: any;
   placeholder?: string;
 }
 const props = defineProps<SelectionProps>();
@@ -23,46 +27,47 @@ const show = computed(() => {
 });
 
 function selectSource(selection: SelectionItem) {
-  emit('update:selectedValue', selection.value); 
+  emit('update:selectedValue', selection.value);
 }
 
 function getSelectedText() {
-  const selectedItem = props.selecctions.find(selection => selection.value === props.selectedValue);
+  const selectedItem = props.selecctions.find(
+    (selection) => selection.value === props.selectedValue,
+  );
   return selectedItem ? selectedItem.text : '';
 }
 
-async function handleFocusOut(_event: FocusEvent) {
+async function handleFocusOut() {
+  // TODO: Find a better way to do this
+  // eslint-disable-next-line no-promise-executor-return
   await new Promise((res) => setTimeout(() => res(null), 80));
   if (selectionIndex.value === null) {
     focused.value = false;
-  } 
+  }
 }
-
 </script>
 
 <template>
   <div class="input-container" :class="{ focused }">
-
     <button
       class="text-left pf-normal-text"
       @focus="focused = true"
-      @focusout="handleFocusOut" 
+      @focusout="handleFocusOut"
     >
       {{ getSelectedText() }}
     </button>
 
     <div class="select-container" v-if="show">
       <div class="select-list-container">
-
-        <button 
-          type="button" 
-          class="text-white pf-normal-text" 
-          v-for="selecction in selecctions" 
+        <button
+          type="button"
+          class="text-white pf-normal-text"
+          v-for="selecction in selecctions"
+          :key="selecction.text"
           @click="() => selectSource(selecction)"
         >
           {{ selecction.text }}
         </button>
-
       </div>
     </div>
   </div>
@@ -126,5 +131,4 @@ async function handleFocusOut(_event: FocusEvent) {
 .input-container.focused {
   border-color: var(--color-white-900);
 }
-
 </style>

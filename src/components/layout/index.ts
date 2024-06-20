@@ -1,1 +1,1 @@
-export { default as CHeader } from "./CHeader.vue";
+export { default as CHeader } from './CHeader.vue';

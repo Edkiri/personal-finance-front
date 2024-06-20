@@ -23,7 +23,7 @@ defineEmits(['update:show']);
   right: 0;
   bottom: 0;
   opacity: 0;
-  transition: opacity .06s linear;
+  transition: opacity 0.06s linear;
   z-index: -1;
 }
 .modal-layout.show {

@@ -1,5 +1,8 @@
 export function formatString(inputString: string) {
-  return inputString.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();;
+  return inputString
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
 }
 
 export function validateFloat(string: string) {
@@ -12,8 +15,29 @@ export function formatFloat(n: number): string {
 }
 
 export function formatDate(date: Date, full: boolean = false): string {
-  const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-  const daysOfWeek = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  const months = [
+    'enero',
+    'febrero',
+    'marzo',
+    'abril',
+    'mayo',
+    'junio',
+    'julio',
+    'agosto',
+    'septiembre',
+    'octubre',
+    'noviembre',
+    'diciembre',
+  ];
+  const daysOfWeek = [
+    'domingo',
+    'lunes',
+    'martes',
+    'miércoles',
+    'jueves',
+    'viernes',
+    'sábado',
+  ];
 
   const day = date.getDate();
   const month = months[date.getMonth()];
@@ -21,5 +45,5 @@ export function formatDate(date: Date, full: boolean = false): string {
 
   const dayOfWeek = daysOfWeek[date.getDay()];
 
-  return `${dayOfWeek} ${day} de ${month} ${ full ? ` del ${year}` : ''} `;
+  return `${dayOfWeek} ${day} de ${month} ${full ? ` del ${year}` : ''} `;
 }

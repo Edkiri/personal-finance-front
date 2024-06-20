@@ -1,8 +1,5 @@
-<script setup lang="ts">
-import AccountTable from '@/accounts/components/AccountTable.vue';
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <AccountTable />  
+  <h1 class="text-white text-2xl">CashSave</h1>
 </template>

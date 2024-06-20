@@ -2,7 +2,12 @@
 import { onMounted, ref } from 'vue';
 import { CModal, CButtonOutline } from '@components/core';
 import { useExpenses } from '@/expenses/hooks';
-import { CreateExpenseForm, ExpensesListByDate, ExpenseStats, ExpenseFilterForm } from '@/expenses/components';
+import {
+  CreateExpenseForm,
+  ExpensesListByDate,
+  ExpenseStats,
+  ExpenseFilterForm,
+} from '@/expenses/components';
 
 const { expenses, findExpenses, filters } = useExpenses();
 
@@ -15,19 +20,17 @@ async function handleCreated() {
   await findExpenses();
   creating.value = false;
 }
-
 </script>
 
 <template>
   <div class="flex justify-between items-center pt-2 pr-2">
     <ExpenseFilterForm :filters="filters" />
-    
-    <CButtonOutline 
-      text="add expense" 
-      :click-function="() => creating = true" 
+
+    <CButtonOutline
+      text="add expense"
+      :click-function="() => (creating = true)"
       :width="120"
     />
-
   </div>
 
   <ExpenseStats :expenses="expenses" :filters="filters" />
@@ -36,7 +39,6 @@ async function handleCreated() {
   <CModal v-model:show="creating">
     <CreateExpenseForm :on-create="handleCreated" />
   </CModal>
-
 </template>
 
 <style scoped></style>

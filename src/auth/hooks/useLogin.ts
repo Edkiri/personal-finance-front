@@ -1,5 +1,5 @@
-import useAxios from "../../hooks/useAxios";
-import { useAuthStorage } from "../stores/useAuthStore";
+import useAxios from '../../hooks/useAxios';
+import { useAuthStorage } from '../stores/useAuthStore';
 
 export function useLogin() {
   const authStorage = useAuthStorage();
@@ -8,11 +8,11 @@ export function useLogin() {
 
   async function login(email: string, password: string): Promise<boolean> {
     const response = await fetchApi<{ access_token: string }>({
-      method: "POST",
+      method: 'POST',
       path: `auth/login`,
       payload: { email, password },
     });
-    if(response?.status === 200) {
+    if (response?.status === 200) {
       authStorage.token = response.data?.access_token;
       return true;
     }

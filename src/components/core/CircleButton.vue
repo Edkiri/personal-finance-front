@@ -1,13 +1,13 @@
 <template>
-  <button 
-    class="circle" 
-    :style="{...styles}" 
-    @mouseenter="focused = true" 
+  <button
+    class="circle"
+    :style="{ ...styles }"
+    @mouseenter="focused = true"
     @mouseleave="focused = false"
     @click="clickFunction"
   >
     <span>+</span>
-</button>
+  </button>
 </template>
 
 <script setup lang="ts">
