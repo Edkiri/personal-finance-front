@@ -26,7 +26,7 @@ import HomeFooter from './HomeFooter.vue';
   <HomeReviews class="mt-16" />
 
   <div
-    class="mt-16 rounded-sm flex flex-col gap-4 bg-neutral-200 dark:bg-neutral-800 p-4"
+    class="mt-16 rounded-lg flex flex-col gap-4 bg-neutral-200 dark:bg-neutral-800 p-4"
   >
     <p class="text-lg text-black dark:text-white">
       Hola! Soy Edu, el creador de esta app. La desarrollé primero para mi uso
