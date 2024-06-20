@@ -10,9 +10,9 @@ const email = ref<string>('');
 const password = ref<string>('');
 
 async function handleLogin() {
-  if(!password.value.length || !email.value.length) return;
+  if (!password.value.length || !email.value.length) return;
   const success = await login(email.value, password.value);
-  if(success) {
+  if (success) {
     router.push(ROUTES.EXPENSES);
   }
 }
@@ -20,7 +20,6 @@ async function handleLogin() {
 
 <template>
   <form>
-    
     <CInput v-model:text="email" label="Email" />
 
     <CInput v-model:text="password" label="Password" />
@@ -29,7 +28,6 @@ async function handleLogin() {
 
     <span v-if="!loading" class="form-error">{{ error }}</span>
     <span v-if="loading" class="loading">Loading..</span>
-    
   </form>
 </template>
 
