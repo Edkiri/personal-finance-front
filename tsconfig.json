@@ -24,8 +24,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@views/*": ["src/views/*"],
+      "@app/*": ["src/app/*"],
+      "@layout": ["src/layout/*"],
+      "@core/*": ["src/core/*"],
       "@hooks/*": ["src/hooks/*"],
     },
   },

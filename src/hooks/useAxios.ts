@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
-import { useAuthStorage } from '@/auth/stores/useAuthStore';
+import { useAuthStorage } from '@app/auth/stores/useAuthStore';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL as string;
 

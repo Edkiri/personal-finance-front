@@ -1,32 +1,14 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { CHeader } from '@components/layout';
-import { useAccountStore } from '@/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores';
 
 useAccountStore();
 </script>
 
 <template>
-  <div class="layout-container">
-    <CHeader />
+  <div class="max-w-6xl m-auto">
     <div class="body-container">
       <router-view></router-view>
     </div>
   </div>
 </template>
-
-<style scoped>
-.layout-container {
-  width: 100%;
-  position: relative;
-  margin: 0 auto;
-  border-left: 1px solid var(--color-white-300);
-  border-right: 1px solid var(--color-white-300);
-  min-height: 100vh;
-}
-.body-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-</style>

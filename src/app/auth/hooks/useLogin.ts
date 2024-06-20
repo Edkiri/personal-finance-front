@@ -1,4 +1,4 @@
-import useAxios from '../../hooks/useAxios';
+import useAxios from '@/hooks/useAxios';
 import { useAuthStorage } from '../stores/useAuthStore';
 
 export function useLogin() {

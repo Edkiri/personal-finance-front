@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { CTable, CModal, CButtonOutline } from '@/components/core';
-import { useDebts } from '@/debts/hooks/useDebts';
+import { useDebts } from '@/app/debts/hooks/useDebts';
 import { TableHeader } from '@/components/core/CTable.vue';
-import { CreateDebtForm, CreateDebtPaymentForm } from '@/debts/components';
-import { CreateDebtPaymentPayload } from '@/debts/components/CreateDebtPaymentForm.vue';
+import { CreateDebtForm, CreateDebtPaymentForm } from '@/app/debts/components';
+import { CreateDebtPaymentPayload } from '@/app/debts/components/CreateDebtPaymentForm.vue';
 
 const { debts, find, createPaymentDebt } = useDebts();
 
