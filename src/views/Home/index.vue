@@ -3,6 +3,9 @@ import CIcon from '@/core/CIcon.vue';
 import HomeReviews from './HomeReviews.vue';
 import HomeFooter from './HomeFooter.vue';
 import { router, ROUTES } from '@/router';
+import { AppStore } from '@/store/app-store';
+
+const store = AppStore();
 
 function handleStart() {
   router.push(ROUTES.SIGNUP);
@@ -23,7 +26,7 @@ function handleStart() {
         @click="handleStart"
         class="mt-4 text-black dark:text-white text-xl font-bold self-start bg-rose-500 hover:bg-rose-600 py-2 px-8 rounded-full"
       >
-        Empieza gratis ahora!
+        {{ store.accessToken ? 'Ir al dashboard' : 'Empieza gratis ahora!' }}
       </button>
     </div>
     <CIcon name="money" :size="300" class="ml-24" />
@@ -41,8 +44,8 @@ function handleStart() {
     </p>
     <p class="text-lg text-black dark:text-white">
       Los anteriores reviews son todos fake! El único review válido sería el
-      mío, y yo digo que está CALIDÁ! 😀 Ha sido el incentivo perfecto para
-      dejar de gastar dinero en tonterías, and save some money 😎
+      mío, y yo digo que está GUAY! Ha sido el incentivo perfecto para dejar de
+      gastar dinero en tonterías, and save some money 😎
     </p>
   </div>
 
