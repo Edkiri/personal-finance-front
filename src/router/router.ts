@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { useAuthStorage } from '@app/auth/stores/useAuthStore';
 import ROUTES from './routes';
+import { AppStore } from '@/store/app-store';
 
 const routes = [
   {
@@ -36,8 +36,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-  const authStore = useAuthStorage();
-  const isAuthenticated = authStore.token;
+  const store = AppStore();
+  const isAuthenticated = store.accessToken;
   if (to.meta.requiresAuth && !isAuthenticated) {
     next(ROUTES.LOGIN);
   } else {

@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import axios, { AxiosResponse } from 'axios';
-import { useAuthStorage } from '@app/auth/stores/useAuthStore';
+import { AppStore } from '@/store/app-store';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL as string;
 
@@ -14,9 +14,10 @@ const AxiosClient = axios.create({
 
 AxiosClient.interceptors.request.use(
   (config) => {
-    const authStorage = useAuthStorage();
-    if (authStorage.token) {
-      config.headers.Authorization = `Bearer ${authStorage.token}`;
+    const store = AppStore();
+
+    if (store.accessToken) {
+      config.headers.Authorization = `Bearer ${store.accessToken}`;
     }
     return config;
   },

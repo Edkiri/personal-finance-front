@@ -1,8 +1,8 @@
 import useAxios from '@/hooks/useAxios';
-import { useAuthStorage } from '../stores/useAuthStore';
+import { AppStore } from '@/store/app-store';
 
 export function useLogin() {
-  const authStorage = useAuthStorage();
+  const store = AppStore();
 
   const { fetchApi, error, loading } = useAxios();
 
@@ -13,7 +13,7 @@ export function useLogin() {
       payload: { email, password },
     });
     if (response?.status === 200) {
-      authStorage.token = response.data?.access_token;
+      store.accessToken = response.data?.access_token;
       return true;
     }
     return false;

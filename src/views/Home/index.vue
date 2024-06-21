@@ -20,7 +20,7 @@ import HomeFooter from './HomeFooter.vue';
         Empieza gratis ahora!
       </button>
     </div>
-    <CIcon name="money" :size="350" />
+    <CIcon name="money" :size="300" class="ml-24" />
   </div>
 
   <HomeReviews class="mt-16" />
