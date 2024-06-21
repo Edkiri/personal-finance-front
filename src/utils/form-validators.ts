@@ -4,7 +4,7 @@ const validators = {
     errorMessage: 'Ingresa una dirección de correo válido',
   },
   password: {
-    pattern: /.{9,}/,
+    pattern: /.{8,}/,
     errorMessage: 'Ingresa una contraseña de al menos 8 caracteres',
   },
   spainPhoneNumber: {

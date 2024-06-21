@@ -2,6 +2,11 @@
 import CIcon from '@/core/CIcon.vue';
 import HomeReviews from './HomeReviews.vue';
 import HomeFooter from './HomeFooter.vue';
+import { router, ROUTES } from '@/router';
+
+function handleStart() {
+  router.push(ROUTES.SIGNUP);
+}
 </script>
 
 <template>
@@ -15,6 +20,7 @@ import HomeFooter from './HomeFooter.vue';
         categorías para una mejor comprensión de tus finanzas.
       </p>
       <button
+        @click="handleStart"
         class="mt-4 text-black dark:text-white text-xl font-bold self-start bg-rose-500 hover:bg-rose-600 py-2 px-8 rounded-full"
       >
         Empieza gratis ahora!

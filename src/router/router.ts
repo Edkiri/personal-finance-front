@@ -8,10 +8,15 @@ const routes = [
     component: () => import('@/views/Home/index.vue'),
     meta: { requiresAuth: false },
   },
-  // {
-  //   path: ROUTES.LOGIN,
-  //   component: () => import('@/views/auth/Login.vue'),
-  // },
+  {
+    path: ROUTES.SIGNUP,
+    component: () => import('@app/auth/views/Signup.vue'),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: ROUTES.LOGIN,
+    component: () => import('@app/auth/views/Login.vue'),
+  },
   // {
   //   path: ROUTES.EXPENSES,
   //   component: () => import('@/views/expenses/ExpenseListView.vue'),
