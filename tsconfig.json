@@ -30,6 +30,13 @@
       "@core/*": ["src/core/*"],
       "@hooks/*": ["src/hooks/*"],
     },
+
+    /* Types */
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ]
+
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }],
