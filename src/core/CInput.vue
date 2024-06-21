@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 interface InputProps {
   text: string;
   label: string;
   type?: string;
 }
-defineProps<InputProps>();
+const props = defineProps<InputProps>();
 
 const input = ref<HTMLInputElement>();
 const focused = ref(false);
+
+const isLabelTop = computed(() => focused.value || props.text.length);
 
 function focusInput() {
   if (input.value) {
@@ -20,9 +22,15 @@ function focusInput() {
 </script>
 
 <template>
-  <div class="input-container" :class="{ focused }" @click="focusInput">
+  <div
+    :class="[
+      'w-full min-h-[45px] relative flex flex-col items-center justify-center border rounded',
+      `${focused ? 'border-neutral-800 dark:border-neutral-200' : 'border-neutral-400 dark:border-neutral-600'}`,
+    ]"
+    @click="focusInput"
+  >
     <input
-      class="input pf-normal-text"
+      class="w-full text-black dark:text-white bg-transparent outline-none px-4"
       :type="type ?? 'text'"
       ref="input"
       :value="text"
@@ -30,69 +38,14 @@ function focusInput() {
       @focus="focused = true"
       @focusout="focused = false"
     />
-    <div class="label-container">
-      <label
-        class="input-label pf-medium-text"
-        :class="{ 'input-label-centered': text.length || focused }"
-        >{{ label }}</label
-      >
-    </div>
+    <label
+      :class="[
+        'text-neutral-700 dark:text-neutral-300 bg-white dark:bg-black',
+        'block pointer-events-none absolute left-2 top-1/2 px-2',
+        'transition-transform ease-in-out duration-100',
+        `${isLabelTop ? 'text-sm -translate-y-9' : '-translate-y-1/2'}`,
+      ]"
+      >{{ label }}</label
+    >
   </div>
 </template>
-
-<style scoped>
-.input-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--color-white-300);
-  border-radius: 4px;
-  min-height: 50px;
-  cursor: text;
-}
-.input-container:hover {
-  border: 1px solid var(--color-white-500);
-}
-
-.input-container.focused {
-  border-color: rgb(173, 172, 172);
-}
-
-.input {
-  background-color: transparent;
-  display: block;
-  width: 100%;
-  color: var(--color-white-900);
-  outline: none;
-  padding-left: 16px;
-}
-.input-label {
-  position: absolute;
-  display: block;
-  font-size: 15px;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-  transition:
-    top 0.1s ease-in-out,
-    left 0.1s ease-in-out;
-  pointer-events: none;
-  z-index: 20;
-  padding: 0px 4px;
-  background-color: var(--color-background);
-  color: var(--color-white-300);
-}
-.input-container:hover .input-label {
-  color: var(--color-white-500);
-}
-
-.input-label-centered {
-  top: -4px;
-  padding: 0px 8px;
-  font-size: 14px;
-  background-color: var(--color-background);
-  color: var(--color-white-500);
-}
-</style>
