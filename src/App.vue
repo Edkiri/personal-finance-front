@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import { useAccountStore } from '@/app/accounts/stores';
 import { CHeader } from './layout';
-
-useAccountStore();
 </script>
 
 <template>
