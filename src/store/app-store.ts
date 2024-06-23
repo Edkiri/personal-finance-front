@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useTheme } from '@/hooks/useTheme';
 import { useLocalStorage } from '@/hooks';
+import { useUserProfile } from '@/app/users/hooks';
 
 export const AppStore = defineStore('app', () => {
   // Theme
@@ -9,5 +10,8 @@ export const AppStore = defineStore('app', () => {
   // Auth
   const accessToken = useLocalStorage<string>('access_token');
 
-  return { accessToken, theme, changeTheme };
+  // User
+  const { userProfile } = useUserProfile();
+
+  return { accessToken, userProfile, theme, changeTheme };
 });
