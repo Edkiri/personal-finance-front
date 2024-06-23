@@ -7,6 +7,11 @@ import { useLogout } from '@/app/auth/hooks';
 const appStore = AppStore();
 
 const logout = useLogout();
+
+function handleLogout() {
+  logout();
+  router.push(ROUTES.HOME);
+}
 </script>
 
 <template>
@@ -30,7 +35,7 @@ const logout = useLogout();
 
       <button
         v-if="appStore.accessToken"
-        @click="logout"
+        @click="handleLogout"
         class="text-sm text-red-600 dark:text-red-400 hover:underline"
       >
         Cerrar sesión

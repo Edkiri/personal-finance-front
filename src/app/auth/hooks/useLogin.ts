@@ -19,6 +19,7 @@ export function useLogin() {
     });
     if (response?.status === 200) {
       store.accessToken = response.data?.access_token;
+      await store.getUserProfile();
       return true;
     }
     return false;

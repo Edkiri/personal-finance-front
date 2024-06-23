@@ -16,6 +16,17 @@ const routes = [
   {
     path: ROUTES.LOGIN,
     component: () => import('@app/auth/views/Login.vue'),
+    meta: { requiresAuth: false },
+  },
+  {
+    path: ROUTES.ONBOARDING,
+    component: () => import('@app/dashboard/views/OnBoarding.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: ROUTES.DASHBOARD,
+    component: () => import('@app/dashboard/views/Dashboard.vue'),
+    meta: { requiresAuth: true, requiresOnboarding: true },
   },
   // {
   //   path: ROUTES.EXPENSES,
@@ -43,11 +54,17 @@ const router = createRouter({
 router.beforeEach((to, _from, next) => {
   const store = AppStore();
   const isAuthenticated = store.accessToken;
+  const isOnboarded = store.user?.profile.onboarded;
+
   if (to.meta.requiresAuth && !isAuthenticated) {
     next(ROUTES.LOGIN);
-  } else {
-    next();
   }
+
+  if (to.meta.requiresOnboarding && !isOnboarded) {
+    next(ROUTES.ONBOARDING);
+  }
+
+  next();
 });
 
 export default router;

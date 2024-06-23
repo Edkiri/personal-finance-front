@@ -8,7 +8,7 @@ import { AppStore } from '@/store/app-store';
 const store = AppStore();
 
 function handleStart() {
-  router.push(ROUTES.SIGNUP);
+  router.push(ROUTES.DASHBOARD);
 }
 </script>
 

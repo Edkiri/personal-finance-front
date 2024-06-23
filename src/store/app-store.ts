@@ -11,7 +11,7 @@ export const AppStore = defineStore('app', () => {
   const accessToken = useLocalStorage<string>('access_token');
 
   // User
-  const { userProfile } = useUserProfile();
+  const { user, getUserProfile } = useUserProfile();
 
-  return { accessToken, userProfile, theme, changeTheme };
+  return { accessToken, user, getUserProfile, theme, changeTheme };
 });

@@ -42,8 +42,7 @@ async function handleSubmit(): Promise<void> {
   });
 
   if (success) {
-    // TODO: Trigger a toast with success login info
-    router.push(ROUTES.HOME);
+    router.push(ROUTES.DASHBOARD);
   }
 }
 </script>

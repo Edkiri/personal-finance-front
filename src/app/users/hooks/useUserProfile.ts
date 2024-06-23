@@ -16,7 +16,7 @@ interface User {
 }
 
 export function useUserProfile() {
-  const userProfile = ref<User | null>(null);
+  const user = ref<User | null>(null);
   const store = AppStore();
 
   const { fetchApi, error, loading } = useAxios();
@@ -24,9 +24,9 @@ export function useUserProfile() {
   async function getUserProfile(): Promise<void> {
     const response = await fetchApi<User>({ path: 'users/profile' });
     if (response?.status === 200) {
-      userProfile.value = response.data;
+      user.value = response.data;
     } else {
-      userProfile.value = null;
+      user.value = null;
     }
   }
 
@@ -38,14 +38,12 @@ export function useUserProfile() {
 
   watch(
     () => store.accessToken,
-    async (newToken: string | null | undefined) => {
-      if (newToken) {
-        await getUserProfile();
-      } else {
-        userProfile.value = null;
+    async (newToken: string | null | undefined): Promise<void> => {
+      if (!newToken) {
+        user.value = null;
       }
     },
   );
 
-  return { userProfile, getUserProfile, error, loading };
+  return { user, getUserProfile, error, loading };
 }
