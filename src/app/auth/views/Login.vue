@@ -34,7 +34,7 @@ function validateForm(): boolean {
 
 async function handleSubmit(): Promise<void> {
   const validated = validateForm();
-  if (!validated) return;
+  if (!validated || loading.value) return;
 
   const success = await login({
     email: formData.email.value,
@@ -52,7 +52,7 @@ async function handleSubmit(): Promise<void> {
   <form class="max-w-[450px] m-auto p-4 mt-8">
     <div class="flex flex-col">
       <h1 class="text-black dark:text-white font-bold text-center text-xl">
-        Inicio sesión!
+        Inicia sesión!
       </h1>
     </div>
 
@@ -62,13 +62,15 @@ async function handleSubmit(): Promise<void> {
         v-model:value="formData.email.value"
         v-model:error="formData.email.error"
         :validator="FORM_VALIDATORS.email"
+        :disabled="loading"
       />
       <CInput
+        type="password"
+        label="Contraseña"
         v-model:value="formData.password.value"
         v-model:error="formData.password.error"
         :validator="FORM_VALIDATORS.password"
-        label="Contraseña"
-        type="password"
+        :disabled="loading"
       />
       <div class="flex gap-2 items-center">
         <p class="text-neutral-700 dark:text-neutral-300 text-base">
@@ -85,7 +87,7 @@ async function handleSubmit(): Promise<void> {
         @click="handleSubmit"
         class="text-black font-bold dark:text-white text-lg self-start bg-rose-500 hover:bg-rose-600 py-1 rounded-sm w-full"
       >
-        Loding
+        Iniciar sesión
       </button>
       <CLoading :loading="loading" class="self-center" />
       <p class="text-red-600 dark:text-red-400">{{ error }}</p>

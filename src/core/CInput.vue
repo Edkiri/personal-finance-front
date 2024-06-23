@@ -6,11 +6,15 @@ interface InputProps {
   value: string;
   label: string;
   error?: string;
+  disabled?: boolean;
   validator?: FormValidator;
   type?: string;
 }
 
-const props = defineProps<InputProps>();
+const props = withDefaults(defineProps<InputProps>(), {
+  disabled: false,
+});
+
 const emit = defineEmits(['update:error', 'update:value']);
 
 const input = ref<HTMLInputElement>();
@@ -19,7 +23,7 @@ const focused = ref(false);
 const isLabelTop = computed(() => focused.value || props.value.length);
 
 function focusInput() {
-  if (input.value) {
+  if (input.value && !props.disabled) {
     focused.value = true;
     input.value.focus();
   }
@@ -56,13 +60,14 @@ function handleFocusOut() {
             ? 'border-neutral-800 dark:border-neutral-200'
             : 'border-neutral-400 dark:border-neutral-600'
         }`,
-        { 'border-red-600 dark:border-red-400': error },
+        { 'border-red-600 dark:border-red-400': error, 'opacity-80': disabled },
       ]"
       @click="focusInput"
     >
       <input
         class="w-full text-black dark:text-white bg-transparent outline-none px-4"
         :type="type ?? 'text'"
+        :disabled="disabled"
         ref="input"
         :value="value"
         @input="

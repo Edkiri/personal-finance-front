@@ -18,6 +18,10 @@ const formData = reactive({
     value: '',
     error: '',
   },
+  passwordConfirmation: {
+    value: '',
+    error: '',
+  },
 });
 
 const { signup, loading, error } = useSignup();
@@ -38,7 +42,11 @@ function validateForm(): boolean {
 
 async function handleSubmit(): Promise<void> {
   const validated = validateForm();
-  if (!validated) return;
+  if (!validated || loading.value) return;
+
+  if (formData.password.value !== formData.passwordConfirmation.value) {
+    formData.passwordConfirmation.error = 'La contraseña con coincide';
+  }
 
   const created = await signup({
     email: formData.email.value,
@@ -82,6 +90,12 @@ async function handleSubmit(): Promise<void> {
         v-model:error="formData.password.error"
         :validator="FORM_VALIDATORS.password"
         label="Contraseña"
+        type="password"
+      />
+      <CInput
+        v-model:value="formData.passwordConfirmation.value"
+        v-model:error="formData.passwordConfirmation.error"
+        label="Confirmar contraseña"
         type="password"
       />
       <div class="flex gap-2 items-center">

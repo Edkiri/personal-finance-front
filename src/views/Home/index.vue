@@ -45,7 +45,7 @@ function handleStart() {
     <p class="text-lg text-black dark:text-white">
       Los anteriores reviews son todos fake! El único review válido sería el
       mío, y yo digo que está GUAY! Ha sido el incentivo perfecto para dejar de
-      gastar dinero en tonterías, and save some money 😎
+      gastar dinero en tonterías, and save some money!
     </p>
   </div>
 
