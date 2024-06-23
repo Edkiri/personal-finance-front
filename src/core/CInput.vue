@@ -51,7 +51,7 @@ function handleFocusOut() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-1 w-full">
     <div
       :class="[
         'relative w-full min-h-[45px] flex flex-col items-center justify-center border rounded cursor-text',

@@ -2,7 +2,7 @@ import { onMounted, ref } from 'vue';
 import useAxios from '@/hooks/useAxios';
 
 export type Currency = {
-  id: string;
+  id: number;
   name: string;
   symbol: string;
 };
@@ -10,7 +10,7 @@ export type Currency = {
 export function useCurrencies() {
   const currencies = ref<Currency[]>([]);
 
-  const { fetchApi } = useAxios();
+  const { fetchApi, loading } = useAxios();
 
   async function find() {
     const response = await fetchApi<Currency[]>({ path: 'currencies' });
@@ -23,5 +23,5 @@ export function useCurrencies() {
     find();
   });
 
-  return { currencies };
+  return { currencies, loading };
 }

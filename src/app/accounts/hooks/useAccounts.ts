@@ -1,38 +1,33 @@
 import { computed, onMounted, ref } from 'vue';
 import { useAxios } from '@/hooks';
+import { Currency } from './useCurrencies';
 
-type Bank = {
-  id: number;
-  name: string;
-  description?: string;
-};
-type Currency = {
-  id: number;
-  name: string;
-  symbol: string;
-};
 export type Account = {
-  id: number;
   name: string;
-  amount: number;
-  bank: Bank;
+  amount: string;
+  bank: string;
+  currencyId: string;
+  description: string;
+};
+
+export type AccountWithId = Account & {
+  id: number;
   currency: Currency;
-  description?: string;
   mixedName?: string;
 };
 
 export function useAccounts() {
-  const accounts = ref<Account[]>([]);
+  const accounts = ref<AccountWithId[]>([]);
 
   const { fetchApi } = useAxios();
 
   async function fetchAccounts() {
-    const response = await fetchApi<Account[]>({ path: `accounts` });
+    const response = await fetchApi<AccountWithId[]>({ path: `accounts` });
 
     if (response?.status === 200) {
       accounts.value = response.data.map((account) => ({
         ...account,
-        mixedName: `${account.bank.name} - ${account.name} - ${account.amount} ${account.currency.symbol}`,
+        mixedName: `${account.bank} - ${account.name} - ${account.amount} ${account.currency.symbol}`,
       }));
     }
   }
