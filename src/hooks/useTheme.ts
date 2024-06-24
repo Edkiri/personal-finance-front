@@ -1,7 +1,14 @@
-import { ref } from 'vue';
+import { onMounted } from 'vue';
+import useLocalStorage from './useLocalStorage';
 
 export function useTheme() {
-  const theme = ref('dark');
+  const theme = useLocalStorage<string>('user_theme', 'light');
+
+  onMounted(() => {
+    if (theme.value === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  });
 
   function changeTheme() {
     if (document.documentElement.classList.contains('dark')) {

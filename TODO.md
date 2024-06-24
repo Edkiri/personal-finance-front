@@ -1,6 +1,8 @@
 [x] Agregar 'required' a CInputProps y manejar estilos y validaciones
 [x] Cambiar CSelection a Tailwind
-[ ] Outline CButton
+[x] Outline CButton
+[ ] Add side borders on CSelection list
 [ ] Onboarding view
-    [X] Elegir monedas
-    * Crear cuentas
+    * [X] Elegir monedas
+    * [ ] Crear cuentas
+    * [ ] Elegir tema

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, Ref, ref } from 'vue';
+import { onMounted, reactive, Ref, ref } from 'vue';
 import { Account } from '@/app/accounts/hooks/useAccounts';
 import AccountCreateForm from '@/app/accounts/components/AccountCreateForm.vue';
 import CurrenciesSelector from '@/app/accounts/components/CurrenciesSelector.vue';
@@ -68,6 +68,7 @@ onMounted(() => {
       <div class="flex justify-between">
         <CButton
           text="Anterior"
+          outlined
           :click-function="() => (currentStep = steps.CURRENCIES)"
         />
         <CButton text="Siguiente" />
