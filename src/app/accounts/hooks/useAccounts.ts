@@ -7,7 +7,6 @@ export type Account = {
   amount: string;
   bank: string;
   currencyId: string;
-  description: string;
 };
 
 export type AccountWithId = Account & {

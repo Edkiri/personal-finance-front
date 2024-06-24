@@ -13,8 +13,12 @@ interface SelectionProps {
   selectedValue: any;
   label: string;
   disabled?: boolean;
+  required?: boolean;
 }
-const props = defineProps<SelectionProps>();
+const props = withDefaults(defineProps<SelectionProps>(), {
+  disabled: false,
+  required: true,
+});
 const emit = defineEmits(['update:selectedValue']);
 
 const focused = ref(false);
@@ -74,7 +78,12 @@ async function handleFocusOut() {
         'transition-transform ease-in-out duration-100',
         `${isLabelTop ? 'text-sm -translate-y-9' : '-translate-y-1/2'}`,
       ]"
-      >{{ label }}</label
+      >{{ label }}
+      <span
+        v-if="required && !isLabelTop"
+        class="text-red-600 font-bold dark:text-red-400"
+        >*</span
+      ></label
     >
 
     <div v-if="show" :class="['absolute right-[-1px] left-[-1px] top-[45px]']">

@@ -20,7 +20,7 @@ const routes = [
   },
   {
     path: ROUTES.ONBOARDING,
-    component: () => import('@app/dashboard/views/OnBoarding.vue'),
+    component: () => import('@/app/auth/views/OnBoarding.vue'),
     meta: { requiresAuth: true },
   },
   {

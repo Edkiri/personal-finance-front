@@ -47,3 +47,13 @@ export function formatDate(date: Date, full: boolean = false): string {
 
   return `${dayOfWeek} ${day} de ${month} ${full ? ` del ${year}` : ''} `;
 }
+
+export function range(end: number): number[] {
+  const result: number[] = [];
+
+  for (let i = 0; i < end; i += 1) {
+    result.push(i);
+  }
+
+  return result;
+}

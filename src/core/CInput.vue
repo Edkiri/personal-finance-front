@@ -9,10 +9,12 @@ interface InputProps {
   disabled?: boolean;
   validator?: FormValidator;
   type?: string;
+  required?: boolean;
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
+  required: true,
 });
 
 const emit = defineEmits(['update:error', 'update:value']);
@@ -83,7 +85,12 @@ function handleFocusOut() {
           'transition-transform ease-in-out duration-100',
           `${isLabelTop ? 'text-sm -translate-y-9' : '-translate-y-1/2'}`,
         ]"
-        >{{ label }}</label
+        >{{ label }}
+        <span
+          v-if="required && !isLabelTop"
+          class="text-red-600 font-bold dark:text-red-400"
+          >*</span
+        ></label
       >
     </div>
     <span class="text-xs text-red-600 dark:text-red-400">{{ error }}</span>

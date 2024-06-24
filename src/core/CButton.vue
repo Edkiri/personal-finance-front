@@ -1,48 +1,32 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 interface ButtonProps {
   text: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
   clickFunction?: () => void;
-  color?: string;
   loading?: boolean;
-  backgroundColor?: string;
-  width?: string;
+  disabled?: boolean;
 }
-const props = defineProps<ButtonProps>();
+const props = withDefaults(defineProps<ButtonProps>(), {
+  disabled: false,
+  loading: false,
+});
 
-const textColor = props.color ?? 'var(--color-white-900)';
-const textBackgroundColor = props.backgroundColor ?? 'var(--color-primary)';
+const isDisabled = computed(() => props.disabled || props.loading);
 </script>
 
 <template>
-  <div class="btn-container">
-    <button
-      class="button pf-bold-text"
-      :type="type ? type : 'button'"
-      @click="clickFunction"
-      :disabled="loading"
-      :style="{
-        color: textColor,
-        backgroundColor: textBackgroundColor,
-        width: width ?? '100%',
-      }"
-    >
-      {{ text }}
-    </button>
-  </div>
+  <button
+    class="text-black dark:text-white bg-rose-500 py-2 px-8 rounded-full"
+    :class="{
+      'opacity-50 cursor-default': isDisabled,
+      'hover:bg-rose-600': !isDisabled,
+    }"
+    :type="type ? type : 'button'"
+    @click="clickFunction"
+    :disabled="isDisabled"
+  >
+    {{ text }}
+  </button>
 </template>
-
-<style scoped>
-.button {
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  padding: 6px 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  min-width: 120px;
-  outline: none;
-}
-</style>
