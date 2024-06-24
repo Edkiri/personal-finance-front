@@ -86,7 +86,13 @@ async function handleFocusOut() {
       ></label
     >
 
-    <div v-if="show" :class="['absolute right-[-1px] left-[-1px] top-[45px]']">
+    <div
+      v-if="show"
+      :class="[
+        'absolute right-[-1px] left-[-1px] top-[45px]',
+        'border-b border-l border-r border-neutral-300 dark:border-neutral-700',
+      ]"
+    >
       <div class="flex flex-col">
         <button
           type="button"
