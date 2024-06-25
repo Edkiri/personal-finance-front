@@ -5,6 +5,8 @@ export function useLogout() {
 
   function logout() {
     store.accessToken = undefined;
+    store.user = null;
+    localStorage.clear();
   }
 
   return logout;
