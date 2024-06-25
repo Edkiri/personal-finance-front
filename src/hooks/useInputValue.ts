@@ -1,10 +1,10 @@
 import { ref } from 'vue';
-import type { InputValidator } from '@/types/form-validators';
+import type { InputValidator, InputValues } from '@/types/form-validators';
 
 export function useInputValue(
   initialValue?: string,
   validator?: InputValidator,
-) {
+): InputValues {
   const text = ref<string>(initialValue ?? '');
   const error = ref<string>('');
 

@@ -3,6 +3,7 @@ import { useAxios } from '@/hooks';
 import { Currency } from './useCurrencies';
 
 export type Account = {
+  temporaryId: string;
   name: string;
   amount: string;
   bank: string;

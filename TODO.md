@@ -5,5 +5,5 @@
 * [x] Crear useInputValue para validar strings y numbers
 * [ ] Onboarding view
     * [X] Elegir monedas
-    * [ ] Crear cuenta
+    * [ ] Crear cuentas
     * [ ] Elegir tema

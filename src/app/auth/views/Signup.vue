@@ -19,9 +19,11 @@ function validateForm(): boolean {
   const errors = Object.values(formData)
     .map((inputValue) => inputValue.error)
     .filter((item) => item);
+
   if (errors.length > 0) {
     return false;
   }
+
   return true;
 }
 

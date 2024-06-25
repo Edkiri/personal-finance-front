@@ -4,7 +4,7 @@ export interface InputValidator {
 }
 
 export interface InputValues {
-  text: string;
-  error: string;
+  text: Ref<string>;
+  error: Ref<string>;
   validate: () => void;
 }

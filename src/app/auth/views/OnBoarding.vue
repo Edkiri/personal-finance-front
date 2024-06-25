@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import { reactive, Ref } from 'vue';
+import { Ref } from 'vue';
 import { Account } from '@/app/accounts/hooks/useAccounts';
 import AccountCreateForm from '@/app/accounts/components/AccountCreateForm.vue';
 import CurrenciesSelector from '@/app/accounts/components/CurrenciesSelector.vue';
-import { CButton } from '@/core';
 import OnBoardingSteps from '../components/OnBoardingSteps.vue';
 import { Currency } from '@/app/accounts/hooks/useCurrencies';
 import { useLocalStorage } from '@/hooks';
+import { CButton } from '@/core';
 
 const accounts = useLocalStorage<Account[]>('onboarding_accounts', []) as Ref<
   Account[]
 >;
+
 const userCurrencies = useLocalStorage<Currency[]>(
-  'onboaring_currencies',
+  'onboarding_currencies',
   [],
 ) as Ref<Currency[]>;
 
-const steps = reactive({
+const STEPS = {
   CURRENCIES: 1,
   ACCOUNTS: 2,
   THEME: 3,
-});
+};
+
 const currentStep = useLocalStorage<number>(
-  'onboaring_step',
-  steps.CURRENCIES,
+  'onboarding_step',
+  STEPS.CURRENCIES,
 ) as Ref<number>;
 </script>
 
@@ -38,22 +40,22 @@ const currentStep = useLocalStorage<number>(
       </p>
     </div>
     <OnBoardingSteps
-      :steps="Object.keys(steps).length"
+      :steps="Object.keys(STEPS).length"
       :current-step="currentStep"
     />
-    <div class="flex flex-col" v-if="currentStep === steps.CURRENCIES">
+    <div class="flex flex-col" v-if="currentStep === STEPS.CURRENCIES">
       <CurrenciesSelector v-model:currencies="userCurrencies" />
 
       <div class="flex justify-end">
         <CButton
           text="Siguiente"
           :disabled="userCurrencies.length < 1"
-          :click-function="() => (currentStep = steps.ACCOUNTS)"
+          :click-function="() => (currentStep = STEPS.ACCOUNTS)"
         />
       </div>
     </div>
 
-    <div class="flex flex-col" v-if="currentStep === steps.ACCOUNTS">
+    <div class="flex flex-col" v-if="currentStep === STEPS.ACCOUNTS">
       <AccountCreateForm
         :user-currencies="userCurrencies"
         v-model:accounts="accounts"
@@ -62,7 +64,7 @@ const currentStep = useLocalStorage<number>(
         <CButton
           text="Anterior"
           outlined
-          :click-function="() => (currentStep = steps.CURRENCIES)"
+          :click-function="() => (currentStep = STEPS.CURRENCIES)"
         />
         <CButton text="Siguiente" />
       </div>
