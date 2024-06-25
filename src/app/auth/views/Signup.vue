@@ -1,57 +1,42 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { useSignup } from '@app/auth/hooks/useSignup';
-import { CInput, CLoading } from '@/core';
 import { router, ROUTES } from '@/router';
-import FORM_VALIDATORS from '@/utils/form-validators';
+import { useInputValue } from '@/hooks';
+import validators from '@/utils/form-validators';
+import { CInput, CLoading } from '@/core';
 
 const formData = reactive({
-  email: {
-    value: '',
-    error: '',
-  },
-  username: {
-    value: '',
-    error: '',
-  },
-  password: {
-    value: '',
-    error: '',
-  },
-  passwordConfirmation: {
-    value: '',
-    error: '',
-  },
+  email: useInputValue('', validators.email),
+  username: useInputValue('', validators.username),
+  password: useInputValue('', validators.password),
+  passwordConfirmation: useInputValue(''),
 });
 
 const { signup, loading, error } = useSignup();
 
 function validateForm(): boolean {
-  const errors = Object.values(formData).map((input) => input.error);
-  if (errors.some((item) => item.length)) {
+  const errors = Object.values(formData)
+    .map((inputValue) => inputValue.error)
+    .filter((item) => item);
+  if (errors.length > 0) {
     return false;
   }
-
-  const values = Object.values(formData).map((input) => input.value);
-  if (values.some((item) => !item.length)) {
-    return false;
-  }
-
   return true;
 }
 
 async function handleSubmit(): Promise<void> {
-  const validated = validateForm();
-  if (!validated || loading.value) return;
-
-  if (formData.password.value !== formData.passwordConfirmation.value) {
-    formData.passwordConfirmation.error = 'La contraseña con coincide';
+  if (formData.password.text !== formData.passwordConfirmation.text) {
+    error.value = 'La contraseña con coincide';
+    return;
   }
+  const validated = validateForm();
 
+  if (!validated || loading.value) return;
   const created = await signup({
-    email: formData.email.value,
-    password: formData.password.value,
-    username: formData.username.value,
+    email: formData.email.text,
+    password: formData.password.text,
+    username: formData.username.text,
   });
 
   if (created) {
@@ -75,28 +60,21 @@ async function handleSubmit(): Promise<void> {
     <div class="flex flex-col gap-6 mt-8">
       <CInput
         label="Correo electrónico"
-        v-model:value="formData.email.value"
-        v-model:error="formData.email.error"
-        :validator="FORM_VALIDATORS.email"
+        v-model:input-values="formData.email"
       />
       <CInput
-        v-model:value="formData.username.value"
-        v-model:error="formData.username.error"
-        :validator="FORM_VALIDATORS.username"
         label="Nombre de usuario"
+        v-model:input-values="formData.username"
       />
       <CInput
-        v-model:value="formData.password.value"
-        v-model:error="formData.password.error"
-        :validator="FORM_VALIDATORS.password"
         label="Contraseña"
         type="password"
+        v-model:input-values="formData.password"
       />
       <CInput
-        v-model:value="formData.passwordConfirmation.value"
-        v-model:error="formData.passwordConfirmation.error"
         label="Confirmar contraseña"
         type="password"
+        v-model:input-values="formData.passwordConfirmation"
       />
       <div class="flex gap-2 items-center">
         <p class="text-neutral-700 dark:text-neutral-300 text-base">

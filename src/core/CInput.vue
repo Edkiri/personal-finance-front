@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { FormValidator } from '@/types/form-validators';
+import { computed, ref, watch } from 'vue';
+import type { InputValues } from '@/types/form-validators';
 
 interface InputProps {
-  value: string;
+  inputValues: InputValues;
   label: string;
-  error?: string;
   disabled?: boolean;
-  validator?: FormValidator;
   type?: string;
   required?: boolean;
 }
@@ -15,14 +13,26 @@ interface InputProps {
 const props = withDefaults(defineProps<InputProps>(), {
   disabled: false,
   required: true,
+  type: 'text',
 });
 
-const emit = defineEmits(['update:error', 'update:value']);
+const emit = defineEmits(['update:inputValues']);
+const localInputValues = ref<InputValues>(props.inputValues);
+
+watch(
+  () => localInputValues,
+  (newValue) => {
+    emit('update:inputValues', newValue);
+  },
+  { deep: true },
+);
 
 const input = ref<HTMLInputElement>();
 const focused = ref(false);
 
-const isLabelTop = computed(() => focused.value || props.value.length);
+const isLabelTop = computed(
+  () => focused.value || localInputValues.value.text.length >= 1,
+);
 
 function focusInput() {
   if (input.value && !props.disabled) {
@@ -33,22 +43,12 @@ function focusInput() {
 
 function handleFocus() {
   focused.value = true;
-  emit('update:error', '');
+  localInputValues.value.error = '';
 }
 
 function handleFocusOut() {
   focused.value = false;
-  if (
-    props.error === undefined ||
-    props.validator === undefined ||
-    !props.value.length
-  ) {
-    return;
-  }
-  const isValid = props.validator.pattern.test(props.value);
-  if (!isValid) {
-    emit('update:error', props.validator.errorMessage);
-  }
+  localInputValues.value.validate();
 }
 </script>
 
@@ -62,18 +62,21 @@ function handleFocusOut() {
             ? 'border-neutral-800 dark:border-neutral-200'
             : 'border-neutral-400 dark:border-neutral-600'
         }`,
-        { 'border-red-600 dark:border-red-400': error, 'opacity-80': disabled },
+        {
+          'border-red-600 dark:border-red-400': localInputValues.error,
+          'opacity-80': disabled,
+        },
       ]"
       @click="focusInput"
     >
       <input
-        class="w-full text-black dark:text-white bg-transparent outline-none px-4"
-        :type="type ?? 'text'"
-        :disabled="disabled"
         ref="input"
-        :value="value"
+        class="w-full text-black dark:text-white bg-transparent outline-none px-4"
+        :type="type"
+        :disabled="disabled"
+        :value="localInputValues.text"
         @input="
-          $emit('update:value', ($event.target as HTMLInputElement).value)
+          localInputValues.text = ($event.target as HTMLInputElement).value
         "
         @focus="handleFocus"
         @focusout="handleFocusOut"
@@ -93,6 +96,8 @@ function handleFocusOut() {
         ></label
       >
     </div>
-    <span class="text-xs text-red-600 dark:text-red-400">{{ error }}</span>
+    <span class="text-xs text-red-600 dark:text-red-400">{{
+      localInputValues.error
+    }}</span>
   </div>
 </template>
