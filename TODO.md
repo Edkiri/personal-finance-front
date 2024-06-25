@@ -2,6 +2,7 @@
 [x] Cambiar CSelection a Tailwind
 [x] Outline CButton
 [x] Add side borders on CSelection list
+[ ] Crear useInputValue para validar strings y numbers
 [ ] Onboarding view
     * [X] Elegir monedas
     * [ ] Crear cuenta

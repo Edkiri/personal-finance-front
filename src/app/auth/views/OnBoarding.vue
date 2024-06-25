@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, Ref, ref } from 'vue';
+import { reactive, Ref } from 'vue';
 import { Account } from '@/app/accounts/hooks/useAccounts';
 import AccountCreateForm from '@/app/accounts/components/AccountCreateForm.vue';
 import CurrenciesSelector from '@/app/accounts/components/CurrenciesSelector.vue';
@@ -8,7 +8,9 @@ import OnBoardingSteps from '../components/OnBoardingSteps.vue';
 import { Currency } from '@/app/accounts/hooks/useCurrencies';
 import { useLocalStorage } from '@/hooks';
 
-const accounts = ref<Account[]>([]);
+const accounts = useLocalStorage<Account[]>('onboarding_accounts', []) as Ref<
+  Account[]
+>;
 const userCurrencies = useLocalStorage<Currency[]>(
   'onboaring_currencies',
   [],
@@ -23,15 +25,6 @@ const currentStep = useLocalStorage<number>(
   'onboaring_step',
   steps.CURRENCIES,
 ) as Ref<number>;
-
-onMounted(() => {
-  accounts.value.push({
-    amount: '',
-    bank: '',
-    currencyId: '',
-    name: '',
-  });
-});
 </script>
 
 <template>
@@ -63,7 +56,7 @@ onMounted(() => {
     <div class="flex flex-col" v-if="currentStep === steps.ACCOUNTS">
       <AccountCreateForm
         :user-currencies="userCurrencies"
-        :accounts="accounts"
+        v-model:accounts="accounts"
       />
       <div class="flex justify-between">
         <CButton
