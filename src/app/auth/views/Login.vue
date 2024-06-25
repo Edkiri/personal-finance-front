@@ -2,33 +2,24 @@
 import { reactive } from 'vue';
 import { CInput, CLoading } from '@/core';
 import { router, ROUTES } from '@/router';
-import FORM_VALIDATORS from '@/utils/form-validators';
+import validators from '@/utils/form-validators';
 import { useLogin } from '../hooks';
+import { useInputValue } from '@/hooks';
 
 const formData = reactive({
-  email: {
-    value: '',
-    error: '',
-  },
-  password: {
-    value: '',
-    error: '',
-  },
+  email: useInputValue('', validators.email),
+  password: useInputValue(''),
 });
 
 const { login, loading, error } = useLogin();
 
 function validateForm(): boolean {
-  const errors = Object.values(formData).map((input) => input.error);
-  if (errors.some((item) => item.length)) {
+  const errors = Object.values(formData)
+    .map((inputValue) => inputValue.error)
+    .filter((item) => item);
+  if (errors.length > 0) {
     return false;
   }
-
-  const values = Object.values(formData).map((input) => input.value);
-  if (values.some((item) => !item.length)) {
-    return false;
-  }
-
   return true;
 }
 
@@ -37,8 +28,8 @@ async function handleSubmit(): Promise<void> {
   if (!validated || loading.value) return;
 
   const success = await login({
-    email: formData.email.value,
-    password: formData.password.value,
+    email: formData.email.text,
+    password: formData.password.text,
   });
 
   if (success) {
@@ -58,17 +49,13 @@ async function handleSubmit(): Promise<void> {
     <div class="flex flex-col gap-6 mt-8">
       <CInput
         label="Correo electrónico"
-        v-model:value="formData.email.value"
-        v-model:error="formData.email.error"
-        :validator="FORM_VALIDATORS.email"
+        v-model:input-values="formData.email"
         :disabled="loading"
       />
       <CInput
         type="password"
         label="Contraseña"
-        v-model:value="formData.password.value"
-        v-model:error="formData.password.error"
-        :validator="FORM_VALIDATORS.password"
+        v-model:input-values="formData.password"
         :disabled="loading"
       />
       <div class="flex gap-2 items-center">

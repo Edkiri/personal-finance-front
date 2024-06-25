@@ -61,20 +61,24 @@ async function handleSubmit(): Promise<void> {
       <CInput
         label="Correo electrónico"
         v-model:input-values="formData.email"
+        :disabled="loading"
       />
       <CInput
         label="Nombre de usuario"
         v-model:input-values="formData.username"
+        :disabled="loading"
       />
       <CInput
         label="Contraseña"
         type="password"
         v-model:input-values="formData.password"
+        :disabled="loading"
       />
       <CInput
         label="Confirmar contraseña"
         type="password"
         v-model:input-values="formData.passwordConfirmation"
+        :disabled="loading"
       />
       <div class="flex gap-2 items-center">
         <p class="text-neutral-700 dark:text-neutral-300 text-base">
