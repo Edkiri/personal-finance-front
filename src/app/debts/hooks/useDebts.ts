@@ -1,7 +1,7 @@
 import { ref } from 'vue';
-import { ExpenseSource } from '@/expenses/hooks/useExpensesSources';
+import { ExpenseSource } from '@app/expenses/hooks/useExpensesSources';
 import useAxios from '@/hooks/useAxios';
-import { useAccountStore } from '@/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores';
 
 export type Debt = {
   id: number;

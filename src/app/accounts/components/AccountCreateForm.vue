@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, watch } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
-import { CInput, CSelection } from '@/core';
+import { CIcon, CInput, CSelection, CButton } from '@/core';
 import { Account } from '../hooks/useAccounts';
 import { Currency } from '../hooks/useCurrencies';
 import { useInputValue } from '@/hooks';
@@ -16,41 +16,45 @@ type AccountFormData = {
 interface AccountCreateFormProps {
   accounts: Account[];
   userCurrencies: Currency[];
+  loading?: boolean;
 }
-const props = defineProps<AccountCreateFormProps>();
+const props = withDefaults(defineProps<AccountCreateFormProps>(), {
+  loading: false,
+});
 const emit = defineEmits(['update:accounts']);
-
-const localAccounts = ref<Account[]>([...props.accounts]);
 
 const formData = reactive<AccountFormData[]>([]);
 
 onMounted(() => {
-  if (localAccounts.value.length < 1) {
-    localAccounts.value.push({
-      temporaryId: uuidv4(),
-      amount: '',
-      bank: '',
-      currencyId: '',
-      name: '',
+  if (props.accounts.length > 0) {
+    props.accounts.forEach((account) => {
+      const accountForm: AccountFormData = {
+        temporaryId: account.temporaryId,
+        amount: useInputValue(account.amount, validators.nonNegativeNumber),
+        bank: useInputValue(account.bank),
+        currencyId: useInputValue(account.currencyId),
+        name: useInputValue(account.name),
+      };
+      formData.push(accountForm);
     });
-  }
-  localAccounts.value.forEach((account) => {
+  } else {
     const accountForm: AccountFormData = {
-      temporaryId: account.temporaryId,
-      amount: useInputValue(account.amount, validators.nonNegativeNumber),
-      bank: useInputValue(account.bank),
-      currencyId: useInputValue(account.currencyId),
-      name: useInputValue(account.name),
+      temporaryId: uuidv4(),
+      amount: useInputValue('', validators.nonNegativeNumber),
+      bank: useInputValue(''),
+      currencyId: useInputValue(''),
+      name: useInputValue(''),
     };
     formData.push(accountForm);
-  });
+  }
 });
 
 watch(
   formData,
   (newValue) => {
-    const updatedAccounts = newValue.map((form) => {
+    const updatedAccounts: Account[] = newValue.map((form) => {
       return {
+        temporaryId: form.temporaryId,
         amount: form.amount.text,
         bank: form.bank.text,
         currencyId: form.currencyId.text,
@@ -74,6 +78,7 @@ function addAccount(): void {
 }
 
 function removeAccount(accountTemporaryId: string): void {
+  if (formData.length <= 1) return;
   const index = formData.findIndex(
     (account) => account.temporaryId === accountTemporaryId,
   );
@@ -84,11 +89,11 @@ function removeAccount(accountTemporaryId: string): void {
 </script>
 
 <template>
-  <form class="flex flex-col m-auto w-full p-4">
+  <form class="flex flex-col m-auto w-full p-4 gap-6">
     <div
       class="flex gap-2"
-      v-for="(account, index) in formData"
-      :key="`account-${index}`"
+      v-for="account in formData"
+      :key="account.temporaryId"
     >
       <CInput v-model:input-values="account.bank" label="Nombre de banco" />
       <CInput v-model:input-values="account.name" label="Nombre de cuenta" />
@@ -106,13 +111,19 @@ function removeAccount(accountTemporaryId: string): void {
       <button
         class="text-black dark:text-white"
         @click="() => removeAccount(account.temporaryId)"
+        :disabled="formData.length <= 1"
       >
-        REMOVE
+        <CIcon name="delete" color="#fff" />
       </button>
     </div>
-
-    <button @click="addAccount" class="text-black dark:text-white">
-      Agregar cuenta
-    </button>
+    <div class="flex justify-center">
+      <CButton
+        color="green"
+        :click-function="addAccount"
+        :loading="loading"
+        outlined
+        >Agregar cuenta
+      </CButton>
+    </div>
   </form>
 </template>

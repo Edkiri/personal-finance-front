@@ -6,10 +6,10 @@ import {
   CButtonIcon,
   CConfirmationModal,
   CircleButton,
-} from '@components/core';
-import { TableHeader } from '@/components/core/CTable.vue';
-import { useIncomes } from '@/incomes/hooks';
-import { CreateIncomeSource } from '@/incomes/components';
+} from '@/core';
+import { TableHeader } from '@/core/CTable.vue';
+import { useIncomes } from '@/app/incomes/hooks';
+import { CreateIncomeSource } from '@/app/incomes/components';
 
 const { incomes, deleteIncome, findIncomes } = useIncomes();
 

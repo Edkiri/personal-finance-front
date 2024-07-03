@@ -62,11 +62,10 @@ const currentStep = useLocalStorage<number>(
       />
       <div class="flex justify-between">
         <CButton
-          text="Anterior"
-          outlined
+          color="red"
           :click-function="() => (currentStep = STEPS.CURRENCIES)"
-        />
-        <CButton text="Siguiente" />
+          >Anterior
+        </CButton>
       </div>
     </div>
   </div>

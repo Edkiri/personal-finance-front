@@ -6,20 +6,18 @@ interface IconProps {
   size?: number;
   color?: string;
 }
-const props = defineProps<IconProps>();
+const props = withDefaults(defineProps<IconProps>(), {
+  size: 35,
+  color: '#fff',
+});
 const icon = defineAsyncComponent(() => import(`@/assets/${props.name}.svg`));
-const DEFAULT_SIZE = 35;
-const DEFAULT_COLOR = 'var(--color-white-300)';
 </script>
 
 <template>
   <component
-    class="icon"
+    :class="[`fill-[${color}] stroke-[${color}]`]"
     :is="icon"
-    :width="size ?? DEFAULT_SIZE"
-    :height="size ?? DEFAULT_SIZE"
-    :style="{ stroke: color ?? DEFAULT_COLOR, fill: color ?? DEFAULT_COLOR }"
+    :width="size"
+    :height="size"
   />
 </template>
-
-<style scoped></style>

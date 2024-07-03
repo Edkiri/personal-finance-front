@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { CModal, CButtonOutline } from '@components/core';
-import { useExpenses } from '@/expenses/hooks';
+import { CModal, CButtonOutline } from '@/core';
+import { useExpenses } from '@/app/expenses/hooks';
 import {
   CreateExpenseForm,
   ExpensesListByDate,
   ExpenseStats,
   ExpenseFilterForm,
-} from '@/expenses/components';
+} from '@/app/expenses/components';
 
 const { expenses, findExpenses, filters } = useExpenses();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
-import type { ExpenseFilter } from '@/expenses/hooks/useExpenses';
-import { CDateInput } from '@/components/core';
+import type { ExpenseFilter } from '@app/expenses/hooks/useExpenses';
+import { CDateInput } from '@/core';
 import { formatDate } from '@/utils';
 
 interface ExpenseFilterProps {

@@ -10,8 +10,9 @@ export type Account = {
   currencyId: string;
 };
 
-export type AccountWithId = Account & {
+export type AccountWithId = Omit<Account, 'amount'> & {
   id: number;
+  amount: number;
   currency: Currency;
   mixedName?: string;
 };

@@ -1,6 +1,6 @@
 import { reactive, ref, watch } from 'vue';
 import { AxiosResponse } from 'axios';
-import useAxios from '../../hooks/useAxios';
+import { useAxios } from '@/hooks';
 import { ExpenseSource } from './useExpensesSources';
 
 export type Expense = {

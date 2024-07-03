@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
-import { CTable, CModal, CButtonOutline } from '@/components/core';
+import { CTable, CModal, CButtonOutline } from '@/core';
 import { useDebts } from '@/app/debts/hooks/useDebts';
-import { TableHeader } from '@/components/core/CTable.vue';
+import { TableHeader } from '@/core/CTable.vue';
 import { CreateDebtForm, CreateDebtPaymentForm } from '@/app/debts/components';
 import { CreateDebtPaymentPayload } from '@/app/debts/components/CreateDebtPaymentForm.vue';
 

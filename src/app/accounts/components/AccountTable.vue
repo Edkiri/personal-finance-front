@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { CTable } from '@/components/core';
-import { TableHeader } from '@/components/core/CTable.vue';
-import { useAccountStore } from '@/accounts/stores';
+import { CTable } from '@/core';
+import { TableHeader } from '@/core/CTable.vue';
+import { useAccountStore } from '@/app/accounts/stores';
 
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);

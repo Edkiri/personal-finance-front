@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAccountStore } from '@/accounts/stores';
+import { useAccountStore } from '@app/accounts/stores';
 import { Expense, ExpenseFilter } from '../hooks/useExpenses';
 
 interface ExpesesByDateProps {

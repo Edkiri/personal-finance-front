@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CButton } from '@/components/core';
+import { CButton } from '@/core';
 
 interface ModalProps {
   show: boolean;

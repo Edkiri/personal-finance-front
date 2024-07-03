@@ -6,6 +6,7 @@ interface Validators {
   spainPhoneNumber: InputValidator;
   username: InputValidator;
   nonNegativeNumber: InputValidator;
+  notEmpty: InputValidator;
 }
 
 const validators: Validators = {
@@ -43,6 +44,13 @@ const validators: Validators = {
       return !Number.isNaN(number) && number >= 0;
     },
     errorMessage: 'Ingresa un número mayor o igual a 0',
+  },
+  notEmpty: {
+    validate: (value: string): boolean => {
+      if (value.length < 1) return false;
+      return true;
+    },
+    errorMessage: 'Este campo es requerido',
   },
 };
 

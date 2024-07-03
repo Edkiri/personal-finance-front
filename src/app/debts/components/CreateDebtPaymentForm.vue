@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
-import { CButton, CInput, CSelection } from '@/components/core';
-import { useAccountStore } from '@/accounts/stores';
+import { CButton, CInput, CSelection } from '@/core';
+import { useAccountStore } from '@/app/accounts/stores';
+import { useInputValue } from '@/hooks';
+import validators from '@/utils/form-validators';
 
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
@@ -18,7 +20,7 @@ export interface CreateDebtPaymentForm {
 const props = defineProps<CreateDebtPaymentForm>();
 
 const formData = reactive({
-  amount: '',
+  amount: useInputValue('', validators.nonNegativeNumber),
   accountId: 1,
 });
 
@@ -26,7 +28,7 @@ function handleCreate() {
   if (!formData.amount || !formData.accountId) return;
   props.createFunction({
     accountId: formData.accountId,
-    amount: parseFloat(formData.amount),
+    amount: parseFloat(formData.amount.text),
   });
 }
 </script>
@@ -35,10 +37,10 @@ function handleCreate() {
   <form>
     <h4 class="pf-bold-text">Create payment</h4>
 
-    <CInput label="Amount" v-model:text="formData.amount" />
+    <CInput label="Amount" v-model:input-values="formData.amount" />
 
     <CSelection
-      placeholder="Account"
+      label="Account"
       v-model:selected-value="formData.accountId"
       :selecctions="
         accounts.map((account) => ({

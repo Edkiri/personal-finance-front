@@ -20,27 +20,6 @@ function navigate(path: string) {
     >
       Home
     </button>
-    <button
-      class="navbar-btn pf-text-bold"
-      :class="{ current: currentRute === ROUTES.EXPENSES }"
-      @click="() => navigate(ROUTES.EXPENSES)"
-    >
-      Expenses
-    </button>
-    <button
-      class="navbar-btn pf-text-bold"
-      :class="{ current: currentRute === ROUTES.INCOMES }"
-      @click="() => navigate(ROUTES.INCOMES)"
-    >
-      Incomes
-    </button>
-    <button
-      class="navbar-btn pf-text-bold"
-      :class="{ current: currentRute === ROUTES.DEBTS }"
-      @click="() => navigate(ROUTES.DEBTS)"
-    >
-      Debts
-    </button>
   </div>
 </template>
 

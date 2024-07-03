@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
-import { CIcon } from '@/components/core';
+import { CIcon } from '@/core';
 
 interface CButtonIcon {
   clickFunction: () => void;

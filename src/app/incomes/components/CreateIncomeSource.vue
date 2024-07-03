@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { storeToRefs } from 'pinia';
-import {
-  CButton,
-  CInput,
-  CInputSelection,
-  CSelection,
-} from '@/components/core';
-import { useAccountStore } from '@/accounts/stores';
-import { useIncomeSources, useIncomes } from '@/incomes/hooks';
+import { CButton, CInput, CInputSelection, CSelection } from '@/core';
+import { useAccountStore } from '@/app/accounts/stores';
+import { useIncomeSources, useIncomes } from '@/app/incomes/hooks';
+import { useInputValue } from '@/hooks';
+import validators from '@/utils/form-validators';
 
 interface ButtonProps {
   onCreate: () => void;
@@ -22,9 +19,9 @@ const { createIncome } = useIncomes();
 
 const formData = reactive({
   accountId: 1,
-  description: '',
+  description: useInputValue(''),
   source: '',
-  amount: '',
+  amount: useInputValue('', validators.nonNegativeNumber),
 });
 
 async function handleCreate() {
@@ -37,8 +34,8 @@ async function handleCreate() {
   if (!response) return;
   await findSources();
   formData.source = '';
-  formData.description = '';
-  formData.amount = '';
+  formData.description.text = '';
+  formData.amount.text = '';
   formData.accountId = 1;
   accountStore.update();
   props.onCreate();
@@ -57,12 +54,12 @@ async function handleCreate() {
       "
     />
 
-    <CInput label="Amount" v-model:text="formData.amount" />
+    <CInput label="Amount" v-model:input-values="formData.amount" />
 
-    <CInput label="Description" v-model:text="formData.description" />
+    <CInput label="Description" v-model:input-values="formData.description" />
 
     <CSelection
-      placeholder="Account"
+      label="Account"
       v-model:selected-value="formData.accountId"
       :selecctions="
         accounts.map((account) => ({
