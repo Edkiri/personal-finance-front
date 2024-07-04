@@ -1,45 +1,20 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { router, ROUTES } from '@/router';
-
-const currentRute = computed(() => {
-  return router.currentRoute.value.path;
-});
-
-function navigate(path: string) {
-  router.push(path);
-}
+import CNavbarItem from './CNavbarItem.vue';
+import { ROUTES } from '@/router';
 </script>
 
 <template>
-  <div class="navbar">
-    <button
-      class="navbar-btn pf-text-bold"
-      :class="{ current: currentRute === ROUTES.HOME }"
-      @click="() => navigate(ROUTES.HOME)"
-    >
-      Home
-    </button>
+  <div class="flex w-full py-2 px-1 gap-1">
+    <CNavbarItem icon="dashboard" :route="ROUTES.DASHBOARD">
+      Dashboard
+    </CNavbarItem>
+
+    <CNavbarItem icon="bank" :route="ROUTES.ACCOUNTS"> Cuentas </CNavbarItem>
+
+    <CNavbarItem icon="expenses" :route="ROUTES.EXPENSES"> Gastos </CNavbarItem>
+
+    <CNavbarItem icon="incomes" :route="ROUTES.INCOMES"> Ingresos </CNavbarItem>
+
+    <CNavbarItem icon="debts" :route="ROUTES.DEBTS"> Deudas </CNavbarItem>
   </div>
 </template>
-
-<style scoped>
-.navbar {
-  display: flex;
-  gap: 16px;
-}
-.navbar-btn {
-  background-color: transparent;
-  font-size: 20px;
-  color: var(--color-white-500);
-  padding-bottom: 2px;
-  border-bottom: 2px solid transparent;
-}
-.navbar-btn:hover {
-  color: var(--color-white-700);
-}
-.navbar-btn.current {
-  color: var(--color-white-900);
-  border-bottom: 2px solid var(--color-primary);
-}
-</style>

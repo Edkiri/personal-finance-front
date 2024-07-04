@@ -4,8 +4,8 @@ import { CHeader } from './layout';
 </script>
 
 <template>
+  <CHeader />
   <div class="max-w-6xl m-auto">
-    <CHeader />
     <div class="body-container">
       <router-view></router-view>
     </div>

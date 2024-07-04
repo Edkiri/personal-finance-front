@@ -17,7 +17,6 @@ const icon = defineAsyncComponent(() => import(`@/assets/${props.name}.svg`));
 const styles = computed(() => {
   const stylesObject: CSSProperties = {};
   stylesObject.fill = props.color;
-  stylesObject.stroke = props.color;
   return stylesObject;
 });
 </script>
