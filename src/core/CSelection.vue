@@ -54,7 +54,7 @@ async function handleFocusOut() {
 <template>
   <div
     :class="[
-      'relative w-full max-h-[45px] flex flex-col items-center justify-center border rounded',
+      'relative w-full max-h-[45px] h-[35px] flex flex-col items-center justify-center border rounded',
       `${
         focused
           ? 'border-neutral-800 dark:border-neutral-200'
@@ -64,7 +64,7 @@ async function handleFocusOut() {
     ]"
   >
     <button
-      class="h-full w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-white dark:bg-black"
+      class="h-full text-sm w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
       @focus="focused = true"
       @focusout="handleFocusOut"
     >
@@ -73,10 +73,10 @@ async function handleFocusOut() {
 
     <label
       :class="[
-        'text-neutral-700 dark:text-neutral-300 bg-white dark:bg-black',
+        'text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900',
         'block pointer-events-none absolute left-2 top-1/2 px-2',
         'transition-transform ease-in-out duration-100',
-        `${isLabelTop ? 'text-sm -translate-y-9' : '-translate-y-1/2'}`,
+        `${isLabelTop ? 'text-xs -translate-y-7' : 'text-sm -translate-y-1/2'}`,
       ]"
       >{{ label }}
       <span
@@ -89,7 +89,7 @@ async function handleFocusOut() {
     <div
       v-if="show"
       :class="[
-        'absolute right-[-1px] left-[-1px] top-[45px]',
+        'absolute right-[-1px] left-[-1px] top-[35px]',
         'border-b border-l border-r border-neutral-300 dark:border-neutral-700',
       ]"
     >
@@ -99,7 +99,7 @@ async function handleFocusOut() {
           v-for="(selecction, index) in selecctions"
           :key="selecction.text"
           :class="[
-            'text-neutral-800 dark:text-neutral-200 outline-none p-3 text-left',
+            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left text-sm',
             'z-10 bg-neutral-100 dark:bg-neutral-900',
             'hover:bg-neutral-200 dark:hover:bg-neutral-800',
             {

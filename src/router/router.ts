@@ -53,6 +53,11 @@ const routes = [
     component: () => import('@/app/accounts/views/Accounts.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: ROUTES.ACCOUNTS_CREATE,
+    component: () => import('@/app/accounts/views/AccountsCreate.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

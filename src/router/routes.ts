@@ -9,5 +9,6 @@ const routes = {
   INCOMES: '/incomes',
   DEBTS: '/debts',
   ACCOUNTS: '/accounts',
+  ACCOUNTS_CREATE: '/accounts/create',
 };
 export default routes;
