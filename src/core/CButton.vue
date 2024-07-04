@@ -11,6 +11,7 @@ interface ButtonProps {
   color?: string;
 }
 const props = withDefaults(defineProps<ButtonProps>(), {
+  type: 'button',
   disabled: false,
   loading: false,
   outlined: false,
@@ -33,7 +34,7 @@ const styles = computed(() => {
     class="py-[2px] px-4 text-black dark:text-white font-semibold border-2 rounded-full"
     :class="{ 'opacity-40': disabled }"
     :style="styles"
-    :type="type ? type : 'button'"
+    :type="type"
     @click="clickFunction"
     :disabled="isDisabled"
   >

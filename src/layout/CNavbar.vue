@@ -4,7 +4,7 @@ import { ROUTES } from '@/router';
 </script>
 
 <template>
-  <div class="flex w-full py-2 px-1 gap-1">
+  <div class="flex w-full py-2 px-1 gap-2">
     <CNavbarItem icon="dashboard" :route="ROUTES.DASHBOARD">
       Dashboard
     </CNavbarItem>

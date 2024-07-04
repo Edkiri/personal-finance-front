@@ -39,7 +39,7 @@ async function handleSubmit(): Promise<void> {
 </script>
 
 <template>
-  <form class="max-w-[450px] m-auto p-4 mt-8">
+  <form @submit.prevent="handleSubmit" class="max-w-[450px] m-auto p-4 mt-8">
     <div class="flex flex-col">
       <h1 class="text-black dark:text-white font-bold text-center text-xl">
         Inicia sesión!
@@ -70,7 +70,7 @@ async function handleSubmit(): Promise<void> {
         </button>
       </div>
       <button
-        @click="handleSubmit"
+        type="submit"
         class="text-black font-bold dark:text-white text-lg self-start bg-rose-500 hover:bg-rose-600 py-1 rounded-sm w-full"
       >
         Iniciar sesión

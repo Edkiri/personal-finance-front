@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import ROUTES from './routes';
+import { AppStore } from '@/store/app-store';
 
 const routes = [
   {
@@ -25,7 +26,7 @@ const routes = [
   {
     path: ROUTES.DASHBOARD,
     component: () => import('@app/dashboard/views/Dashboard.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresOnboarding: true },
   },
   {
     path: ROUTES.DASHBOARD_SUCCESS,
@@ -60,4 +61,19 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, _from, next) => {
+  const store = AppStore();
+  const isAuthenticated = store.accessToken;
+  const isOnboarded = store.user?.profile.onboarded;
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next(ROUTES.LOGIN);
+  }
+
+  if (to.meta.requiresOnboarding && !isOnboarded) {
+    next(ROUTES.ONBOARDING);
+  }
+
+  next();
+});
 export default router;

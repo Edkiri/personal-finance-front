@@ -16,14 +16,14 @@ function handleLogout() {
 </script>
 
 <template>
-  <header class="flex flex-col bg-gray-300 dark:bg-gray-950 py-1 px-2">
+  <header class="flex flex-col gap-1 bg-gray-300 dark:bg-gray-950 py-1 px-2">
     <div class="flex justify-between">
       <button
         @click="() => router.push(ROUTES.HOME)"
-        class="flex gap-2 items-center"
+        class="flex gap-1 items-center"
       >
-        <CIcon name="bank-piggy" :size="50" />
-        <h1 class="text-xl font-bold text-black dark:text-white">CashSave</h1>
+        <CIcon name="bank-piggy" :size="30" />
+        <h1 class="text-lg font-bold text-black dark:text-white">CashSave</h1>
       </button>
 
       <div class="flex items-center gap-4">
@@ -38,13 +38,13 @@ function handleLogout() {
         <button
           v-if="appStore.accessToken"
           @click="handleLogout"
-          class="text-sm text-red-600 dark:text-red-400 hover:underline"
+          class="text-xs text-red-600 dark:text-red-400 hover:underline"
         >
           Cerrar sesión
         </button>
 
         <button class="flex gap-2 items-center" @click="appStore.changeTheme">
-          <p class="text-black dark:text-white">{{ appStore.theme }}</p>
+          <p class="text-black dark:text-white text-xs">{{ appStore.theme }}</p>
           <CIcon
             name="moon"
             :size="20"
