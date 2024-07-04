@@ -1,5 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { CActionButton } from '@/core';
+import AccountList from '@/app/accounts/components/AccountList.vue';
+</script>
 
 <template>
-  <h1>Cuentas</h1>
+  <div class="flex-col w-full">
+    <div class="flex items-center justify-between w-full py-2">
+      <h1 class="text-md text-black dark:text-white font-semibold">Cuentas</h1>
+
+      <CActionButton color="rgb(35, 134, 54)" :click-function="() => {}">
+        Nueva
+      </CActionButton>
+    </div>
+
+    <AccountList class="mt-2" />
+  </div>
 </template>

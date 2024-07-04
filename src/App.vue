@@ -5,7 +5,7 @@ import { CHeader } from './layout';
 
 <template>
   <CHeader />
-  <div class="max-w-6xl m-auto">
+  <div class="max-w-4xl m-auto">
     <div class="body-container">
       <router-view></router-view>
     </div>

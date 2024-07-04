@@ -16,7 +16,7 @@ function handleLogout() {
 </script>
 
 <template>
-  <header class="flex flex-col gap-1 bg-gray-300 dark:bg-gray-950 py-1 px-2">
+  <header class="flex flex-col bg-gray-300 dark:bg-gray-950 py-1 px-2">
     <div class="flex justify-between">
       <button
         @click="() => router.push(ROUTES.HOME)"

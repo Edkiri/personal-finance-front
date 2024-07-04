@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useAxios } from '@/hooks';
 import { Currency } from './useCurrencies';
 
@@ -10,7 +10,7 @@ export type Account = {
   currencyId: string;
 };
 
-export type AccountWithId = Omit<Account, 'amount'> & {
+type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {
   id: number;
   amount: number;
   currency: Currency;
@@ -33,13 +33,9 @@ export function useAccounts() {
     }
   }
 
-  const mainAccount = computed(() =>
-    accounts.value.find((account) => account.id === 1),
-  );
-
   onMounted(async () => {
     await fetchAccounts();
   });
 
-  return { accounts, mainAccount, fetchAccounts };
+  return { accounts, fetchAccounts };
 }
