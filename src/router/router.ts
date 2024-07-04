@@ -28,6 +28,11 @@ const routes = [
     component: () => import('@app/dashboard/views/Dashboard.vue'),
     meta: { requiresAuth: true, requiresOnboarding: true },
   },
+  {
+    path: ROUTES.DASHBOARD_SUCCESS,
+    component: () => import('@app/auth/views/OnBoardingSuccess.vue'),
+    meta: { requiresAuth: true, requiresOnboarding: true },
+  },
   // {
   //   path: ROUTES.EXPENSES,
   //   component: () => import('@/views/expenses/ExpenseListView.vue'),

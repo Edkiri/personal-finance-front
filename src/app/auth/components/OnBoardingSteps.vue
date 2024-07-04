@@ -43,7 +43,7 @@ function getDivStyles(step: number): string {
     >
       <div
         :class="[
-          'h-12 w-12 flex justify-center items-center',
+          'h-10 w-10 flex justify-center items-center',
           'text-lg font-bold',
           'rounded-full border-2 select-none',
           `${getStepStyles(index + 1)}`,

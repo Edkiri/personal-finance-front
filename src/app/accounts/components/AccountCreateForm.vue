@@ -89,7 +89,7 @@ function removeAccount(accountTemporaryId: string): void {
 </script>
 
 <template>
-  <form class="flex flex-col m-auto w-full p-4 gap-6">
+  <form class="flex flex-col m-auto w-full gap-6">
     <div
       class="flex gap-2"
       v-for="account in formData"
@@ -113,7 +113,12 @@ function removeAccount(accountTemporaryId: string): void {
         @click="() => removeAccount(account.temporaryId)"
         :disabled="formData.length <= 1"
       >
-        <CIcon name="delete" color="#fff" />
+        <CIcon
+          name="delete"
+          color="#fff"
+          :disabled="formData.length <= 1"
+          :size="30"
+        />
       </button>
     </div>
     <div class="flex justify-center">
@@ -122,7 +127,8 @@ function removeAccount(accountTemporaryId: string): void {
         :click-function="addAccount"
         :loading="loading"
         outlined
-        >Agregar cuenta
+      >
+        +
       </CButton>
     </div>
   </form>

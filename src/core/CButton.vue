@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { TailwindColors } from '@/types/tailwind';
+import type { CSSProperties } from 'vue';
 
 interface ButtonProps {
   type?: 'button' | 'submit' | 'reset' | undefined;
@@ -8,29 +8,31 @@ interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   outlined?: boolean;
-  color?: TailwindColors;
+  color?: string;
 }
 const props = withDefaults(defineProps<ButtonProps>(), {
   disabled: false,
   loading: false,
   outlined: false,
-  color: 'rose',
+  color: 'rgb(244, 63, 94)',
 });
 
 const isDisabled = computed(() => props.disabled || props.loading);
 
 const styles = computed(() => {
-  const baseClases = 'py-1 px-8 font-semibold rounded-full';
-  const colorClases = props.outlined
-    ? `text-${props.color}-700 dark:text-${props.color}-300 border border-${props.color}-700 dark:border-${props.color}-300`
-    : '';
-  return `${baseClases} ${colorClases}`;
+  const styleObject: CSSProperties = {};
+  styleObject.color = props.outlined ? props.color : '';
+  styleObject.backgroundColor = props.outlined ? 'transparent' : props.color;
+  styleObject.borderColor = props.color;
+  return styleObject;
 });
 </script>
 
 <template>
   <button
-    :class="styles"
+    class="py-[2px] px-4 text-black dark:text-white font-semibold border-2 rounded-full"
+    :class="{ 'opacity-40': disabled }"
+    :style="styles"
     :type="type ? type : 'button'"
     @click="clickFunction"
     :disabled="isDisabled"
@@ -38,3 +40,5 @@ const styles = computed(() => {
     <slot></slot>
   </button>
 </template>
+
+<style scoped></style>
