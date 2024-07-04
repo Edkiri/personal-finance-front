@@ -10,5 +10,6 @@ const routes = {
   DEBTS: '/debts',
   ACCOUNTS: '/accounts',
   ACCOUNTS_CREATE: '/accounts/create',
+  ACCOUNTS_UPDATE: '/accounts/update/:accountId',
 };
 export default routes;

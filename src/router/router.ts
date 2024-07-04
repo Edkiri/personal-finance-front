@@ -58,6 +58,11 @@ const routes = [
     component: () => import('@/app/accounts/views/AccountsCreate.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: ROUTES.ACCOUNTS_UPDATE,
+    component: () => import('@/app/accounts/views/AccountsUpdate.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

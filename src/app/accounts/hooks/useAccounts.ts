@@ -10,7 +10,7 @@ export type Account = {
   currencyId: string;
 };
 
-type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {
+export type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {
   id: number;
   amount: number;
   currency: Currency;

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { router } from '@/router';
 import { useAccounts } from '../hooks';
 
 const { accounts } = useAccounts();
@@ -14,6 +15,7 @@ const { accounts } = useAccounts();
     >
       <div class="flex flex-col">
         <button
+          @click="() => router.push(`/accounts/update/${account.id}`)"
           class="self-start text-sm font-bold text-blue-500 hover:underline"
         >
           {{ account.bank }} - {{ account.name }}
