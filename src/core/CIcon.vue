@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
+import type { CSSProperties } from 'vue';
 
 interface IconProps {
   name: string;
@@ -9,15 +10,22 @@ interface IconProps {
 }
 const props = withDefaults(defineProps<IconProps>(), {
   size: 35,
-  color: '#fff',
+  color: '',
   disabled: false,
 });
 const icon = defineAsyncComponent(() => import(`@/assets/${props.name}.svg`));
+const styles = computed(() => {
+  const stylesObject: CSSProperties = {};
+  stylesObject.fill = props.color;
+  stylesObject.stroke = props.color;
+  return stylesObject;
+});
 </script>
 
 <template>
   <component
-    :class="[`fill-[${color}] stroke-[${color}]`, { 'opacity-50': disabled }]"
+    :style="styles"
+    :class="{ 'opacity-50': disabled }"
     :is="icon"
     :width="size"
     :height="size"
