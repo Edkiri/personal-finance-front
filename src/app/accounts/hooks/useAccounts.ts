@@ -14,7 +14,6 @@ export type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {
   id: number;
   amount: number;
   currency: Currency;
-  mixedName?: string;
 };
 
 export function useAccounts() {
@@ -26,10 +25,7 @@ export function useAccounts() {
     const response = await fetchApi<AccountWithId[]>({ path: `accounts` });
 
     if (response?.status === 200) {
-      accounts.value = response.data.map((account) => ({
-        ...account,
-        mixedName: `${account.bank} - ${account.name} - ${account.amount} ${account.currency.symbol}`,
-      }));
+      accounts.value = response.data;
     }
   }
 

@@ -27,7 +27,7 @@ AxiosClient.interceptors.request.use(
 );
 
 interface FetchParams {
-  method?: 'POST' | 'GET' | 'DELETE';
+  method?: 'POST' | 'GET' | 'DELETE' | 'PUT';
   payload?: object;
   path: string;
 }
@@ -57,6 +57,10 @@ export default function useAxios() {
 
       if (fetchParams.method === 'DELETE') {
         return AxiosClient.delete(fetchParams.path);
+      }
+
+      if (fetchParams.method === 'PUT') {
+        return AxiosClient.put(fetchParams.path, fetchParams.payload);
       }
 
       const response = await AxiosClient.get(fetchParams.path, {

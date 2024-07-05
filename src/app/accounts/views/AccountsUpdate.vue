@@ -3,7 +3,7 @@ import { onMounted, reactive } from 'vue';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { useCurrencies } from '../hooks/useCurrencies';
-import { useAccountDetail } from '../hooks';
+import { useAccountDetail, useUpdateAccount } from '../hooks';
 import { router, ROUTES } from '@/router';
 import { CInput, CSelection } from '@/core';
 
@@ -50,18 +50,19 @@ function validateForm(): boolean {
   return true;
 }
 
+const { updateAccount } = useUpdateAccount();
+
 async function handleSubmit() {
   const valid = validateForm();
   if (!valid) return;
-  const updated = true;
-  // const updated = await updateAccount({
-  //   name: form.name.text,
-  //   bank: form.bank.text,
-  //   amount: form.amount.text,
-  //   currencyId: form.currencyId,
-  // });
+  const updated = await updateAccount(Number(accountId), {
+    name: form.name.text,
+    bank: form.bank.text,
+    amount: form.amount.text,
+    currencyId: form.currencyId,
+  });
   if (updated) {
-    router.push(`/accounts/update/${accountId}`);
+    router.push(ROUTES.ACCOUNTS);
   }
 }
 </script>
