@@ -17,6 +17,6 @@ import { router, ROUTES } from '@/router';
       </CActionButton>
     </div>
 
-    <AccountList class="mt-2" />
+    <AccountList />
   </div>
 </template>

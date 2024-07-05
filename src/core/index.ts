@@ -6,7 +6,7 @@ export { default as CTable } from './CTable.vue';
 export { default as CModal } from './CModal.vue';
 export { default as CIcon } from './CIcon.vue';
 export { default as CButtonIcon } from './CButtonIcon.vue';
-export { default as CConfirmationModal } from './CConfirmationModal.vue';
+export { default as CDeleteModal } from './CDeleteModal.vue';
 export { default as CircleButton } from './CircleButton.vue';
 export { default as CButtonOutline } from './CButtonOutline.vue';
 export { default as CDateInput } from './CDateInput.vue';

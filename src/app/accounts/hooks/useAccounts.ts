@@ -1,4 +1,4 @@
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useAxios } from '@/hooks';
 import { Currency } from './useCurrencies';
 
@@ -21,7 +21,7 @@ export function useAccounts() {
 
   const { fetchApi } = useAxios();
 
-  async function fetchAccounts() {
+  async function getAccounts() {
     const response = await fetchApi<AccountWithId[]>({ path: `accounts` });
 
     if (response?.status === 200) {
@@ -29,9 +29,5 @@ export function useAccounts() {
     }
   }
 
-  onMounted(async () => {
-    await fetchAccounts();
-  });
-
-  return { accounts, fetchAccounts };
+  return { accounts, getAccounts };
 }

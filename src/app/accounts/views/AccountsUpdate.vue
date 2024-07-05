@@ -21,6 +21,7 @@ const { accountId } = router.currentRoute.value.params;
 
 onMounted(async () => {
   if (!accountId) {
+    // TODO: Use some kind of Toast to print the error
     router.push(ROUTES.ACCOUNTS);
   }
 
