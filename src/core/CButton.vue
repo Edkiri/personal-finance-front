@@ -41,5 +41,3 @@ const styles = computed(() => {
     <slot></slot>
   </button>
 </template>
-
-<style scoped></style>

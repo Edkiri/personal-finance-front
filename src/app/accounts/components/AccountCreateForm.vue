@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
-import { CIcon, CInput, CSelection, CButton } from '@/core';
+import { CInput, CSelection, CButton } from '@/core';
 import { Account } from '../hooks/useAccounts';
 import { Currency } from '../hooks/useCurrencies';
 import { useInputValue } from '@/hooks';
@@ -10,8 +10,8 @@ import validators from '@/utils/form-validators';
 import type { InputValues } from '@/types/form-validators';
 
 type AccountFormData = {
-  [K in keyof Omit<Account, 'temporaryId'>]: InputValues;
-} & { temporaryId: string };
+  [K in keyof Omit<Omit<Account, 'temporaryId'>, 'isDefault'>]: InputValues;
+} & { temporaryId: string; isDefault: boolean };
 
 interface AccountCreateFormProps {
   accounts: Account[];
@@ -34,6 +34,7 @@ onMounted(() => {
         bank: useInputValue(account.bank),
         currencyId: useInputValue(account.currencyId),
         name: useInputValue(account.name),
+        isDefault: account.isDefault,
       };
       formData.push(accountForm);
     });
@@ -44,6 +45,7 @@ onMounted(() => {
       bank: useInputValue(''),
       currencyId: useInputValue(''),
       name: useInputValue(''),
+      isDefault: true,
     };
     formData.push(accountForm);
   }
@@ -59,6 +61,7 @@ watch(
         bank: form.bank.text,
         currencyId: form.currencyId.text,
         name: form.name.text,
+        isDefault: form.isDefault,
       };
     });
     emit('update:accounts', updatedAccounts);
@@ -73,6 +76,7 @@ function addAccount(): void {
     bank: useInputValue(''),
     currencyId: useInputValue(''),
     name: useInputValue(''),
+    isDefault: false,
   };
   formData.push(accountForm);
 }
@@ -89,11 +93,12 @@ function removeAccount(accountTemporaryId: string): void {
 </script>
 
 <template>
-  <form class="flex flex-col m-auto w-full gap-6">
+  <form class="flex flex-col m-auto w-full">
     <div
-      class="flex gap-2"
-      v-for="account in formData"
+      class="flex gap-2 py-4 items-center"
+      v-for="(account, index) in formData"
       :key="account.temporaryId"
+      :class="{ 'border-t border-neutral-700': index !== 0 }"
     >
       <CInput v-model:input-values="account.bank" label="Nombre de banco" />
       <CInput v-model:input-values="account.name" label="Nombre de cuenta" />
@@ -108,27 +113,17 @@ function removeAccount(accountTemporaryId: string): void {
         "
       />
       <CInput v-model:input-values="account.amount" label="Cantidad" />
-      <button
-        class="text-black dark:text-white"
-        @click="() => removeAccount(account.temporaryId)"
+      <CButton
+        outlined
         :disabled="formData.length <= 1"
+        :click-function="() => removeAccount(account.temporaryId)"
       >
-        <CIcon
-          name="delete"
-          color="#fff"
-          :disabled="formData.length <= 1"
-          :size="30"
-        />
-      </button>
+        Eliminar
+      </CButton>
     </div>
     <div class="flex justify-center">
-      <CButton
-        color="green"
-        :click-function="addAccount"
-        :loading="loading"
-        outlined
-      >
-        +
+      <CButton color="green" :click-function="addAccount" :loading="loading">
+        Agregar
       </CButton>
     </div>
   </form>
