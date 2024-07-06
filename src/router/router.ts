@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: ROUTES.EXPENSES,
-    component: () => import('@/views/expenses/ExpenseListView.vue'),
+    component: () => import('@app/expenses/views/Expenses.vue'),
     meta: { requiresAuth: true },
   },
   {

@@ -20,7 +20,7 @@ export type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {
 export function useAccounts() {
   const accounts = ref<AccountWithId[]>([]);
 
-  const { fetchApi } = useAxios();
+  const { fetchApi, loading } = useAxios();
 
   async function getAccounts() {
     const response = await fetchApi<AccountWithId[]>({ path: `accounts` });
@@ -30,5 +30,5 @@ export function useAccounts() {
     }
   }
 
-  return { accounts, getAccounts };
+  return { accounts, getAccounts, loading };
 }

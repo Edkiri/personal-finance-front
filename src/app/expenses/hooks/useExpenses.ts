@@ -1,9 +1,8 @@
-import { reactive, ref, watch } from 'vue';
-import { AxiosResponse } from 'axios';
+import { computed, reactive, ref } from 'vue';
 import { useAxios } from '@/hooks';
 import { ExpenseSource } from './useExpensesSources';
 
-export type Expense = {
+export type ExpenseWithId = {
   id: number;
   amount: number;
   date: string;
@@ -12,25 +11,29 @@ export type Expense = {
 };
 
 export type ExpenseFilter = {
-  dateFrom: Date;
-  dateTo: Date;
+  // dateFrom: Date;
+  // dateTo: Date;
+  accountId: number | null;
 };
 
 export function useExpenses() {
-  const expenses = ref<Expense[]>([]);
+  const expenses = ref<ExpenseWithId[]>([]);
 
   const filters = reactive<ExpenseFilter>({
-    dateFrom: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000), // 14 days ago
-    dateTo: new Date(),
+    // dateFrom: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000),
+    // dateTo: new Date(),
+    accountId: null,
   });
 
-  const { fetchApi: find, loading: finding } = useAxios();
+  const { fetchApi, loading, error } = useAxios();
+
   async function findExpenses() {
-    const expensesResponse = await find<Expense[]>({
+    const expensesResponse = await fetchApi<ExpenseWithId[]>({
       path: 'expenses',
       payload: {
-        dateFrom: filters.dateFrom.toISOString(),
-        dateTo: filters.dateTo.toISOString(),
+        // dateFrom: filters.dateFrom.toISOString(),
+        // dateTo: filters.dateTo.toISOString(),
+        accountId: filters.accountId,
       },
     });
     if (expensesResponse?.data) {
@@ -38,43 +41,26 @@ export function useExpenses() {
     }
   }
 
-  watch(filters, () => {
-    findExpenses();
+  const expensesGroupedByDay = computed(() => {
+    const groupedByDay = new Map<string, ExpenseWithId[]>();
+
+    for (const expense of expenses.value) {
+      const day = expense.date.split('T')[0];
+      if (!groupedByDay.has(day)) {
+        groupedByDay.set(day, []);
+      }
+      groupedByDay.get(day)?.push(expense);
+    }
+
+    return groupedByDay;
   });
-
-  const {
-    fetchApi: create,
-    loading: creating,
-    error: errorCreating,
-  } = useAxios();
-
-  async function createExpense(payload: object): Promise<boolean> {
-    await create({ method: 'POST', path: 'expenses', payload });
-    if (!errorCreating.value) {
-      return true;
-    }
-    return false;
-  }
-
-  const { fetchApi: fetchDelete } = useAxios();
-
-  async function deleteExpense({ expenseId }: { expenseId: number }) {
-    const response = await fetchDelete<AxiosResponse>({
-      method: 'DELETE',
-      path: `expenses/${expenseId}`,
-    });
-    if (response?.status === 204) {
-      findExpenses();
-    }
-  }
 
   return {
     expenses,
     filters,
-    creating,
-    finding,
-    createExpense,
     findExpenses,
-    deleteExpense,
+    error,
+    loading,
+    expensesGroupedByDay,
   };
 }
