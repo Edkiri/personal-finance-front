@@ -30,13 +30,13 @@ export function formatDate(date: Date, full: boolean = false): string {
     'diciembre',
   ];
   const daysOfWeek = [
-    'domingo',
-    'lunes',
-    'martes',
-    'miércoles',
-    'jueves',
-    'viernes',
-    'sábado',
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miércoles',
+    'Jueves',
+    'Viernes',
+    'Sábado',
   ];
 
   const day = date.getDate();

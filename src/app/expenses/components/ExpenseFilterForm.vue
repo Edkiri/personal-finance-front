@@ -38,7 +38,7 @@ watch(
 
 <template>
   <div
-    class="w-52 flex flex-col gap-4 px-2 py-4 border rounded-sm border-neutral-500 self-stretch"
+    class="min-w-52 flex flex-col gap-4 px-2 py-4 border rounded-sm border-neutral-500 self-stretch"
   >
     <CSelection
       label="Cuenta"

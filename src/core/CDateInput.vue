@@ -21,7 +21,7 @@ const formatDate = (date: Date): string => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 text-black dark:text-white">
+  <div class="flex flex-col gap-1 text-black dark:text-white">
     <span class="text-xs px-1">
       {{ dateLabel ? dateLabel : formatLabel(props.date) }}
     </span>

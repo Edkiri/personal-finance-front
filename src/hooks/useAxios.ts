@@ -35,7 +35,12 @@ interface FetchParams {
 function buildPayload(filters: object): object {
   const payload = Object.entries(filters)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .filter(([_, value]) => value)
+    .filter(([_, value]) => {
+      if (Array.isArray(value) && !value.length) {
+        return false;
+      }
+      return Boolean(value);
+    })
     .reduce(
       (obj, [property, value]) => {
         obj[property] = value;
