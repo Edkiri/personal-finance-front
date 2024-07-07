@@ -4,6 +4,7 @@ import type { ExpenseFilter } from '@app/expenses/hooks/useExpenses';
 import { CDateInput, CSelection, CButton } from '@/core';
 import { formatDate } from '@/utils';
 import { useAccounts } from '@/app/accounts/hooks';
+import ExpenseSourcesSelection from './ExpenseSourcesSelection.vue';
 
 interface ExpenseFilterProps {
   filters: ExpenseFilter;
@@ -58,6 +59,9 @@ watch(
     <CDateInput
       v-model:date="localFilters.dateTo"
       :dateLabel="`Hasta ${formatDate(localFilters.dateTo)}`"
+    />
+    <ExpenseSourcesSelection
+      v-model:selected-expense-sources-ids="localFilters.expenseSourceIds"
     />
     <CButton :click-function="search">Buscar</CButton>
   </div>

@@ -8,7 +8,7 @@ export type Account = {
   amount: string;
   bank: string;
   currencyId: string;
-  isDefault: boolean;
+  isDefault?: boolean;
 };
 
 export type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {

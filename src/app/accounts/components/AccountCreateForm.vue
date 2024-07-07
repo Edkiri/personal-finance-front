@@ -11,7 +11,7 @@ import type { InputValues } from '@/types/form-validators';
 
 type AccountFormData = {
   [K in keyof Omit<Omit<Account, 'temporaryId'>, 'isDefault'>]: InputValues;
-} & { temporaryId: string; isDefault: boolean };
+} & { temporaryId: string };
 
 interface AccountCreateFormProps {
   accounts: Account[];
@@ -34,7 +34,6 @@ onMounted(() => {
         bank: useInputValue(account.bank),
         currencyId: useInputValue(account.currencyId),
         name: useInputValue(account.name),
-        isDefault: account.isDefault,
       };
       formData.push(accountForm);
     });
@@ -45,7 +44,6 @@ onMounted(() => {
       bank: useInputValue(''),
       currencyId: useInputValue(''),
       name: useInputValue(''),
-      isDefault: true,
     };
     formData.push(accountForm);
   }
@@ -61,7 +59,6 @@ watch(
         bank: form.bank.text,
         currencyId: form.currencyId.text,
         name: form.name.text,
-        isDefault: form.isDefault,
       };
     });
     emit('update:accounts', updatedAccounts);
@@ -76,7 +73,6 @@ function addAccount(): void {
     bank: useInputValue(''),
     currencyId: useInputValue(''),
     name: useInputValue(''),
-    isDefault: false,
   };
   formData.push(accountForm);
 }

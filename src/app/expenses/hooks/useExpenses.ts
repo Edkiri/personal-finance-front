@@ -14,6 +14,7 @@ export type ExpenseFilter = {
   dateFrom: Date;
   dateTo: Date;
   accountId: number | null;
+  expenseSourceIds: number[];
 };
 
 export function useExpenses() {

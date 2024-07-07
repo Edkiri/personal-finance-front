@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { router } from '@/router';
 import { useAccounts } from '../hooks';
-import { CButton, CDeleteModal } from '@/core';
+import { CDeleteModal, CIcon } from '@/core';
 import { useAxios, useConfirmationModal } from '@/hooks';
 import { AccountWithId } from '../hooks/useAccounts';
 
@@ -51,13 +51,10 @@ async function handleDelete(account: AccountWithId) {
           {{ account.amount }} {{ account.currency.symbol }}
         </span>
       </div>
-      <CButton
-        color="red"
-        outlined
-        :click-function="() => handleDelete(account)"
-      >
-        Eliminar
-      </CButton>
+
+      <button @click="() => handleDelete(account)">
+        <CIcon name="delete" :size="20" color="red" />
+      </button>
     </div>
   </div>
   <CDeleteModal

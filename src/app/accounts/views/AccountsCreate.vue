@@ -25,7 +25,7 @@ function validateForm(): boolean {
     form.amount.error ||
     form.bank.error ||
     form.name.error ||
-    !form.currencyId.length
+    !form.currencyId
   ) {
     return false;
   }

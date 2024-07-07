@@ -10,6 +10,7 @@ const filters = reactive<ExpenseFilter>({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
   dateTo: new Date(),
   accountId: null,
+  expenseSourceIds: [],
 });
 
 const { expenses, findExpenses, loading, expensesGroupedByDay } = useExpenses();
