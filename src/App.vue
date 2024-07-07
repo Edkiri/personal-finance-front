@@ -4,9 +4,9 @@ import { CHeader } from './layout';
 </script>
 
 <template>
-  <CHeader />
-  <div class="max-w-4xl m-auto">
-    <div class="body-container">
+  <div class="min-h-screen flex flex-col">
+    <CHeader />
+    <div class="max-w-4xl m-auto w-full h-full grow py-2 flex flex-col">
       <router-view></router-view>
     </div>
   </div>

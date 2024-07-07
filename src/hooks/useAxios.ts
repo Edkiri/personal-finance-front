@@ -32,6 +32,20 @@ interface FetchParams {
   path: string;
 }
 
+function buildPayload(filters: object): object {
+  const payload = Object.entries(filters)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    .filter(([_, value]) => value)
+    .reduce(
+      (obj, [property, value]) => {
+        obj[property] = value;
+        return obj;
+      },
+      {} as Record<string, string | number | []>,
+    );
+  return payload;
+}
+
 export default function useAxios() {
   const error: Ref<string | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
@@ -46,12 +60,12 @@ export default function useAxios() {
   ): Promise<AxiosResponse<T> | undefined> {
     try {
       loading.value = true;
+      const payload = fetchParams.payload
+        ? buildPayload(fetchParams.payload)
+        : null;
 
       if (fetchParams.method === 'POST') {
-        const response = await AxiosClient.post(
-          fetchParams.path,
-          fetchParams.payload,
-        );
+        const response = await AxiosClient.post(fetchParams.path, payload);
         return response;
       }
 
@@ -60,11 +74,11 @@ export default function useAxios() {
       }
 
       if (fetchParams.method === 'PUT') {
-        return AxiosClient.put(fetchParams.path, fetchParams.payload);
+        return AxiosClient.put(fetchParams.path, payload);
       }
 
       const response = await AxiosClient.get(fetchParams.path, {
-        params: fetchParams.payload,
+        params: payload,
       });
       return response;
     } catch (err) {

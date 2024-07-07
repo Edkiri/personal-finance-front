@@ -31,7 +31,7 @@ const show = computed(() => {
 });
 
 function selectSource(selection: SelectionItem) {
-  emit('update:selectedValue', String(selection.value));
+  emit('update:selectedValue', selection.value);
 }
 
 function getSelectedText() {
@@ -64,7 +64,7 @@ async function handleFocusOut() {
     ]"
   >
     <button
-      class="h-full text-sm w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
+      class="h-full text-xs w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
       @focus="focused = true"
       @focusout="handleFocusOut"
     >
@@ -99,7 +99,7 @@ async function handleFocusOut() {
           v-for="(selecction, index) in selecctions"
           :key="selecction.text"
           :class="[
-            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left text-sm',
+            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left text-xs',
             'z-10 bg-neutral-100 dark:bg-neutral-900',
             'hover:bg-neutral-200 dark:hover:bg-neutral-800',
             {

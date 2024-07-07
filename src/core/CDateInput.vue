@@ -21,27 +21,16 @@ const formatDate = (date: Date): string => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
-    <span class="text-xl">{{
-      dateLabel ? dateLabel : formatLabel(props.date)
-    }}</span>
+  <div class="flex flex-col gap-2 text-black dark:text-white">
+    <span class="text-xs px-1">
+      {{ dateLabel ? dateLabel : formatLabel(props.date) }}
+    </span>
     <input
       type="date"
-      class="dark-input"
+      class="bg-transparent text-xs"
       :max="formatDate(new Date())"
       :value="formatDate(props.date)"
       @change="handleChange($event)"
     />
   </div>
 </template>
-
-<style scoped>
-.dark-input {
-  background-color: transparent;
-  color: var(--color-white-900);
-  border: 1px solid var(--color-white-900);
-  padding: 2px;
-  width: 250px;
-  border-radius: 4px;
-}
-</style>

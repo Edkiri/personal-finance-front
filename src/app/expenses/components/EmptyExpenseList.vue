@@ -6,7 +6,7 @@ const store = AppStore();
 </script>
 
 <template>
-  <div class="flex flex-col justify-center items-center gap-4">
+  <div class="flex flex-col justify-center items-center gap-4 w-full m-auto">
     <CIcon
       name="empty"
       :size="50"

@@ -1,4 +1,4 @@
-import { computed, reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useAxios } from '@/hooks';
 import { ExpenseSource } from './useExpensesSources';
 
@@ -11,28 +11,22 @@ export type ExpenseWithId = {
 };
 
 export type ExpenseFilter = {
-  // dateFrom: Date;
-  // dateTo: Date;
+  dateFrom: Date;
+  dateTo: Date;
   accountId: number | null;
 };
 
 export function useExpenses() {
   const expenses = ref<ExpenseWithId[]>([]);
 
-  const filters = reactive<ExpenseFilter>({
-    // dateFrom: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000),
-    // dateTo: new Date(),
-    accountId: null,
-  });
-
   const { fetchApi, loading, error } = useAxios();
 
-  async function findExpenses() {
+  async function findExpenses(filters: ExpenseFilter) {
     const expensesResponse = await fetchApi<ExpenseWithId[]>({
       path: 'expenses',
       payload: {
-        // dateFrom: filters.dateFrom.toISOString(),
-        // dateTo: filters.dateTo.toISOString(),
+        dateFrom: filters.dateFrom.toISOString(),
+        dateTo: filters.dateTo.toISOString(),
         accountId: filters.accountId,
       },
     });
@@ -57,7 +51,6 @@ export function useExpenses() {
 
   return {
     expenses,
-    filters,
     findExpenses,
     error,
     loading,
