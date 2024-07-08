@@ -2,7 +2,11 @@
 import { reactive } from 'vue';
 import { CLoading } from '@/core';
 import { useExpenses } from '../hooks';
-import { EmptyExpenseList, ExpenseFilterForm } from '@/app/expenses/components';
+import {
+  EmptyExpenseList,
+  ExpenseFilterForm,
+  ExpenseStats,
+} from '@/app/expenses/components';
 import { type ExpenseFilter } from '../hooks/useExpenses';
 import ExpensesListByDate from '../components/ExpensesListByDate.vue';
 
@@ -22,9 +26,18 @@ async function handleFindExpenses() {
 
 <template>
   <div class="flex items-stretch gap-4 grow">
-    <ExpenseFilterForm v-model:filters="filters" :search="handleFindExpenses" />
+    <div
+      class="w-56 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+    >
+      <ExpenseFilterForm
+        v-model:filters="filters"
+        :search="handleFindExpenses"
+      />
+    </div>
 
-    <div class="grow-1 border border-neutral-500 grow rounded-sm">
+    <div
+      class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
+    >
       <ExpensesListByDate
         :expenses-by-date="expensesGroupedByDay"
         v-if="!loading && expenses.length > 0"
@@ -37,6 +50,12 @@ async function handleFindExpenses() {
       <div class="flex justify-center">
         <CLoading :loading="loading" />
       </div>
+    </div>
+
+    <div
+      class="border border-neutral-400 dark:border-neutral-600 w-60 rounded-sm p-4"
+    >
+      <ExpenseStats :expenses="expenses" />
     </div>
   </div>
 </template>

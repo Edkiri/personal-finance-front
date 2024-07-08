@@ -11,12 +11,8 @@ const emit = defineEmits(['update:selectedExpenseSourcesIds']);
 
 const { expenseSources, findExpensesSource } = useExpensesSources();
 
-onMounted(async () => {
-  await findExpensesSource();
-  emit(
-    'update:selectedExpenseSourcesIds',
-    expenseSources.value.map((expenseSource) => expenseSource.id),
-  );
+onMounted(() => {
+  findExpensesSource();
 });
 
 function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
@@ -46,10 +42,14 @@ function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
         type="checkbox"
         :checked="selectedExpenseSourcesIds.includes(expenseSource.id)"
         @input="handleCheckboxChange($event as InputEvent, expenseSource.id)"
+        :id="'checkbox-' + expenseSource.id"
       />
-      <span class="text-black dark:text-white text-sm">
+      <label
+        :for="'checkbox-' + expenseSource.id"
+        class="text-black dark:text-white text-sm capitalize cursor-pointer"
+      >
         {{ expenseSource.name }}
-      </span>
+      </label>
     </div>
   </div>
 </template>

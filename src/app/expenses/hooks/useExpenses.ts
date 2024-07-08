@@ -29,6 +29,7 @@ export function useExpenses() {
         dateFrom: filters.dateFrom.toISOString(),
         dateTo: filters.dateTo.toISOString(),
         accountId: filters.accountId,
+        expenseSourceIds: filters.expenseSourceIds,
       },
     });
     if (expensesResponse?.data) {

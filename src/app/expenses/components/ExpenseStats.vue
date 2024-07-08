@@ -1,34 +1,69 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAccountStore } from '@app/accounts/stores';
-import { Expense, ExpenseFilter } from '../hooks/useExpenses';
+import { ExpenseWithId } from '../hooks/useExpenses';
 
-interface ExpesesByDateProps {
-  expenses: Expense[];
-  filters: ExpenseFilter;
-}
-const props = defineProps<ExpesesByDateProps>();
-const accountStore = useAccountStore();
+type Props = {
+  expenses: ExpenseWithId[];
+};
 
-const days = computed(() => {
-  const differenceInMilliseconds =
-    props.filters.dateTo.getTime() - props.filters.dateFrom.getTime();
-  return Math.floor(differenceInMilliseconds / (1000 * 60 * 60 * 24));
+const props = defineProps<Props>();
+
+const totalExpenses = computed(() => {
+  return props.expenses.reduce((acc, expense) => acc + expense.amount, 0);
 });
 
-const avgPerDay = computed(() => {
-  const total = props.expenses.reduce((acc, cur) => acc + cur.amount, 0);
-  return (total / days.value).toFixed(2);
+const totalBySource = computed(() => {
+  return props.expenses.reduce((grouped, expense) => {
+    const sourceName = expense.expenseSource.name;
+    if (!grouped.has(sourceName)) {
+      grouped.set(sourceName, 0);
+    }
+    grouped.set(sourceName, grouped.get(sourceName) + expense.amount);
+    return grouped;
+  }, new Map());
 });
 </script>
 
 <template>
-  <div class="flex items-center w-100 gap-8 p-4">
-    <h3>Account balance: {{ accountStore.mainAccount?.amount.toFixed(2) }}</h3>
-    <h3>
-      Total expenses:
-      {{ expenses.reduce((acc, cur) => acc + cur.amount, 0).toFixed(2) }}
-    </h3>
-    <h3>Expenses average per day ({{ days }} days): {{ avgPerDay }}</h3>
+  <div class="flex flex-col text-black dark:text-white">
+    <h1 class="mb-4 text-sm font-semibold">Estadísticas</h1>
+    <div class="flex items-center justify-between">
+      <p class="text-xs font-semibold capitalize">Total</p>
+      <p class="text-xs">{{ totalExpenses }}</p>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <p class="text-xs font-semibold capitalize mt-4">Total por categoría</p>
+      <div
+        v-for="[source, total] in totalBySource"
+        :key="`expense-source-total-${source}`"
+      >
+        <div class="flex items-center justify-between" v-if="total > 0">
+          <p class="text-xs capitalize">
+            {{ source }}
+          </p>
+          <p class="text-xs text-neutral-800 dark:text-neutral-200">
+            {{ total }}
+          </p>
+        </div>
+      </div>
+
+      <p class="text-xs font-semibold capitalize mt-4">
+        Porcentaje por categoría
+      </p>
+      <div
+        v-for="[source, total] in totalBySource"
+        :key="`expense-source-total-${source}`"
+      >
+        <div class="flex items-center justify-between" v-if="total > 0">
+          <p class="text-xs capitalize">
+            {{ source }}
+          </p>
+          <p class="text-xs text-neutral-800 dark:text-neutral-200">
+            {{ ((total / totalExpenses) * 100).toFixed(2) }}%
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

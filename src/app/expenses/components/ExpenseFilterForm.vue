@@ -38,9 +38,7 @@ watch(
 </script>
 
 <template>
-  <div
-    class="min-w-52 flex flex-col gap-4 px-2 py-4 border rounded-sm border-neutral-500 self-stretch"
-  >
+  <div class="w-full flex flex-col gap-4 p-4">
     <CSelection
       label="Cuenta"
       v-model:selected-value="localFilters.accountId"

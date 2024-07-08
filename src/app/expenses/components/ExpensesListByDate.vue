@@ -17,7 +17,7 @@ defineProps<Props>();
       :key="date"
       :class="{ 'border-t': index > 0 }"
     >
-      <p class="mt-1 mb-4 text-black dark:text-white font-semibold">
+      <p class="mb-4 text-black dark:text-white font-semibold">
         {{ formatDate(new Date(date)) }}
       </p>
       <div class="flex mt-1" v-for="expense in expenses" :key="expense.id">
