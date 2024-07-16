@@ -30,39 +30,55 @@ const totalBySource = computed(() => {
 
 <template>
   <div class="flex flex-col text-black dark:text-white">
-    <h1 class="mb-4 font-semibold">Estadísticas</h1>
+    <h1 class="mb-4 text-lg font-semibold text-blue-500">
+      Estadísticas generales
+    </h1>
     <div class="flex items-center justify-between">
-      <p class="font-semibold capitalize">Total</p>
-      <p>{{ currencySymbol }}{{ totalExpenses.toFixed(2) }}</p>
+      <p
+        class="font-semibold capitalize text-neutral-700 dark:text-neutral-300"
+      >
+        Total
+      </p>
+      <p class="font-semibold text-neutral-700 dark:text-neutral-300">
+        {{ currencySymbol }}{{ totalExpenses.toFixed(2) }}
+      </p>
     </div>
 
     <div class="flex flex-col gap-1">
-      <p class="font-semibold capitalize mt-4">Total por categoría</p>
+      <p class="text-lg font-semibold capitalize text-blue-500 mt-4">
+        Total por categoría
+      </p>
       <div
         v-for="[source, total] in totalBySource"
         :key="`expense-source-total-${source}`"
       >
         <div class="flex items-center justify-between" v-if="total > 0">
-          <p class="capitalize">
+          <p
+            class="font-semibold capitalize text-neutral-700 dark:text-neutral-300"
+          >
             {{ source }}
           </p>
-          <p class="text-neutral-800 dark:text-neutral-200">
+          <p class="text-neutral-700 dark:text-neutral-300">
             {{ currencySymbol }}{{ total.toFixed(2) }}
           </p>
         </div>
       </div>
 
       <div v-if="totalBySource.size > 1">
-        <p class="font-semibold capitalize mt-4">Porcentaje por categoría</p>
+        <p class="text-lg font-semibold capitalize text-blue-500 mt-4">
+          Porcentaje por categoría
+        </p>
         <div
           v-for="[source, total] in totalBySource"
           :key="`expense-source-total-${source}`"
         >
           <div class="flex items-center justify-between" v-if="total > 0">
-            <p class="capitalize">
+            <p
+              class="font-semibold capitalize text-neutral-700 dark:text-neutral-300"
+            >
               {{ source }}
             </p>
-            <p class="text-neutral-800 dark:text-neutral-200">
+            <p class="text-neutral-700 dark:text-neutral-300">
               ~{{ Math.floor((total / totalExpenses) * 100) }}%
             </p>
           </div>

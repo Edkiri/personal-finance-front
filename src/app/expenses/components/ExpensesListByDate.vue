@@ -25,7 +25,7 @@ const currencySymbol = computed(() => {
       :key="date"
       :class="{ 'border-t': index > 0 }"
     >
-      <p class="my-3 text-black dark:text-white font-semibold">
+      <p class="my-3 text-blue-500 font-semibold text-lg">
         {{ formatDate(new Date(date)) }}
       </p>
       <div class="flex mt-1" v-for="expense in expenses" :key="expense.id">
@@ -48,7 +48,8 @@ const currencySymbol = computed(() => {
             </p>
           </div>
           <p class="text-black dark:text-white">
-            - {{ currencySymbol }}{{ formatFloat(expense.amount) }}
+            <span class="text-red-500 font-semibold">-</span>
+            {{ currencySymbol }}{{ formatFloat(expense.amount) }}
           </p>
         </div>
       </div>
@@ -57,7 +58,7 @@ const currencySymbol = computed(() => {
       >
         <p>Total</p>
         <p>
-          -
+          <span class="text-red-500 font-semibold">-</span>
           {{ currencySymbol
           }}{{
             formatFloat(expenses.reduce((acc, exp) => acc + exp.amount, 0))
