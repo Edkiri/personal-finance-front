@@ -7,7 +7,7 @@ import { router, ROUTES } from '@/router';
 <template>
   <div class="flex-col w-full">
     <div class="flex items-center justify-between w-full py-2">
-      <h1 class="text-md text-black dark:text-white font-semibold">Cuentas</h1>
+      <h1 class="text-2xl text-black dark:text-white font-semibold">Cuentas</h1>
 
       <CActionButton
         color="rgb(35, 134, 54)"

@@ -49,14 +49,15 @@ async function handleSubmit(): Promise<void> {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="max-w-[450px] m-auto p-4 mt-8">
+  <form
+    @submit.prevent="handleSubmit"
+    class="max-w-[450px] w-full m-auto p-4 mt-8"
+  >
     <div class="flex flex-col">
-      <h1 class="text-black dark:text-white font-bold text-center text-xl">
+      <h1 class="text-black dark:text-white font-bold text-center text-2xl">
         Regístrate Gratis!
       </h1>
-      <p class="text-center text-sm text-neutral-500">
-        (No requiere validación)
-      </p>
+      <p class="text-center text-neutral-500">(No requiere validación)</p>
     </div>
 
     <div class="flex flex-col gap-6 mt-8">

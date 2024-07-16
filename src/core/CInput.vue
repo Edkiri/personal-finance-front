@@ -56,7 +56,7 @@ function handleFocusOut() {
   <div class="flex flex-col gap-1 w-full">
     <div
       :class="[
-        'relative w-full h-[35px] flex flex-col items-center justify-center border rounded cursor-text',
+        'relative w-full h-[40px] flex flex-col items-center justify-center border rounded cursor-text',
         `${
           focused
             ? 'border-neutral-800 dark:border-neutral-200'
@@ -71,7 +71,7 @@ function handleFocusOut() {
     >
       <input
         ref="input"
-        class="w-full text-sm text-black dark:text-white bg-transparent outline-none px-4"
+        class="w-full text-black dark:text-white bg-transparent outline-none px-4"
         :type="type"
         :disabled="disabled"
         :value="localInputValues.text"
@@ -86,7 +86,7 @@ function handleFocusOut() {
           'text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900',
           'block pointer-events-none absolute left-2 top-1/2 px-2',
           'transition-transform ease-in-out duration-100',
-          `${isLabelTop ? 'text-xs -translate-y-7' : 'text-sm -translate-y-1/2'}`,
+          `${isLabelTop ? 'text-sm -translate-y-7' : '-translate-y-1/2'}`,
         ]"
         >{{ label }}
         <span

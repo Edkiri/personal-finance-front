@@ -52,12 +52,12 @@ async function handleSubmit() {
 
 <template>
   <div class="flex flex-col mt-4">
-    <h1 class="text-md text-center font-semibold text-black dark:text-white">
+    <h1 class="text-2xl text-center font-semibold text-black dark:text-white">
       Nueva cuenta
     </h1>
     <form
       @submit.prevent="handleSubmit"
-      class="flex flex-col w-full max-w-md m-auto mt-4 gap-4"
+      class="flex flex-col w-full max-w-md m-auto mt-4 gap-5"
     >
       <CInput label="Banco" v-model:input-values="form.bank" />
       <CInput label="Nombre" v-model:input-values="form.name" />
@@ -74,7 +74,7 @@ async function handleSubmit() {
       <CInput label="Cantidad" v-model:input-values="form.amount" />
 
       <button
-        class="w-full rounded py-1 text-sm bg-rose-500 hover:bg-rose-600 font-semibold text-white"
+        class="w-full rounded py-1 bg-rose-500 hover:bg-rose-600 font-semibold text-white"
         type="submit"
       >
         Enviar

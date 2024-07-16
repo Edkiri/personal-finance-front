@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue';
 import { useAxios } from '@/hooks';
 import { ExpenseSource } from './useExpensesSources';
+import { Currency } from '@/app/accounts/hooks/useCurrencies';
 
 export type ExpenseWithId = {
   id: number;
@@ -8,6 +9,7 @@ export type ExpenseWithId = {
   date: string;
   expenseSource: ExpenseSource;
   description?: string;
+  currency: Currency;
 };
 
 export type ExpenseFilter = {

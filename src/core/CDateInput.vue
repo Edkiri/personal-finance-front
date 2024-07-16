@@ -22,12 +22,12 @@ const formatDate = (date: Date): string => {
 
 <template>
   <div class="flex flex-col gap-1 text-black dark:text-white">
-    <span class="text-xs px-1">
+    <span class="text-sm">
       {{ dateLabel ? dateLabel : formatLabel(props.date) }}
     </span>
     <input
       type="date"
-      class="bg-transparent text-xs"
+      class="bg-transparent"
       :max="formatDate(new Date())"
       :value="formatDate(props.date)"
       @change="handleChange($event)"

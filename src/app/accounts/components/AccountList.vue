@@ -43,17 +43,17 @@ async function handleDelete(account: AccountWithId) {
       <div class="flex flex-col">
         <button
           @click="() => router.push(`/accounts/update/${account.id}`)"
-          class="self-start text-sm font-bold text-blue-500 hover:underline"
+          class="self-start text-md font-bold text-blue-500 hover:underline"
         >
           {{ account.bank }} - {{ account.name }}
         </button>
-        <span class="text-sm text-neutral-700 dark:text-neutral-300">
+        <span class="text-neutral-700 dark:text-neutral-300">
           {{ account.amount }} {{ account.currency.symbol }}
         </span>
       </div>
 
       <button @click="() => handleDelete(account)">
-        <CIcon name="delete" :size="20" color="red" />
+        <CIcon name="delete" :size="25" color="red" />
       </button>
     </div>
   </div>

@@ -46,7 +46,7 @@ function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
       />
       <label
         :for="'checkbox-' + expenseSource.id"
-        class="text-black dark:text-white text-sm capitalize cursor-pointer"
+        class="text-black dark:text-white capitalize cursor-pointer"
       >
         {{ expenseSource.name }}
       </label>

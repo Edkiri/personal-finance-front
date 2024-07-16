@@ -31,7 +31,7 @@ const styles = computed(() => {
 
 <template>
   <button
-    class="py-[1px] px-4 text-sm text-white border-2 rounded-full"
+    class="py-[1px] font-bold px-4 text-white border-2 rounded-full"
     :class="{ 'opacity-40': disabled }"
     :style="styles"
     :type="type"

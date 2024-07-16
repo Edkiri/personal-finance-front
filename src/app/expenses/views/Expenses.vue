@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { CLoading } from '@/core';
+import { CIcon, CLoading } from '@/core';
 import { useExpenses } from '../hooks';
 import {
   EmptyExpenseList,
@@ -25,37 +25,47 @@ async function handleFindExpenses() {
 </script>
 
 <template>
-  <div class="flex items-stretch gap-4 grow">
+  <div class="flex flex-col grow gap-4 h-full">
     <div
-      class="w-56 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4npm u"
     >
-      <ExpenseFilterForm
-        v-model:filters="filters"
-        :search="handleFindExpenses"
-      />
+      <CIcon name="add" :size="20" color="gray" />
     </div>
-
-    <div
-      class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
-    >
-      <ExpensesListByDate
-        :expenses-by-date="expensesGroupedByDay"
-        v-if="!loading && expenses.length > 0"
-      />
-
-      <div class="mt-12 w-full m-auto" v-if="!loading && expenses.length === 0">
-        <EmptyExpenseList />
+    <div class="flex items-stretch gap-4 grow">
+      <div
+        class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+      >
+        <ExpenseFilterForm
+          v-model:filters="filters"
+          :search="handleFindExpenses"
+        />
       </div>
 
-      <div class="flex justify-center">
-        <CLoading :loading="loading" />
-      </div>
-    </div>
+      <div
+        class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
+      >
+        <ExpensesListByDate
+          :expenses-by-date="expensesGroupedByDay"
+          v-if="!loading && expenses.length > 0"
+        />
 
-    <div
-      class="border border-neutral-400 dark:border-neutral-600 w-60 rounded-sm p-4"
-    >
-      <ExpenseStats :expenses="expenses" />
+        <div
+          class="mt-12 w-full m-auto"
+          v-if="!loading && expenses.length === 0"
+        >
+          <EmptyExpenseList />
+        </div>
+
+        <div class="flex justify-center">
+          <CLoading :loading="loading" />
+        </div>
+      </div>
+
+      <div
+        class="border border-neutral-400 dark:border-neutral-600 w-80 rounded-sm p-4"
+      >
+        <ExpenseStats :expenses="expenses" />
+      </div>
     </div>
   </div>
 </template>

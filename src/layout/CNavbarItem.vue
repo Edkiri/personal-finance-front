@@ -24,7 +24,7 @@ const store = AppStore();
 <template>
   <button
     @click="() => navigate(route)"
-    class="cursor-pointer px-2 h-6 border-b-2 rounded-sm flex gap-1 items-center hover:bg-gray-400 dark:hover:bg-gray-600"
+    class="cursor-pointer px-2 py-1 border-b-2 rounded-sm flex gap-1 items-center hover:bg-gray-400 dark:hover:bg-gray-600"
     :class="{
       'border-rose-500 font-semibold': currentRute === route,
       'border-transparent': currentRute !== route,
@@ -35,7 +35,7 @@ const store = AppStore();
       :size="12"
       :color="store.theme === 'dark' ? 'white' : 'black'"
     />
-    <span class="pf-text-bold text-xs text-black dark:text-white">
+    <span class="pf-text-bold text-black dark:text-white">
       <slot></slot>
     </span>
   </button>

@@ -64,11 +64,13 @@ async function handleFocusOut() {
     ]"
   >
     <button
-      class="h-full text-xs w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
+      class="h-full w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
       @focus="focused = true"
       @focusout="handleFocusOut"
     >
-      {{ getSelectedText() }}
+      <p>
+        {{ getSelectedText() }}
+      </p>
     </button>
 
     <label
@@ -76,7 +78,7 @@ async function handleFocusOut() {
         'text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900',
         'block pointer-events-none absolute left-2 top-1/2 px-2',
         'transition-transform ease-in-out duration-100',
-        `${isLabelTop ? 'text-xs -translate-y-7' : 'text-sm -translate-y-1/2'}`,
+        `${isLabelTop ? 'text-sm -translate-y-7' : '-translate-y-1/2'}`,
       ]"
       >{{ label }}
       <span
@@ -99,7 +101,7 @@ async function handleFocusOut() {
           v-for="(selecction, index) in selecctions"
           :key="selecction.text"
           :class="[
-            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left text-xs',
+            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left',
             'z-10 bg-neutral-100 dark:bg-neutral-900',
             'hover:bg-neutral-200 dark:hover:bg-neutral-800',
             {

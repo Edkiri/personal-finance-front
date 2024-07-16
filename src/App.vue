@@ -6,7 +6,7 @@ import { CHeader } from './layout';
 <template>
   <div class="min-h-screen flex flex-col">
     <CHeader />
-    <div class="max-w-4xl m-auto w-full h-full grow py-2 flex flex-col">
+    <div class="max-w-7xl m-auto w-full h-full grow py-2 flex flex-col">
       <router-view></router-view>
     </div>
   </div>
