@@ -1,9 +1,28 @@
+import { onMounted, watch } from 'vue';
 import { defineStore } from 'pinia';
 
 import { useAccounts } from '../hooks';
+import { useAppStore } from '@/store/app-store';
 
 export const useAccountStore = defineStore('accounts', () => {
-  const { accounts, fetchAccounts, mainAccount } = useAccounts();
+  const { accounts, getAccounts, loading } = useAccounts();
 
-  return { accounts, update: fetchAccounts, mainAccount };
+  const appStore = useAppStore();
+
+  onMounted(() => {
+    if (appStore.accessToken) {
+      getAccounts();
+    }
+  });
+
+  watch(
+    () => appStore.accessToken,
+    (newAccessToken, oldAccessToken) => {
+      if (newAccessToken && newAccessToken !== oldAccessToken) {
+        getAccounts();
+      }
+    },
+  );
+
+  return { accounts, getAccounts, loading };
 });

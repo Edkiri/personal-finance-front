@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 import CIcon from '@/core/CIcon.vue';
 import { router, ROUTES } from '@/router';
 import { useLogout } from '@/app/auth/hooks';
 import CNavbar from './CNavbar.vue';
 
-const appStore = AppStore();
+const appStore = useAppStore();
 
 const logout = useLogout();
 

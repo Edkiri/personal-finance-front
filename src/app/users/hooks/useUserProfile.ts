@@ -1,6 +1,6 @@
 import { onMounted, ref, watch } from 'vue';
 import { useAxios } from '@/hooks';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
 interface UserProfile {
   id: number;
@@ -17,7 +17,7 @@ interface User {
 
 export function useUserProfile() {
   const user = ref<User | null>(null);
-  const store = AppStore();
+  const store = useAppStore();
 
   const { fetchApi, error, loading } = useAxios();
 

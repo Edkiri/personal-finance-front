@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import type { ExpenseFilter } from '@app/expenses/hooks/useExpenses';
 import { CDateInput, CSelection, CButton } from '@/core';
 import { formatDate } from '@/utils';
-import { useAccounts } from '@/app/accounts/hooks';
 import ExpenseSourcesSelection from './ExpenseSourcesSelection.vue';
+import { useAccountStore } from '@/app/accounts/stores';
 
 interface ExpenseFilterProps {
   filters: ExpenseFilter;
@@ -18,10 +19,10 @@ const emit = defineEmits<{
 
 const localFilters = reactive(props.filters);
 
-const { accounts, getAccounts, loading } = useAccounts();
+const accountStore = useAccountStore();
+const { accounts, loading } = storeToRefs(accountStore);
 
 onMounted(async () => {
-  await getAccounts();
   if (accounts.value.length) {
     localFilters.accountId = accounts.value[0].id;
     props.search();

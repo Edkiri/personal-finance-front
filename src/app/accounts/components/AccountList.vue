@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { router } from '@/router';
-import { useAccounts } from '../hooks';
 import { CDeleteModal, CIcon } from '@/core';
 import { useAxios, useConfirmationModal } from '@/hooks';
 import { AccountWithId } from '../hooks/useAccounts';
+import { useAccountStore } from '../stores';
 
-const { accounts, getAccounts } = useAccounts();
-
-onMounted(() => {
-  getAccounts();
-});
+const accountStore = useAccountStore();
+const { accounts } = storeToRefs(accountStore);
 
 const { accept, cancel, openConfirmationModal, show, message } =
   useConfirmationModal();
@@ -26,7 +23,7 @@ async function handleDelete(account: AccountWithId) {
       method: 'DELETE',
     });
     if (response?.status === 204) {
-      getAccounts();
+      accountStore.getAccounts();
     }
   }
 }

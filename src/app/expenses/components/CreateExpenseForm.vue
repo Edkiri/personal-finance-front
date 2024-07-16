@@ -1,30 +1,33 @@
 <script lang="ts" setup>
-import { reactive } from 'vue';
-import { storeToRefs } from 'pinia';
+import { onMounted, reactive } from 'vue';
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
-
+import { type AccountWithId } from '@/app/accounts/hooks/useAccounts';
 import { useAccountStore } from '@/app/accounts/stores';
-import { useExpenses, useExpensesSources } from '@/app/expenses/hooks';
+import { useExpensesSources, useCreateExpense } from '@/app/expenses/hooks';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 
 const accountStore = useAccountStore();
-const { accounts } = storeToRefs(accountStore);
-const { sources, fetchExpensesSource } = useExpensesSources();
+const { expenseSources, findExpensesSource } = useExpensesSources();
+
+onMounted(() => {
+  findExpensesSource();
+});
 
 interface ButtonProps {
+  account: AccountWithId;
   onCreate: () => void;
 }
 const props = defineProps<ButtonProps>();
 
 const formData = reactive({
   source: '',
-  accountId: 1,
+  accountId: props.account.id,
   description: useInputValue(''),
   amount: useInputValue('', validators.nonNegativeNumber),
 });
 
-const { createExpense } = useExpenses();
+const { createExpense } = useCreateExpense();
 
 async function handleCreate() {
   const response = await createExpense({
@@ -33,13 +36,13 @@ async function handleCreate() {
     description: formData.description,
     amount: formData.amount,
   });
+  findExpensesSource();
   if (!response) return;
-  await fetchExpensesSource();
   formData.source = '';
   formData.description.text = '';
   formData.amount.text = '';
   formData.accountId = 1;
-  accountStore.update();
+  // accountStore.update();
   props.onCreate();
 }
 </script>
@@ -52,7 +55,10 @@ async function handleCreate() {
       label="Source"
       v-model:text="formData.source"
       :selecctions="
-        sources.map((source) => ({ text: source.name, value: source.id }))
+        expenseSources.map((source) => ({
+          text: source.name,
+          value: source.id,
+        }))
       "
     />
 

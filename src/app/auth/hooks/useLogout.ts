@@ -1,7 +1,7 @@
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
 export function useLogout() {
-  const store = AppStore();
+  const store = useAppStore();
 
   function logout() {
     store.accessToken = undefined;

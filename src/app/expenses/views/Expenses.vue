@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { CIcon, CLoading } from '@/core';
+import { reactive, ref } from 'vue';
+import { CActionButton, CLoading } from '@/core';
 import { useExpenses } from '../hooks';
 import {
   EmptyExpenseList,
@@ -19,6 +19,8 @@ const filters = reactive<ExpenseFilter>({
 
 const { expenses, findExpenses, loading, expensesGroupedByDay } = useExpenses();
 
+const creating = ref(false);
+
 async function handleFindExpenses() {
   findExpenses(filters);
 }
@@ -27,9 +29,14 @@ async function handleFindExpenses() {
 <template>
   <div class="flex flex-col grow gap-4 h-full">
     <div
-      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4npm u"
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
     >
-      <CIcon name="add" :size="20" color="gray" />
+      <CActionButton
+        color="rgb(35, 134, 54)"
+        :click-function="() => (creating = true)"
+      >
+        Nueva
+      </CActionButton>
     </div>
     <div class="flex items-stretch gap-4 grow">
       <div

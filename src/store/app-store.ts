@@ -3,7 +3,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { useLocalStorage } from '@/hooks';
 import { useUserProfile } from '@/app/users/hooks';
 
-export const AppStore = defineStore('app', () => {
+export const useAppStore = defineStore('app', () => {
   // Theme
   const { theme, changeTheme } = useTheme();
 

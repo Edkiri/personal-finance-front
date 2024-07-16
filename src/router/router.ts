@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import ROUTES from './routes';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
 const routes = [
   {
@@ -72,7 +72,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-  const store = AppStore();
+  const store = useAppStore();
   const isAuthenticated = store.accessToken;
   const isOnboarded = store.user?.profile.onboarded;
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { router } from '@/router';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 import { CIcon } from '@/core';
 
 interface CNavbarItemProps {
@@ -18,7 +18,7 @@ const currentRute = computed(() => {
   return router.currentRoute.value.path;
 });
 
-const store = AppStore();
+const store = useAppStore();
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import useAxios from '@/hooks/useAxios';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
 interface LoginForm {
   email: string;
@@ -7,7 +7,7 @@ interface LoginForm {
 }
 
 export function useLogin() {
-  const store = AppStore();
+  const store = useAppStore();
 
   const { fetchApi, error, loading } = useAxios();
 
