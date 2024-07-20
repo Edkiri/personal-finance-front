@@ -77,7 +77,7 @@ async function handleFindExpenses() {
     </div>
     <CModal v-model:show="creating">
       <CreateExpenseForm
-        :on-create="() => (creating = false)"
+        :on-create="() => ((creating = false), handleFindExpenses())"
         :accountId="filters.accountId"
       />
     </CModal>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
 import { useAccountStore } from '@/app/accounts/stores';
@@ -28,56 +28,69 @@ const formData = reactive({
   amount: useInputValue('', validators.nonNegativeNumber),
 });
 
+watch(
+  () => props.accountId,
+  () => {
+    formData.accountId = props.accountId;
+  },
+);
+
 const { createExpense } = useCreateExpense();
 
 async function handleCreate() {
   const response = await createExpense({
     accountId: formData.accountId,
     expenseSourceName: formData.source,
-    description: formData.description,
-    amount: formData.amount,
+    description: formData.description.text,
+    amount: Number(formData.amount.text),
   });
-  findExpensesSource();
   if (!response) return;
+  findExpensesSource();
   formData.source = '';
   formData.description.text = '';
   formData.amount.text = '';
-  formData.accountId = 1;
+  formData.accountId = props.accountId;
   accountStore.getAccounts();
   props.onCreate();
 }
 </script>
 
 <template>
-  <form>
+  <form class="flex flex-col gap-6">
     <h4 class="text-2xl text-black dark:text-white">Nuevo Gasto</h4>
 
-    <CInputSelection
-      label="Source"
-      v-model:text="formData.source"
-      :selecctions="
-        expenseSources.map((source) => ({
-          text: source.name,
-          value: source.id,
-        }))
-      "
-    />
+    <div class="flex flex-col gap-4">
+      <CInputSelection
+        label="Categoría"
+        v-model:text="formData.source"
+        :selecctions="
+          expenseSources.map((source) => ({
+            text: source.name,
+            value: source.id,
+          }))
+        "
+      />
 
-    <CInput label="Amount" v-model:input-values="formData.amount" />
+      <CInput label="Cantidad" v-model:input-values="formData.amount" />
 
-    <CInput label="Description" v-model:input-values="formData.description" />
+      <CInput
+        label="Descripción"
+        :required="false"
+        v-model:input-values="formData.description"
+      />
 
-    <CSelection
-      label="Account"
-      v-model:selected-value="formData.accountId"
-      :selecctions="
-        accounts.map((account) => ({
-          text: `${account.bank} - ${account.name} ${account.currency.symbol}${account.amount.toFixed(2)}`,
-          value: account.id,
-        }))
-      "
-    />
+      <CSelection
+        label="Cuenta"
+        v-model:selected-value="formData.accountId"
+        :selecctions="
+          accounts.map((account) => ({
+            text: `${account.bank} - ${account.name} ${account.currency.symbol}${account.amount.toFixed(2)}`,
+            value: account.id,
+          }))
+        "
+      />
+    </div>
 
-    <CButton text="Create" :click-function="handleCreate" />
+    <CButton :click-function="handleCreate">Crear Gasto</CButton>
   </form>
 </template>
