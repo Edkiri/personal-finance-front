@@ -3,9 +3,9 @@ import CIcon from '@/core/CIcon.vue';
 import HomeReviews from './HomeReviews.vue';
 import HomeFooter from './HomeFooter.vue';
 import { router, ROUTES } from '@/router';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
-const store = AppStore();
+const store = useAppStore();
 
 function handleStart() {
   router.push(ROUTES.DASHBOARD);

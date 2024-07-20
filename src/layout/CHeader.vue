@@ -30,7 +30,7 @@ function handleLogout() {
         <button
           v-if="!appStore.accessToken"
           @click="() => router.push(ROUTES.LOGIN)"
-          class="text-black font-bold dark:text-white bg-rose-500 hover:bg-rose-600 px-4 rounded-full"
+          class="text-white font-bold dark:text-white bg-rose-500 hover:bg-rose-600 px-4 rounded-full"
         >
           Inicia sesión
         </button>

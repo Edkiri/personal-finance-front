@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CIcon from '@/core/CIcon.vue';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
-const store = AppStore();
+const store = useAppStore();
 </script>
 
 <template>

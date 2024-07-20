@@ -23,6 +23,9 @@ const accountStore = useAccountStore();
 const { accounts, loading } = storeToRefs(accountStore);
 
 onMounted(async () => {
+  if (!accounts.value.length) {
+    await accountStore.getAccounts();
+  }
   if (accounts.value.length) {
     localFilters.accountId = accounts.value[0].id;
     props.search();
@@ -45,7 +48,7 @@ watch(
       v-model:selected-value="localFilters.accountId"
       :selecctions="
         accounts.map((account) => ({
-          text: `${account.bank} - ${account.name} ${account.amount} ${account.currency.symbol}`,
+          text: `${account.bank} - ${account.name} ${account.currency.symbol}${account.amount.toFixed(2)}`,
           value: account.id,
         }))
       "

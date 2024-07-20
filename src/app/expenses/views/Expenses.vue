@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { CActionButton, CLoading } from '@/core';
+import { CActionButton, CLoading, CModal } from '@/core';
 import { useExpenses } from '../hooks';
 import {
   EmptyExpenseList,
@@ -9,6 +9,7 @@ import {
 } from '@/app/expenses/components';
 import { type ExpenseFilter } from '../hooks/useExpenses';
 import ExpensesListByDate from '../components/ExpensesListByDate.vue';
+import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 
 const filters = reactive<ExpenseFilter>({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -74,5 +75,11 @@ async function handleFindExpenses() {
         <ExpenseStats :expenses="expenses" />
       </div>
     </div>
+    <CModal v-model:show="creating">
+      <CreateExpenseForm
+        :on-create="() => (creating = false)"
+        :accountId="filters.accountId"
+      />
+    </CModal>
   </div>
 </template>

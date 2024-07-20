@@ -1,28 +1,29 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
-import { type AccountWithId } from '@/app/accounts/hooks/useAccounts';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useExpensesSources, useCreateExpense } from '@/app/expenses/hooks';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 
 const accountStore = useAccountStore();
+const { accounts } = storeToRefs(accountStore);
 const { expenseSources, findExpensesSource } = useExpensesSources();
 
 onMounted(() => {
   findExpensesSource();
 });
 
-interface ButtonProps {
-  account: AccountWithId;
+interface Props {
+  accountId: number | null;
   onCreate: () => void;
 }
-const props = defineProps<ButtonProps>();
+const props = defineProps<Props>();
 
 const formData = reactive({
   source: '',
-  accountId: props.account.id,
+  accountId: props.accountId,
   description: useInputValue(''),
   amount: useInputValue('', validators.nonNegativeNumber),
 });
@@ -42,14 +43,14 @@ async function handleCreate() {
   formData.description.text = '';
   formData.amount.text = '';
   formData.accountId = 1;
-  // accountStore.update();
+  accountStore.getAccounts();
   props.onCreate();
 }
 </script>
 
 <template>
   <form>
-    <h4 class="pf-bold-text">Create expense</h4>
+    <h4 class="text-2xl text-black dark:text-white">Nuevo Gasto</h4>
 
     <CInputSelection
       label="Source"
@@ -71,7 +72,7 @@ async function handleCreate() {
       v-model:selected-value="formData.accountId"
       :selecctions="
         accounts.map((account) => ({
-          text: account.mixedName!,
+          text: `${account.bank} - ${account.name} ${account.currency.symbol}${account.amount.toFixed(2)}`,
           value: account.id,
         }))
       "
@@ -80,26 +81,3 @@ async function handleCreate() {
     <CButton text="Create" :click-function="handleCreate" />
   </form>
 </template>
-
-<style scoped>
-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 16px auto;
-  gap: 24px;
-  color: white;
-}
-
-form h4 {
-  font-size: 24px;
-  text-align: center;
-}
-
-.layout-container h1 {
-  color: white;
-  font-size: 18px;
-  text-align: center;
-}
-</style>

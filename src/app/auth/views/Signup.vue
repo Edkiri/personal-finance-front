@@ -96,7 +96,7 @@ async function handleSubmit(): Promise<void> {
       </div>
       <button
         type="submit"
-        class="text-black font-bold dark:text-white text-lg self-start bg-rose-500 hover:bg-rose-600 py-1 rounded-sm w-full"
+        class="text-white font-bold dark:text-white text-lg self-start bg-rose-500 hover:bg-rose-600 py-1 rounded-sm w-full"
       >
         Registar
       </button>

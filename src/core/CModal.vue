@@ -7,48 +7,20 @@ defineEmits(['update:show']);
 </script>
 
 <template>
-  <div class="modal-layout" :class="{ show }">
-    <div class="modal-background" @click="$emit('update:show', false)"></div>
-    <div class="modal-container">
+  <div
+    :class="[
+      'fixed inset-0 transition-opacity duration-75',
+      { 'opacity-100 z-50': show, 'opacity-0 z-[-1]': !show },
+    ]"
+  >
+    <div
+      class="fixed inset-0 bg-black bg-opacity-70 z-49"
+      @click="$emit('update:show', false)"
+    ></div>
+    <div
+      class="relative w-full max-w-lg mx-auto mt-24 p-6 rounded-lg bg-white border border-gray-300 z-50"
+    >
       <slot></slot>
     </div>
   </div>
 </template>
-
-<style scoped>
-.modal-layout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 0.06s linear;
-  z-index: -1;
-}
-.modal-layout.show {
-  opacity: 1;
-  z-index: 50;
-}
-.modal-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 49;
-}
-.modal-container {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  margin-top: 96px;
-  padding: 24px;
-  border-radius: 8px;
-  z-index: 50;
-  background-color: var(--color-background);
-  border: 1px solid var(--color-white-300);
-}
-</style>
