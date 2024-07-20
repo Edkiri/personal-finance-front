@@ -50,7 +50,7 @@ const { accept, cancel, openConfirmationModal, show, message } =
 async function handleDelete() {
   if (!selectedExpense.value) return;
   const { expenseSource, amount, currency } = selectedExpense.value;
-  const msj = `¿Estás seguro que quieres eliminar el gasto ${expenseSource.name} - ${currency.symbol}${amount}?`;
+  const msj = `¿Quieres eliminar el gasto ${expenseSource.name} - ${currency.symbol}${amount}?`;
   const confirmed = await openConfirmationModal(msj);
   if (confirmed) {
     const deleted = await deleteExpense(selectedExpense.value.id);

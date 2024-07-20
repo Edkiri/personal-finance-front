@@ -15,7 +15,7 @@ const { accept, cancel, openConfirmationModal, show, message } =
 const { fetchApi: deleteAccount } = useAxios();
 
 async function handleDelete(account: AccountWithId) {
-  const msj = `¿Estás seguro que quieres eliminar la cuenta ${account.bank} - ${account.name}?`;
+  const msj = `¿Quieres eliminar la cuenta ${account.bank} - ${account.name}?`;
   const confirmed = await openConfirmationModal(msj);
   if (confirmed) {
     const response = await deleteAccount({
