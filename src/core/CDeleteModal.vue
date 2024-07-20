@@ -21,16 +21,16 @@ defineProps<ModalProps>();
       @click="onCancel"
     ></div>
     <div
-      class="relative flex flex-col w-full max-w-xs m-auto mt-[150px] py-8 px-6 gap-9 rounded-lg z-[1000] bg-neutral-200 dark:bg-neutral-900 border border-neutral-600 dark:border-neutral-700"
+      class="relative flex flex-col w-full max-w-md m-auto mt-[180px] py-8 px-6 gap-9 rounded-lg z-[1000] bg-neutral-200 dark:bg-neutral-900 border border-neutral-600 dark:border-neutral-700"
     >
-      <h3 class="text-black text-sm dark:text-white text-center">
+      <h3 class="text-black dark:text-white text-center">
         {{ message }}
       </h3>
       <div class="flex justify-center gap-12">
         <CButton outlined color="gray" :click-function="onCancel">
           Cancelar
         </CButton>
-        <CButton outlined color="red" :click-function="onConfirm">
+        <CButton outlined color="rgb(220, 67, 67)" :click-function="onConfirm">
           Eliminar
         </CButton>
       </div>

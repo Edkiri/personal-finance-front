@@ -1,3 +1,5 @@
+import { Currency } from '../accounts/hooks/useCurrencies';
+
 export type ExpenseSource = {
   id: number;
   name: string;

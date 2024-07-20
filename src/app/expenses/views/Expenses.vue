@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { CActionButton, CLoading, CModal } from '@/core';
+import { CActionButton, CDeleteModal, CLoading, CModal } from '@/core';
 import {
   EmptyExpenseList,
   ExpenseFilterForm,
@@ -11,6 +12,8 @@ import ExpensesListByDate from '../components/ExpensesListByDate.vue';
 import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 import { useExpenseStore } from '../stores/useExpenseStore';
 import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
+import { useDeleteExpense } from '../hooks/useDeleteExpense';
+import { useConfirmationModal } from '@/hooks';
 
 const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -20,27 +23,56 @@ const filters = reactive({
 });
 
 useExpenseSourceStore();
-const expenseStorre = useExpenseStore();
-const { expenses, expensesGroupedByDay, loading } = storeToRefs(expenseStorre);
+const expenseStore = useExpenseStore();
+const { expenses, loading, selectedExpense } = storeToRefs(expenseStore);
+
+onBeforeRouteLeave((_to, _from, next) => {
+  selectedExpense.value = null;
+  next();
+});
 
 const creating = ref(false);
 
 async function handleFindExpenses() {
   if (filters.accountId === null) return;
-  expenseStorre.findExpenses({
+  expenseStore.findExpenses({
     accountId: filters.accountId,
     dateFrom: filters.dateFrom,
     dateTo: filters.dateTo,
     expenseSourceIds: filters.expenseSourceIds,
   });
 }
+
+const { deleteExpense } = useDeleteExpense();
+const { accept, cancel, openConfirmationModal, show, message } =
+  useConfirmationModal();
+
+async function handleDelete() {
+  if (!selectedExpense.value) return;
+  const { expenseSource, amount, currency } = selectedExpense.value;
+  const msj = `¿Estás seguro que quieres eliminar el gasto ${expenseSource.name} - ${currency.symbol}${amount}?`;
+  const confirmed = await openConfirmationModal(msj);
+  if (confirmed) {
+    const deleted = await deleteExpense(selectedExpense.value.id);
+    if (deleted) {
+      await handleFindExpenses();
+    }
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-col grow gap-4 h-full">
     <div
-      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex justify-end gap-4"
     >
+      <CActionButton
+        :disabled="!selectedExpense"
+        color="rgb(220, 67, 67)"
+        :click-function="handleDelete"
+      >
+        Eliminar
+      </CActionButton>
       <CActionButton
         color="rgb(35, 134, 54)"
         :click-function="() => (creating = true)"
@@ -61,10 +93,7 @@ async function handleFindExpenses() {
       <div
         class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
       >
-        <ExpensesListByDate
-          :expenses-by-date="expensesGroupedByDay"
-          v-if="!loading && expenses.length > 0"
-        />
+        <ExpensesListByDate v-if="!loading && expenses.length > 0" />
 
         <div
           class="mt-12 w-full m-auto"
@@ -90,5 +119,11 @@ async function handleFindExpenses() {
         :accountId="filters.accountId"
       />
     </CModal>
+    <CDeleteModal
+      :show="show"
+      :message="message"
+      :on-cancel="cancel"
+      :on-confirm="accept"
+    />
   </div>
 </template>

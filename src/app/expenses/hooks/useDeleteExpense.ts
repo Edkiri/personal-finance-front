@@ -3,7 +3,7 @@ import { useAxios } from '@/hooks';
 export function useDeleteExpense() {
   const { fetchApi, error, loading } = useAxios();
 
-  async function deleteExpense(expenseId: string): Promise<boolean> {
+  async function deleteExpense(expenseId: number): Promise<boolean> {
     const response = await fetchApi({
       method: 'DELETE',
       path: `expenses/${expenseId}`,

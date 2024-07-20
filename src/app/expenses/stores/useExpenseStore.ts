@@ -1,10 +1,11 @@
-import { computed, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useAxios } from '@/hooks';
 import type { ExpenseFilter, ExpenseWithId } from '../types';
 
 export const useExpenseStore = defineStore('expenses', () => {
   const expenses = ref<ExpenseWithId[]>([]);
+  const selectedExpense = ref<ExpenseWithId | null>(null);
 
   const { fetchApi, loading, error } = useAxios();
 
@@ -37,11 +38,16 @@ export const useExpenseStore = defineStore('expenses', () => {
     return groupedByDay;
   });
 
+  onUnmounted(() => {
+    selectedExpense.value = null;
+  });
+
   return {
     expenses,
     findExpenses,
     error,
     loading,
     expensesGroupedByDay,
+    selectedExpense,
   };
 });
