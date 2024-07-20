@@ -77,6 +77,8 @@ function selectSource(selection: SelectionItem) {
   emit('update:text', selection.text);
 }
 
+const isLabelTop = computed(() => focused.value || props.text.length > 0);
+
 async function handleFocusOut() {
   await new Promise((res) => {
     // TODO: Find a better way to do this
@@ -90,9 +92,19 @@ async function handleFocusOut() {
 </script>
 
 <template>
-  <div class="input-container" :class="{ focused }" @click="focusInput">
+  <div
+    class="relative flex border flex-col items-center justify-center p-3 rounded-[4px] h-[40px] cursor-text"
+    :class="[
+      `${
+        focused
+          ? 'border-neutral-800 dark:border-neutral-200'
+          : 'border-neutral-400 dark:border-neutral-600'
+      }`,
+    ]"
+    @click="focusInput"
+  >
     <input
-      class="pf-input pf-normal-text"
+      class="w-full text-black dark:text-white bg-transparent outline-none"
       type="text"
       ref="input"
       :value="text"
@@ -102,25 +114,42 @@ async function handleFocusOut() {
       @keydown.down="inputArrowDown"
     />
 
-    <div class="label-container">
-      <label
-        class="input-label pf-medium-text"
-        :class="{ 'input-label-centered': text.length > 0 || focused }"
-        >{{ label }}</label
-      >
-    </div>
+    <label
+      :class="[
+        'text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900',
+        'block pointer-events-none absolute left-2 top-1/2 px-2',
+        'transition-transform ease-in-out duration-100',
+        `${isLabelTop ? 'text-sm -translate-y-7' : '-translate-y-1/2'}`,
+      ]"
+      >{{ label }}
+    </label>
 
-    <div class="select-container" v-if="show">
-      <div class="select-list-container">
+    <div
+      class="select-list-container"
+      :class="[
+        'absolute right-[-1px] left-[-1px] top-[35px]',
+        'border-b border-l border-r border-neutral-300 dark:border-neutral-700',
+      ]"
+      v-if="show"
+    >
+      <div class="flex flex-col">
         <div
-          class="button-container"
-          v-for="selecction in filteredSelections"
+          v-for="(selecction, index) in filteredSelections"
           :key="selecction.text"
+          :class="[
+            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left',
+            'z-10 bg-neutral-100 dark:bg-neutral-900 cursor-pointer',
+            'hover:bg-neutral-200 dark:hover:bg-neutral-800',
+            {
+              'border-b border-neutral-300 dark:border-neutral-700':
+                index !== selecctions.length - 1,
+            },
+          ]"
+          @click="() => selectSource(selecction)"
         >
           <button
             type="button"
-            class="pf-normal-text"
-            @click="() => selectSource(selecction)"
+            class="w-full h-full cursor-pointer text-left"
             @keydown.down.prevent="selectionArrowDown"
             @keydown.up.prevent="handleArrowUp"
           >
@@ -131,105 +160,3 @@ async function handleFocusOut() {
     </div>
   </div>
 </template>
-
-<style scoped>
-.input-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  border-radius: 4px;
-  border: 1px solid var(--color-white-300);
-  color: var(--color-white-900);
-  min-height: 50px;
-  cursor: text;
-}
-.input-container:hover {
-  border: 1px solid var(--color-white-500);
-}
-.pf-input {
-  vertical-align: middle;
-  background-color: transparent;
-  width: 100%;
-  outline: none;
-}
-.select-container {
-  position: absolute;
-  min-height: 50px;
-  right: -1px;
-  left: -1px;
-  top: 45px;
-  background-color: var(--color-background-800);
-  z-index: 30;
-  border-bottom: var(--color-white-300);
-}
-.select-container .button-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 45px;
-}
-
-.select-container .button-container button {
-  position: absolute;
-  right: 0;
-  left: 0;
-  top: 0;
-  height: 100%;
-  text-align: start;
-  width: 100%;
-  outline: none;
-  padding-left: 16px;
-  color: var(--color-white-700);
-  border: 1px solid var(--color-white-300);
-  border-bottom: none;
-}
-.select-container .button-container button:last-child {
-  border-bottom: 1px solid var(--color-white-300);
-}
-.select-container .button-container button:focus {
-  border: 1px solid var(--color-primary-400);
-  color: var(--color-white-900);
-  z-index: 50;
-}
-
-.select-list-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-.input-container.focused {
-  border-color: var(--color-white-700);
-}
-.input-label {
-  position: absolute;
-  display: block;
-  font-size: 15px;
-  top: 50%;
-  left: 16px;
-  transform: translateY(-50%);
-  transition:
-    top 0.1s ease-in-out,
-    left 0.1s ease-in-out;
-  pointer-events: none;
-  z-index: 20;
-  padding: 0px 4px;
-  background-color: var(--color-background);
-  color: var(--color-white-300);
-}
-.input-label-centered {
-  top: -4px;
-  padding: 0px 8px;
-  font-size: 14px;
-  background-color: var(--color-background);
-  color: var(--color-white-500);
-}
-.input-container:hover .input-label {
-  color: var(--color-white-500);
-}
-.input-container.focused .input-label-centered {
-  color: var(--color-white-700);
-}
-</style>

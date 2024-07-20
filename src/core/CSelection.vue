@@ -54,7 +54,7 @@ async function handleFocusOut() {
 <template>
   <div
     :class="[
-      'relative w-full max-h-[45px] h-[35px] flex flex-col items-center justify-center border rounded',
+      'relative w-full h-[40px] flex flex-col items-center justify-center border rounded',
       `${
         focused
           ? 'border-neutral-800 dark:border-neutral-200'

@@ -9,7 +9,7 @@ defineEmits(['update:show']);
 <template>
   <div
     :class="[
-      'fixed inset-0 transition-opacity duration-75',
+      'fixed inset-0',
       { 'opacity-100 z-50': show, 'opacity-0 z-[-1]': !show },
     ]"
   >
@@ -18,7 +18,7 @@ defineEmits(['update:show']);
       @click="$emit('update:show', false)"
     ></div>
     <div
-      class="relative w-full max-w-lg mx-auto mt-24 p-6 rounded-lg bg-white border border-gray-300 z-50"
+      class="relative w-full max-w-lg mx-auto mt-24 p-6 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 z-50"
     >
       <slot></slot>
     </div>
