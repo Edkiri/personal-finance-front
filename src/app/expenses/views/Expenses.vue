@@ -1,29 +1,38 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
+import { storeToRefs } from 'pinia';
 import { CActionButton, CLoading, CModal } from '@/core';
-import { useExpenses } from '../hooks';
 import {
   EmptyExpenseList,
   ExpenseFilterForm,
   ExpenseStats,
 } from '@/app/expenses/components';
-import { type ExpenseFilter } from '../hooks/useExpenses';
 import ExpensesListByDate from '../components/ExpensesListByDate.vue';
 import CreateExpenseForm from '../components/CreateExpenseForm.vue';
+import { useExpenseStore } from '../stores/useExpenseStore';
+import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 
-const filters = reactive<ExpenseFilter>({
+const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
   dateTo: new Date(),
   accountId: null,
   expenseSourceIds: [],
 });
 
-const { expenses, findExpenses, loading, expensesGroupedByDay } = useExpenses();
+useExpenseSourceStore();
+const expenseStorre = useExpenseStore();
+const { expenses, expensesGroupedByDay, loading } = storeToRefs(expenseStorre);
 
 const creating = ref(false);
 
 async function handleFindExpenses() {
-  findExpenses(filters);
+  if (filters.accountId === null) return;
+  expenseStorre.findExpenses({
+    accountId: filters.accountId,
+    dateFrom: filters.dateFrom,
+    dateTo: filters.dateTo,
+    expenseSourceIds: filters.expenseSourceIds,
+  });
 }
 </script>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useExpensesSources } from '../hooks';
+import { storeToRefs } from 'pinia';
+import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 
 interface Props {
   selectedExpenseSourcesIds: number[];
@@ -9,11 +9,8 @@ interface Props {
 const props = defineProps<Props>();
 const emit = defineEmits(['update:selectedExpenseSourcesIds']);
 
-const { expenseSources, findExpensesSource } = useExpensesSources();
-
-onMounted(() => {
-  findExpensesSource();
-});
+const expenseSourceStore = useExpenseSourceStore();
+const { expenseSources } = storeToRefs(expenseSourceStore);
 
 function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
   const isChecked = (e.target as HTMLInputElement).checked;

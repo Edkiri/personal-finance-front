@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { ExpenseWithId } from '../hooks/useExpenses';
+import { ExpenseWithId } from '../types';
 
 type Props = {
   expenses: ExpenseWithId[];
@@ -17,14 +17,20 @@ const currencySymbol = computed(() => {
 });
 
 const totalBySource = computed(() => {
-  return props.expenses.reduce((grouped, expense) => {
+  const grouped = props.expenses.reduce((acc, expense) => {
     const sourceName = expense.expenseSource.name;
-    if (!grouped.has(sourceName)) {
-      grouped.set(sourceName, 0);
+    if (!acc.has(sourceName)) {
+      acc.set(sourceName, 0);
     }
-    grouped.set(sourceName, grouped.get(sourceName) + expense.amount);
-    return grouped;
+    acc.set(sourceName, acc.get(sourceName) + expense.amount);
+    return acc;
   }, new Map());
+
+  const sortedGrouped = new Map(
+    [...grouped.entries()].sort((a, b) => b[1] - a[1]),
+  );
+
+  return sortedGrouped;
 });
 </script>
 
@@ -79,7 +85,7 @@ const totalBySource = computed(() => {
               {{ source }}
             </p>
             <p class="text-neutral-700 dark:text-neutral-300">
-              ~{{ Math.floor((total / totalExpenses) * 100) }}%
+              ~{{ Math.ceil((total / totalExpenses) * 100) }}%
             </p>
           </div>
         </div>

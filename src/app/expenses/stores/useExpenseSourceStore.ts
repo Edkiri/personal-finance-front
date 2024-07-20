@@ -1,13 +1,9 @@
-import { ref } from 'vue';
+import { defineStore } from 'pinia';
+import { onMounted, ref } from 'vue';
 import { useAxios } from '@/hooks';
+import type { ExpenseSource } from '../types';
 
-export type ExpenseSource = {
-  id: number;
-  name: string;
-  description?: string;
-};
-
-export function useExpensesSources() {
+export const useExpenseSourceStore = defineStore('expense-sources', () => {
   const expenseSources = ref<ExpenseSource[]>([]);
 
   const { fetchApi, loading, error } = useAxios();
@@ -21,5 +17,9 @@ export function useExpensesSources() {
     }
   }
 
+  onMounted(async () => {
+    await findExpensesSource();
+  });
+
   return { expenseSources, findExpensesSource, loading, error };
-}
+});

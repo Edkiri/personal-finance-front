@@ -1,25 +1,9 @@
 import { computed, ref } from 'vue';
+import { defineStore } from 'pinia';
 import { useAxios } from '@/hooks';
-import { ExpenseSource } from './useExpensesSources';
-import { Currency } from '@/app/accounts/hooks/useCurrencies';
+import type { ExpenseFilter, ExpenseWithId } from '../types';
 
-export type ExpenseWithId = {
-  id: number;
-  amount: number;
-  date: string;
-  expenseSource: ExpenseSource;
-  description?: string;
-  currency: Currency;
-};
-
-export type ExpenseFilter = {
-  dateFrom: Date;
-  dateTo: Date;
-  accountId: number | null;
-  expenseSourceIds: number[];
-};
-
-export function useExpenses() {
+export const useExpenseStore = defineStore('expenses', () => {
   const expenses = ref<ExpenseWithId[]>([]);
 
   const { fetchApi, loading, error } = useAxios();
@@ -60,4 +44,4 @@ export function useExpenses() {
     loading,
     expensesGroupedByDay,
   };
-}
+});

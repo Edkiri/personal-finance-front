@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import type { ExpenseFilter } from '@app/expenses/hooks/useExpenses';
 import { CDateInput, CSelection, CButton } from '@/core';
 import { formatDate } from '@/utils';
 import ExpenseSourcesSelection from './ExpenseSourcesSelection.vue';
 import { useAccountStore } from '@/app/accounts/stores';
+import { ExpenseFilter } from '../types';
 
 interface ExpenseFilterProps {
   filters: ExpenseFilter;
