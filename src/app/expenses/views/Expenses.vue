@@ -13,7 +13,6 @@ import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 import { useExpenseStore } from '../stores/useExpenseStore';
 import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import { useDeleteExpense } from '../hooks/useDeleteExpense';
-import { useConfirmationModal } from '@/hooks';
 
 const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -43,20 +42,13 @@ async function handleFindExpenses() {
   });
 }
 
-const { deleteExpense } = useDeleteExpense();
-const { accept, cancel, openConfirmationModal, show, message } =
-  useConfirmationModal();
+const deleteStore = useDeleteExpense();
 
 async function handleDelete() {
   if (!selectedExpense.value) return;
-  const { expenseSource, amount, currency } = selectedExpense.value;
-  const msj = `¿Quieres eliminar el gasto ${expenseSource.name} - ${currency.symbol}${amount}?`;
-  const confirmed = await openConfirmationModal(msj);
-  if (confirmed) {
-    const deleted = await deleteExpense(selectedExpense.value.id);
-    if (deleted) {
-      await handleFindExpenses();
-    }
+  const response = await deleteStore.deleteExpense(selectedExpense.value);
+  if (response) {
+    handleFindExpenses();
   }
 }
 </script>
@@ -120,10 +112,10 @@ async function handleDelete() {
       />
     </CModal>
     <CDeleteModal
-      :show="show"
-      :message="message"
-      :on-cancel="cancel"
-      :on-confirm="accept"
+      :show="deleteStore.deleting"
+      :message="deleteStore.message"
+      :on-cancel="deleteStore.cancel"
+      :on-confirm="deleteStore.accept"
     />
   </div>
 </template>
