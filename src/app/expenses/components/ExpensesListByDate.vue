@@ -11,7 +11,7 @@ const { expensesGroupedByDay, selectedExpense } = storeToRefs(expenseStore);
 const currencySymbol = computed(() => {
   if (expensesGroupedByDay.value.size < 1) return '';
   const values = expensesGroupedByDay.value.values();
-  const first = values.next().value[0] as ExpenseWithId;
+  const first = values.next().value![0] as ExpenseWithId;
   return first.currency.symbol;
 });
 

@@ -63,6 +63,11 @@ const routes = [
     component: () => import('@/app/accounts/views/AccountsUpdate.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: ROUTES.EXPENSE_UPDATE,
+    component: () => import('@/app/expenses/views/UpdateExpense.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

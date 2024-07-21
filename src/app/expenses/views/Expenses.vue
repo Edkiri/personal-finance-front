@@ -13,6 +13,8 @@ import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 import { useExpenseStore } from '../stores/useExpenseStore';
 import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import { useDeleteExpense } from '../hooks/useDeleteExpense';
+import { useAccountStore } from '@/app/accounts/stores';
+import { router } from '@/router';
 
 const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -22,6 +24,7 @@ const filters = reactive({
 });
 
 useExpenseSourceStore();
+const accountStore = useAccountStore();
 const expenseStore = useExpenseStore();
 const { expenses, loading, selectedExpense } = storeToRefs(expenseStore);
 
@@ -48,8 +51,15 @@ async function handleDelete() {
   if (!selectedExpense.value) return;
   const response = await deleteStore.deleteExpense(selectedExpense.value);
   if (response) {
-    handleFindExpenses();
+    selectedExpense.value = null;
+    await handleFindExpenses();
+    await accountStore.getAccounts();
   }
+}
+
+async function handleUpdate() {
+  if (!selectedExpense.value) return;
+  router.push(`expenses/update/${selectedExpense.value.id}`);
 }
 </script>
 
@@ -58,6 +68,13 @@ async function handleDelete() {
     <div
       class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex justify-end gap-4"
     >
+      <CActionButton
+        :disabled="!selectedExpense"
+        color="blue"
+        :click-function="handleUpdate"
+      >
+        Editar
+      </CActionButton>
       <CActionButton
         :disabled="!selectedExpense"
         color="rgb(220, 67, 67)"

@@ -1,4 +1,5 @@
-import { Currency } from '../accounts/hooks/useCurrencies';
+import type { AccountWithId } from '../accounts/hooks/useAccounts';
+import type { Currency } from '../accounts/hooks/useCurrencies';
 
 export type ExpenseSource = {
   id: number;
@@ -13,6 +14,7 @@ export type ExpenseWithId = {
   expenseSource: ExpenseSource;
   description?: string;
   currency: Currency;
+  account?: AccountWithId;
 };
 
 export type ExpenseFilter = {
