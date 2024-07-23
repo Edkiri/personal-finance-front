@@ -7,9 +7,10 @@ import IncomeFilterForm from '../components/IncomeFilterForm.vue';
 import { useIncomeSources } from '../stores/useIncomeSources';
 import IncomeListByDate from '../components/IncomeListByDate.vue';
 import EmptyIncomeList from '../components/EmptyIncomeList.vue';
-import { CActionButton, CLoading, CModal } from '@/core';
+import { CActionButton, CDeleteModal, CLoading, CModal } from '@/core';
 import CreateIncomeForm from '../components/CreateIncomeForm.vue';
 import IncomeStats from '../components/IncomeStats.vue';
+import { useDeleteIncome } from '../hooks/useDeleteIncomes';
 
 const incomeSourcesStore = useIncomeSources();
 const incomeStore = useIncomesStore();
@@ -47,7 +48,17 @@ async function handleFind() {
 
 function handleUpdate() {}
 
-function handleDelete() {}
+const deleteStore = useDeleteIncome();
+
+async function handleDelete() {
+  if (!selectedIncome.value) return;
+  const response = await deleteStore.deleteIncome(selectedIncome.value);
+  if (response) {
+    selectedIncome.value = null;
+    await handleFind();
+    await accountStore.getAccounts();
+  }
+}
 </script>
 
 <template>
@@ -113,6 +124,12 @@ function handleDelete() {}
           :accountId="filters.accountId"
         />
       </CModal>
+      <CDeleteModal
+        :show="deleteStore.deleting"
+        :message="deleteStore.message"
+        :on-cancel="deleteStore.cancel"
+        :on-confirm="deleteStore.accept"
+      />
     </div>
   </div>
 </template>
