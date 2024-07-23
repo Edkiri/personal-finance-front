@@ -6,6 +6,7 @@ import { useCurrencies } from '../hooks/useCurrencies';
 import { useAccountDetail, useUpdateAccount } from '../hooks';
 import { router, ROUTES } from '@/router';
 import { CInput, CSelection } from '@/core';
+import { useAccountStore } from '../stores';
 
 // TODO: Uso zod to validate form data
 const form = reactive({
@@ -52,6 +53,7 @@ function validateForm(): boolean {
 }
 
 const { updateAccount } = useUpdateAccount();
+const { getAccounts } = useAccountStore();
 
 async function handleSubmit() {
   const valid = validateForm();
@@ -63,6 +65,7 @@ async function handleSubmit() {
     currencyId: form.currencyId,
   });
   if (updated) {
+    await getAccounts();
     router.push(ROUTES.ACCOUNTS);
   }
 }

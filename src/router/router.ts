@@ -40,7 +40,7 @@ const routes = [
   },
   {
     path: ROUTES.INCOMES,
-    component: () => import('@/views/incomes/IncomeListView.vue'),
+    component: () => import('@/app/incomes/views/Incomes.vue'),
     meta: { requiresAuth: true },
   },
   {

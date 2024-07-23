@@ -13,7 +13,7 @@ const store = useAppStore();
       :color="store.theme === 'dark' ? 'white' : 'black'"
     />
     <p class="text-black dark:text-white text-center">
-      No se ha encontrado ningún gasto
+      No se ha encontrado ningún ingreso
     </p>
   </div>
 </template>
