@@ -1,3 +1,4 @@
+import type { AccountWithId } from '../accounts/hooks/useAccounts';
 import type { Currency } from '../accounts/hooks/useCurrencies';
 
 export type IncomesQueryParams = {
@@ -20,4 +21,5 @@ export type IncomeWithId = {
   incomeSource: IncomeSource;
   description?: string;
   currency: Currency;
+  account: AccountWithId;
 };

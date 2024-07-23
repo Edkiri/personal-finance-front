@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { router } from '@/router';
 import { useIncomesStore } from '../stores/useIncomesStore';
 import { useAccountStore } from '@/app/accounts/stores';
 import IncomeFilterForm from '../components/IncomeFilterForm.vue';
@@ -45,8 +46,10 @@ async function handleFind() {
     incomeSourceIds: filters.incomeSourceIds,
   });
 }
-
-function handleUpdate() {}
+async function handleUpdate() {
+  if (!selectedIncome.value) return;
+  router.push(`incomes/update/${selectedIncome.value.id}`);
+}
 
 const deleteStore = useDeleteIncome();
 
