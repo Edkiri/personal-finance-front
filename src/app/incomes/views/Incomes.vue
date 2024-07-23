@@ -7,11 +7,13 @@ import IncomeFilterForm from '../components/IncomeFilterForm.vue';
 import { useIncomeSources } from '../stores/useIncomeSources';
 import IncomeListByDate from '../components/IncomeListByDate.vue';
 import EmptyIncomeList from '../components/EmptyIncomeList.vue';
-import { CLoading } from '@/core';
+import { CActionButton, CLoading, CModal } from '@/core';
+import CreateIncomeForm from '../components/CreateIncomeForm.vue';
+import IncomeStats from '../components/IncomeStats.vue';
 
 const incomeSourcesStore = useIncomeSources();
 const incomeStore = useIncomesStore();
-const { loading, incomes } = storeToRefs(incomeStore);
+const { incomes, selectedIncome, loading } = storeToRefs(incomeStore);
 
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
@@ -31,6 +33,8 @@ onMounted(async () => {
   selectedAccountId.value = accounts.value[0].id;
 });
 
+const creating = ref(false);
+
 async function handleFind() {
   if (filters.accountId === null) return;
   incomeStore.getIncomes({
@@ -40,28 +44,75 @@ async function handleFind() {
     incomeSourceIds: filters.incomeSourceIds,
   });
 }
+
+function handleUpdate() {}
+
+function handleDelete() {}
 </script>
 
 <template>
-  <div class="flex gap-12 grow">
+  <div class="flex grow flex-col gap-4">
     <div
-      class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex justify-end gap-4"
     >
-      <IncomeFilterForm v-model:filters="filters" :find="handleFind" />
+      <CActionButton
+        :disabled="!selectedIncome"
+        color="blue"
+        :click-function="handleUpdate"
+      >
+        Editar
+      </CActionButton>
+      <CActionButton
+        :disabled="!selectedIncome"
+        color="rgb(220, 67, 67)"
+        :click-function="handleDelete"
+      >
+        Eliminar
+      </CActionButton>
+      <CActionButton
+        color="rgb(35, 134, 54)"
+        :click-function="() => (creating = true)"
+      >
+        Nueva
+      </CActionButton>
     </div>
 
-    <div
-      class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
-    >
-      <IncomeListByDate v-if="!loading && incomes.length > 0" />
-
-      <div class="mt-12 w-full m-auto" v-if="!loading && incomes.length === 0">
-        <EmptyIncomeList />
+    <div class="flex gap-4 grow">
+      <div
+        class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+      >
+        <IncomeFilterForm v-model:filters="filters" :find="handleFind" />
       </div>
 
-      <div class="flex justify-center">
-        <CLoading :loading="loading" />
+      <div
+        class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
+      >
+        <IncomeListByDate v-if="!loading && incomes.length > 0" />
+
+        <div
+          class="mt-12 w-full m-auto"
+          v-if="!loading && incomes.length === 0"
+        >
+          <EmptyIncomeList />
+        </div>
+
+        <div class="flex justify-center">
+          <CLoading :loading="loading" />
+        </div>
       </div>
+
+      <div
+        class="border border-neutral-400 dark:border-neutral-600 w-80 rounded-sm p-4"
+      >
+        <IncomeStats />
+      </div>
+
+      <CModal v-model:show="creating">
+        <CreateIncomeForm
+          :on-create="() => ((creating = false), handleFind())"
+          :accountId="filters.accountId"
+        />
+      </CModal>
     </div>
   </div>
 </template>

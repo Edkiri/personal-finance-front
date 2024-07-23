@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { formatDate, formatFloat } from '@/utils';
 import { useIncomesStore } from '../stores/useIncomesStore';
@@ -7,13 +6,6 @@ import { IncomeWithId } from '../types';
 
 const incomeStore = useIncomesStore();
 const { incomesGroupedByDay, selectedIncome } = storeToRefs(incomeStore);
-
-const currencySymbol = computed(() => {
-  if (incomesGroupedByDay.value.size < 1) return '';
-  const values = incomesGroupedByDay.value.values();
-  const first = values.next().value![0] as IncomeWithId;
-  return first.currency.symbol;
-});
 
 function selectIncome(expense: IncomeWithId) {
   selectedIncome.value =
@@ -24,10 +16,9 @@ function selectIncome(expense: IncomeWithId) {
 <template>
   <div class="px-4 m-auto">
     <div
-      class="border-neutral-500 pb-2"
-      v-for="([date, incomes], index) in incomesGroupedByDay"
+      class="pb-2"
+      v-for="[date, incomes] in incomesGroupedByDay"
       :key="date"
-      :class="{ 'border-t': index > 0 }"
     >
       <p class="my-3 text-blue-500 font-semibold text-lg">
         {{ formatDate(new Date(date)) }}
@@ -38,7 +29,7 @@ function selectIncome(expense: IncomeWithId) {
         :key="income.id"
       >
         <div
-          class="flex w-full justify-between border-b border-neutral-700 select-none p-1 rounded-sm"
+          class="flex w-full justify-between border-b border-neutral-300 dark:border-neutral-700 select-none p-1 rounded-sm"
           :class="{
             'bg-neutral-300 dark:bg-neutral-700':
               income.id === selectedIncome?.id,
@@ -66,18 +57,18 @@ function selectIncome(expense: IncomeWithId) {
           </div>
           <p class="text-black dark:text-white">
             <span class="text-green-500 font-semibold">+</span>
-            {{ currencySymbol }}{{ formatFloat(income.amount) }}
+            {{ income.currency.symbol }}{{ formatFloat(income.amount) }}
           </p>
         </div>
       </div>
+
       <div
-        v-if="incomes.length > 1"
         class="mt-4 flex w-full justify-between text-black dark:text-white font-semibold"
       >
         <p>Total</p>
         <p>
           <span class="text-green-500 font-semibold">+</span>
-          {{ currencySymbol
+          {{ incomes[0].currency.symbol
           }}{{ formatFloat(incomes.reduce((acc, exp) => acc + exp.amount, 0)) }}
         </p>
       </div>
