@@ -29,37 +29,43 @@ function getItemValue(header: TableHeader, item: TableItem) {
 </script>
 
 <template>
-  <table class="table">
-    <tr>
-      <th
-        v-for="header in headers"
-        :key="header.itemKey"
-        :style="{ width: header.width ? header.width + 'px' : 'auto' }"
-      >
-        <slot :item="header" :name="`header-${header.itemKey}`">
-          {{ header.text }}
-        </slot>
-      </th>
-    </tr>
-    <tr v-for="item in items">
-      <td v-for="header in headers">
-        <slot :name="`item-${header.itemKey}`" :item="item">
-          {{ getItemValue(header, item) }}
-        </slot>
-      </td>
-    </tr>
+  <table>
+    <thead>
+      <tr class="rounded">
+        <th
+          class="bg-blue-500 dark:bg-blue-800 py-2 px-3 text-left"
+          v-for="header in headers"
+          :key="header.itemKey"
+          :style="{ width: header.width ? header.width + 'px' : 'auto' }"
+        >
+          <slot :item="header" :name="`header-${header.itemKey}`">
+            <span class="text-white text-base font-black">
+              {{ header.text }}
+            </span>
+          </slot>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, item_index) in items" :key="`item-${item_index}`">
+        <td
+          class="py-2 px-3 text-left"
+          :class="`
+            ${
+              item_index % 2 === 0
+                ? 'bg-neutral-300 dark:bg-neutral-800'
+                : 'bg-neutral-200 dark:bg-neutral-900'
+            }`"
+          v-for="(header, header_index) in headers"
+          :key="`header-${header_index}`"
+        >
+          <slot :name="`item-${header.itemKey}`" :item="item">
+            <span class="text-black dark:text-white">
+              {{ getItemValue(header, item) }}
+            </span>
+          </slot>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </template>
-
-<style scoped>
-.table {
-  border-collapse: collapse;
-  color: var(--color-white-500);
-}
-
-.table th,
-.table td {
-  border: 1px solid var(--color-white-300);
-  padding: 8px;
-}
-</style>
