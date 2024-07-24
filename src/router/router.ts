@@ -45,7 +45,7 @@ const routes = [
   },
   {
     path: ROUTES.DEBTS,
-    component: () => import('@/views/debts/DebtListView.vue'),
+    component: () => import('@/app/debts/views/Debts.vue'),
     meta: { requiresAuth: true },
   },
   {

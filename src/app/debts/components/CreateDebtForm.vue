@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 import validators from '@utils/form-validators';
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
-import { useExpensesSources } from '@/app/expenses/hooks';
-import { useCurrencies } from '@/app/accounts/hooks/useCurrencies';
-import { useDebts } from '@/app/debts/hooks';
 import { useInputValue } from '@/hooks';
+import { useCurrencies } from '@/app/accounts/hooks/useCurrencies';
+import { useCreateDebt } from '../hooks/useCreateDebt';
+import { useExpenseSourceStore } from '@/app/expenses/stores/useExpenseSourceStore';
 
 export interface CreateDebtFormProps {
   onCreate: () => void;
@@ -13,86 +14,73 @@ export interface CreateDebtFormProps {
 const props = defineProps<CreateDebtFormProps>();
 
 const { currencies } = useCurrencies();
-const { sources, fetchExpensesSource } = useExpensesSources();
-const { create } = useDebts();
+const expenseSourceStore = useExpenseSourceStore();
+const { expenseSources } = storeToRefs(expenseSourceStore);
+const { create } = useCreateDebt();
 
 const formData = reactive({
   creditor: useInputValue('', validators.notEmpty),
   expenseSourceName: '',
   amount: useInputValue('', validators.nonNegativeNumber),
   description: useInputValue(''),
-  currencyId: 1,
+  currencyId: '',
 });
 
 async function handleCreate() {
+  if (!formData.currencyId) return;
+
   const created = await create({
-    creditor: formData.creditor,
+    creditor: formData.creditor.text,
     expenseSourceName: formData.expenseSourceName,
-    amount: formData.amount,
-    description: formData.description,
-    currencyId: formData.currencyId,
+    amount: Number(formData.amount.text),
+    description: formData.description.text,
+    currencyId: Number(formData.currencyId),
   });
   if (!created) return;
-  await fetchExpensesSource();
+  await expenseSourceStore.findExpensesSource();
   formData.creditor.text = '';
   formData.expenseSourceName = '';
   formData.amount.text = '';
-  formData.currencyId = 1;
+  formData.currencyId = String(currencies.value[0].id);
   formData.description.text = '';
   props.onCreate();
 }
 </script>
 
 <template>
-  <form>
-    <h4 class="pf-bold-text">Create debt</h4>
+  <form class="flex flex-col gap-6">
+    <h4 class="text-2xl text-black dark:text-white text-center">Nueva deuda</h4>
 
-    <CInput label="Creditor" v-model:input-values="formData.creditor" />
+    <div class="flex flex-col gap-4">
+      <CInput label="Creditor" v-model:input-values="formData.creditor" />
 
-    <CInputSelection
-      label="Source"
-      v-model:text="formData.expenseSourceName"
-      :selecctions="
-        sources.map((source) => ({ text: source.name, value: source.id }))
-      "
-    />
+      <CInputSelection
+        label="Categoría"
+        v-model:text="formData.expenseSourceName"
+        :selecctions="
+          expenseSources.map((source) => ({
+            text: source.name,
+            value: source.id,
+          }))
+        "
+      />
 
-    <CInput label="Amount" v-model:input-values="formData.amount" />
+      <CInput label="Cantidad" v-model:input-values="formData.amount" />
 
-    <CInput label="Description" v-model:input-values="formData.description" />
+      <CInput label="Descripción" v-model:input-values="formData.description" />
 
-    <CSelection
-      label="Currency"
-      v-model:selected-value="formData.currencyId"
-      :selecctions="
-        currencies.map((currency) => ({
-          text: `${currency.name} (${currency.symbol})`,
-          value: currency.id,
-        }))
-      "
-    />
+      <CSelection
+        label="Moneda"
+        v-model:selected-value="formData.currencyId"
+        :selecctions="
+          currencies.map((currency) => ({
+            text: `${currency.name} (${currency.symbol})`,
+            value: currency.id,
+          }))
+        "
+      />
+    </div>
 
-    <CButton text="Create" :click-function="handleCreate" />
+    <CButton :click-function="handleCreate">Crear</CButton>
   </form>
 </template>
-
-<style scoped>
-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 16px auto;
-  gap: 24px;
-  color: white;
-}
-form h4 {
-  font-size: 24px;
-  text-align: center;
-}
-.layout-container h1 {
-  color: white;
-  font-size: 18px;
-  text-align: center;
-}
-</style>
