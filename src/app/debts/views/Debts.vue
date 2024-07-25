@@ -3,14 +3,16 @@ import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useDebtStore } from '../stores/useDebtsStore';
 import { CActionButton, CModal, CTable } from '@/core';
-import { CreateDebtForm } from '../components';
+import { CreateDebtForm, CreateDebtPaymentForm } from '../components';
 import type { TableHeader } from '@/core/CTable.vue';
 import { formatFloat } from '@/utils';
+import { DebtWithId } from '../types';
 
 const debtStore = useDebtStore();
-const { debts } = storeToRefs(debtStore);
+const { debts, selectedDebt } = storeToRefs(debtStore);
 
 const creating = ref(false);
+const creatingPayment = ref(false);
 
 const headers = ref<TableHeader[]>([
   { text: 'Estado', itemKey: 'paid', width: 140 },
@@ -25,6 +27,19 @@ const headers = ref<TableHeader[]>([
 onMounted(() => {
   debtStore.find();
 });
+function handleCheckboxChange(e: InputEvent, debt: DebtWithId) {
+  const isChecked = (e.target as HTMLInputElement).checked;
+
+  if (isChecked) {
+    if (selectedDebt.value && selectedDebt.value.id === debt.id) {
+      selectedDebt.value = null;
+    } else {
+      selectedDebt.value = debt;
+    }
+  } else {
+    selectedDebt.value = null;
+  }
+}
 </script>
 
 <template>
@@ -33,7 +48,14 @@ onMounted(() => {
       class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex justify-end gap-4"
     >
       <CActionButton
-        :disabled="true"
+        :disabled="!selectedDebt"
+        color="blue"
+        :click-function="() => (creatingPayment = true)"
+      >
+        Crear pago
+      </CActionButton>
+      <CActionButton
+        :disabled="!selectedDebt"
         color="rgb(220, 67, 67)"
         :click-function="() => {}"
       >
@@ -68,6 +90,17 @@ onMounted(() => {
           </span>
         </template>
 
+        <template #item-actions="{ item }">
+          <input
+            type="checkbox"
+            :checked="item.id === selectedDebt?.id"
+            @input="
+              handleCheckboxChange($event as InputEvent, item as DebtWithId)
+            "
+            :id="'checkbox-' + item.id"
+          />
+        </template>
+
         <template #item-paid="{ item }">
           <span
             class="bg-green-400 dark:bg-green-600 text-white font-semibold px-2 rounded-full"
@@ -87,5 +120,11 @@ onMounted(() => {
 
   <CModal v-model:show="creating">
     <CreateDebtForm @create="() => ((creating = false), debtStore.find())" />
+  </CModal>
+
+  <CModal v-model:show="creatingPayment">
+    <CreateDebtPaymentForm
+      @create="() => ((creatingPayment = false), debtStore.find())"
+    />
   </CModal>
 </template>

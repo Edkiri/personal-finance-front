@@ -20,5 +20,5 @@ export const useDebtStore = defineStore('debt-store', () => {
     selectedDebt.value = selectedDebt.value?.id !== debt.id ? debt : null;
   }
 
-  return { debts, selectDebt, find, loading, error };
+  return { debts, selectedDebt, selectDebt, find, loading, error };
 });

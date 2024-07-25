@@ -5,72 +5,60 @@ import { CButton, CInput, CSelection } from '@/core';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
+import { useDebtStore } from '../stores/useDebtsStore';
+import { useCreateDebtPay } from '../hooks/useCreateDebtPay';
 
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
 
-export type CreateDebtPaymentPayload = {
-  accountId: number;
-  amount: number;
-};
+const debtStore = useDebtStore();
+const { selectedDebt } = storeToRefs(debtStore);
 
 export interface CreateDebtPaymentForm {
-  createFunction: (payload: CreateDebtPaymentPayload) => void;
+  onCreate: () => void;
 }
 const props = defineProps<CreateDebtPaymentForm>();
 
 const formData = reactive({
   amount: useInputValue('', validators.nonNegativeNumber),
-  accountId: 1,
+  accountId: null,
 });
 
-function handleCreate() {
-  if (!formData.amount || !formData.accountId) return;
-  props.createFunction({
+const { createDebtPay } = useCreateDebtPay();
+
+async function handleCreate() {
+  if (!formData.amount.text || !formData.accountId || !selectedDebt.value)
+    return;
+  const created = await createDebtPay({
+    debtId: selectedDebt.value.id,
     accountId: formData.accountId,
-    amount: parseFloat(formData.amount.text),
+    amount: Number(formData.amount.text),
   });
+  if (created) {
+    props.onCreate();
+  }
 }
 </script>
 
 <template>
-  <form>
-    <h4 class="pf-bold-text">Create payment</h4>
+  <form class="flex flex-col gap-8">
+    <h4 class="text-2xl text-center text-black dark:text-white">Crear Pago</h4>
 
-    <CInput label="Amount" v-model:input-values="formData.amount" />
+    <div class="flex flex-col gap-4">
+      <CInput label="Amount" v-model:input-values="formData.amount" />
 
-    <CSelection
-      label="Account"
-      v-model:selected-value="formData.accountId"
-      :selecctions="
-        accounts.map((account) => ({
-          text: `${account.mixedName}`,
-          value: account.id,
-        }))
-      "
-    />
+      <CSelection
+        label="Cuenta"
+        v-model:selected-value="formData.accountId"
+        :selecctions="
+          accounts.map((account) => ({
+            text: `${account.bank} - ${account.name} ${account.currency.symbol}${account.amount.toFixed(2)}`,
+            value: account.id,
+          }))
+        "
+      />
+    </div>
 
-    <CButton text="Create" :click-function="handleCreate" />
+    <CButton :click-function="handleCreate">Crear</CButton>
   </form>
 </template>
-
-<style scoped>
-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 16px auto;
-  gap: 24px;
-  color: white;
-}
-form h4 {
-  font-size: 24px;
-  text-align: center;
-}
-.layout-container h1 {
-  color: white;
-  font-size: 18px;
-  text-align: center;
-}
-</style>
