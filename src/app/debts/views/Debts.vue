@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useDebtStore } from '../stores/useDebtsStore';
 import { CActionButton, CDeleteModal, CModal, CTable } from '@/core';
@@ -28,6 +29,12 @@ const headers = ref<TableHeader[]>([
 onMounted(() => {
   debtStore.find();
 });
+
+onBeforeRouteLeave((_to, _from, next) => {
+  selectedDebt.value = null;
+  next();
+});
+
 function handleCheckboxChange(e: InputEvent, debt: DebtWithId) {
   const isChecked = (e.target as HTMLInputElement).checked;
 

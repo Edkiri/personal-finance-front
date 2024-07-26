@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { router } from '@/router';
 import { useIncomesStore } from '../stores/useIncomesStore';
@@ -21,6 +22,11 @@ const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
 
 const selectedAccountId = ref<number | null>(null);
+
+onBeforeRouteLeave((_to, _from, next) => {
+  selectedIncome.value = null;
+  next();
+});
 
 const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
