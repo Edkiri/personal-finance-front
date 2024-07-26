@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { router, ROUTES } from '@/router';
 import { useExpenseDetail } from '../hooks/useExpenseDetail';
-import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useUpdateExpense } from '../hooks/useUpdateExpense';
 import {

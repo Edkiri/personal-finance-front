@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
+import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
 import { CActionButton, CDeleteModal, CLoading, CModal } from '@/core';
 import {
   EmptyExpenseList,
@@ -11,7 +12,6 @@ import {
 import ExpensesListByDate from '../components/ExpensesListByDate.vue';
 import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 import { useExpenseStore } from '../stores/useExpenseStore';
-import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import { useDeleteExpense } from '../hooks/useDeleteExpense';
 import { useAccountStore } from '@/app/accounts/stores';
 import { router } from '@/router';

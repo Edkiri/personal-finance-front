@@ -2,11 +2,11 @@
 import { reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 import validators from '@utils/form-validators';
+import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
 import { useInputValue } from '@/hooks';
 import { useCurrencies } from '@/app/accounts/hooks/useCurrencies';
 import { useCreateDebt } from '../hooks/useCreateDebt';
-import { useExpenseSourceStore } from '@/app/expenses/stores/useExpenseSourceStore';
 
 export interface CreateDebtFormProps {
   onCreate: () => void;

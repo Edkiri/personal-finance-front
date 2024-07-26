@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
 import {
   CButton,
   CDateInput,
@@ -11,7 +12,6 @@ import {
 import { useAccountStore } from '@/app/accounts/stores';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
-import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import { useCreateExpense } from '../hooks/useCreateExpense';
 
 interface Props {

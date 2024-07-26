@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
+import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
 
 interface Props {
   selectedExpenseSourcesIds: number[];
