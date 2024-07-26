@@ -67,21 +67,24 @@ async function handleDelete() {
     >
       <CActionButton
         :disabled="!selectedDebt"
-        color="blue"
+        color="rgb(35, 134, 54)"
         :click-function="() => (creatingPayment = true)"
+        icon="add"
       >
         Crear pago
       </CActionButton>
       <CActionButton
         :disabled="!selectedDebt"
-        color="rgb(220, 67, 67)"
+        color="#e74c3c"
         :click-function="handleDelete"
+        icon="delete"
       >
         Eliminar
       </CActionButton>
       <CActionButton
         color="rgb(35, 134, 54)"
         :click-function="() => (creating = true)"
+        icon="add"
       >
         Nueva
       </CActionButton>

@@ -12,6 +12,7 @@ import { router, ROUTES } from '@/router';
       <CActionButton
         color="rgb(35, 134, 54)"
         :click-function="() => router.push(ROUTES.ACCOUNTS_CREATE)"
+        icon="add"
       >
         Nueva
       </CActionButton>

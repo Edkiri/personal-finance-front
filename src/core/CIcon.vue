@@ -7,6 +7,7 @@ interface IconProps {
   size?: number;
   color?: string;
   disabled?: boolean;
+  styles?: CSSProperties;
 }
 const props = withDefaults(defineProps<IconProps>(), {
   size: 35,
@@ -14,7 +15,10 @@ const props = withDefaults(defineProps<IconProps>(), {
   disabled: false,
 });
 const icon = defineAsyncComponent(() => import(`@/assets/${props.name}.svg`));
+
 const styles = computed(() => {
+  if (props.styles) return props.styles;
+
   const stylesObject: CSSProperties = {};
   stylesObject.fill = props.color;
   return stylesObject;

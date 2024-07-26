@@ -77,21 +77,24 @@ async function handleDelete() {
     >
       <CActionButton
         :disabled="!selectedIncome"
-        color="blue"
+        color="rgb(59, 130, 246)"
         :click-function="handleUpdate"
+        icon="edit"
       >
         Editar
       </CActionButton>
       <CActionButton
         :disabled="!selectedIncome"
-        color="rgb(220, 67, 67)"
+        color="#e74c3c"
         :click-function="handleDelete"
+        icon="delete"
       >
         Eliminar
       </CActionButton>
       <CActionButton
         color="rgb(35, 134, 54)"
         :click-function="() => (creating = true)"
+        icon="add"
       >
         Nueva
       </CActionButton>
