@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import ROUTES from './routes';
 import { useAppStore } from '@/store/app-store';
 
@@ -76,7 +76,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   strict: true,
   routes,
 });
@@ -87,13 +87,14 @@ router.beforeEach((to, _from, next) => {
   const isOnboarded = store.user?.profile.onboarded;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next(ROUTES.LOGIN);
+    return next(ROUTES.LOGIN);
   }
 
   if (to.meta.requiresOnboarding && !isOnboarded) {
-    next(ROUTES.ONBOARDING);
+    return next(ROUTES.ONBOARDING);
   }
 
-  next();
+  return next();
 });
+
 export default router;
