@@ -1,13 +1,17 @@
 import { useAxios } from '@/hooks';
+import { CreateExpenseDto } from '../types';
 
 export function useCreateExpense() {
   const { fetchApi, loading, error } = useAxios();
 
-  async function createExpense(payload: object): Promise<boolean> {
+  async function createExpense(data: CreateExpenseDto): Promise<boolean> {
     const response = await fetchApi({
       method: 'POST',
       path: 'expenses',
-      payload,
+      payload: {
+        ...data,
+        date: data.date.toISOString(),
+      },
     });
     if (response?.status === 201) {
       return true;

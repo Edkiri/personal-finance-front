@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
-import { CButton, CInput, CSelection } from '@/core';
+import { CButton, CDateInput, CInput, CSelection } from '@/core';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
@@ -22,6 +22,7 @@ const props = defineProps<CreateDebtPaymentForm>();
 const formData = reactive({
   amount: useInputValue('', validators.nonNegativeNumber),
   accountId: null,
+  date: new Date(),
 });
 
 const { createDebtPay } = useCreateDebtPay();
@@ -33,6 +34,7 @@ async function handleCreate() {
     debtId: selectedDebt.value.id,
     accountId: formData.accountId,
     amount: Number(formData.amount.text),
+    date: formData.date,
   });
   if (created) {
     props.onCreate();
@@ -42,7 +44,9 @@ async function handleCreate() {
 
 <template>
   <form class="flex flex-col gap-8">
-    <h4 class="text-2xl text-center text-black dark:text-white">Crear Pago</h4>
+    <h4 class="text-2xl text-center text-black dark:text-white">
+      Crear Pago para {{ selectedDebt?.creditor }}
+    </h4>
 
     <div class="flex flex-col gap-4">
       <CInput label="Amount" v-model:input-values="formData.amount" />
@@ -57,6 +61,10 @@ async function handleCreate() {
           }))
         "
       />
+
+      <div class="px-2">
+        <CDateInput v-model:date="formData.date" dateLabel="Fecha" />
+      </div>
     </div>
 
     <CButton :click-function="handleCreate">Crear</CButton>

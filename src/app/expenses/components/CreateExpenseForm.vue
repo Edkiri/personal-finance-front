@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { CButton, CInput, CInputSelection, CSelection } from '@/core';
+import {
+  CButton,
+  CDateInput,
+  CInput,
+  CInputSelection,
+  CSelection,
+} from '@/core';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
@@ -29,6 +35,7 @@ const formData = reactive({
   accountId: props.accountId,
   description: useInputValue(''),
   amount: useInputValue('', validators.nonNegativeNumber),
+  date: new Date(),
 });
 
 watch(
@@ -41,11 +48,13 @@ watch(
 const { createExpense } = useCreateExpense();
 
 async function handleCreate() {
+  if (!formData.accountId) return;
   const response = await createExpense({
     accountId: formData.accountId,
     expenseSourceName: formData.source,
     description: formData.description.text,
     amount: Number(formData.amount.text),
+    date: formData.date,
   });
   if (!response) return;
   formData.source = '';
@@ -60,7 +69,7 @@ async function handleCreate() {
 
 <template>
   <form class="flex flex-col gap-6">
-    <h4 class="text-2xl text-black dark:text-white">Nuevo Gasto</h4>
+    <h4 class="text-2xl text-black dark:text-white text-center">Nuevo Gasto</h4>
 
     <div class="flex flex-col gap-4">
       <CInputSelection
@@ -92,8 +101,11 @@ async function handleCreate() {
           }))
         "
       />
+      <div class="px-2">
+        <CDateInput v-model:date="formData.date" dateLabel="Fecha" />
+      </div>
     </div>
 
-    <CButton :click-function="handleCreate">Crear Gasto</CButton>
+    <CButton :click-function="handleCreate">Crear</CButton>
   </form>
 </template>

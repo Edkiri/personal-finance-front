@@ -8,7 +8,13 @@ import { useExpenseDetail } from '../hooks/useExpenseDetail';
 import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useUpdateExpense } from '../hooks/useUpdateExpense';
-import { CButton, CInput, CInputSelection, CSelection } from '@/core';
+import {
+  CButton,
+  CDateInput,
+  CInput,
+  CInputSelection,
+  CSelection,
+} from '@/core';
 
 const { expenseId } = router.currentRoute.value.params;
 
@@ -19,6 +25,7 @@ const form = reactive({
   accountId: '',
   description: useInputValue(''),
   expenseSourceName: '',
+  date: new Date(),
 });
 
 const expenseSourceSource = useExpenseSourceStore();
@@ -43,6 +50,7 @@ onMounted(async () => {
   form.accountId = String(expense.value.account.id);
   form.description.text = expense.value.description ?? '';
   form.expenseSourceName = expense.value.expenseSource.name;
+  form.date = new Date(expense.value.date);
 });
 
 const { update } = useUpdateExpense();
@@ -55,7 +63,7 @@ async function handleUpdate() {
     amount: Number(form.amount.text),
     expenseSourceName: form.expenseSourceName,
     accountId: Number(form.accountId),
-    date: new Date(expense.value.date),
+    date: form.date,
     description: form.description.text,
   });
 
@@ -103,6 +111,10 @@ async function handleUpdate() {
           }))
         "
       />
+
+      <div class="px-2">
+        <CDateInput v-model:date="form.date" dateLabel="Fecha" />
+      </div>
     </div>
 
     <CButton :click-function="handleUpdate">Actualizar</CButton>

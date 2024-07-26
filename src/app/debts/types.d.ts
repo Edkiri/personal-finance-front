@@ -13,6 +13,7 @@ export type CreateDebtPaymentDto = {
   debtId: number;
   amount: number;
   accountId: number;
+  date: Date;
 };
 
 export type DebtWithId = {

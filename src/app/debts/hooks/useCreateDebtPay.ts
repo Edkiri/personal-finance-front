@@ -9,13 +9,14 @@ export function useCreateDebtPay() {
   const { find } = useDebtStore();
   const { getAccounts } = useAccountStore();
 
-  async function createDebtPay(
-    payload: CreateDebtPaymentDto,
-  ): Promise<boolean> {
+  async function createDebtPay(data: CreateDebtPaymentDto): Promise<boolean> {
     const response = await fetchApi({
       method: 'POST',
       path: 'debts/pay',
-      payload,
+      payload: {
+        ...data,
+        date: data.date.toISOString(),
+      },
     });
     if (response?.status === 201) {
       await find();

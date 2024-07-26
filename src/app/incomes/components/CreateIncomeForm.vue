@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { CButton, CInput, CInputSelection, CSelection } from '@/core';
+import {
+  CButton,
+  CDateInput,
+  CInput,
+  CInputSelection,
+  CSelection,
+} from '@/core';
 import { useAccountStore } from '@/app/accounts/stores';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
@@ -29,6 +35,7 @@ const formData = reactive({
   accountId: props.accountId,
   description: useInputValue(''),
   amount: useInputValue('', validators.nonNegativeNumber),
+  date: new Date(),
 });
 
 watch(
@@ -46,12 +53,14 @@ async function handleCreate() {
     incomeSourceName: formData.source,
     description: formData.description.text,
     amount: Number(formData.amount.text),
+    date: formData.date.toDateString(),
   });
   if (!response) return;
   formData.source = '';
   formData.description.text = '';
   formData.amount.text = '';
   formData.accountId = props.accountId;
+  formData.date = new Date();
   await incomeSourceStore.getIncomeSources();
   await accountStore.getAccounts();
   props.onCreate();
@@ -92,6 +101,10 @@ async function handleCreate() {
           }))
         "
       />
+
+      <div class="px-2">
+        <CDateInput v-model:date="formData.date" dateLabel="Fecha" />
+      </div>
     </div>
 
     <CButton :click-function="handleCreate">Crear Ingreso</CButton>

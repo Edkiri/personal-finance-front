@@ -4,7 +4,13 @@ import { storeToRefs } from 'pinia';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { router, ROUTES } from '@/router';
-import { CButton, CInput, CInputSelection, CSelection } from '@/core';
+import {
+  CButton,
+  CDateInput,
+  CInput,
+  CInputSelection,
+  CSelection,
+} from '@/core';
 import { useIncomeDetail } from '../hooks/useIncomeDetail';
 import { useIncomeSources } from '../stores/useIncomeSources';
 import { useAccountStore } from '@/app/accounts/stores';
@@ -19,6 +25,7 @@ const form = reactive({
   accountId: '',
   description: useInputValue(''),
   incomeSourceName: '',
+  date: new Date(),
 });
 
 const incomeSourceSource = useIncomeSources();
@@ -43,6 +50,7 @@ onMounted(async () => {
   form.accountId = String(income.value.account.id);
   form.description.text = income.value.description ?? '';
   form.incomeSourceName = income.value.incomeSource.name;
+  form.date = new Date(income.value.date);
 });
 
 const { update } = useUpdateExpense();
@@ -55,7 +63,7 @@ async function handleUpdate() {
     amount: Number(form.amount.text),
     incomeSourceName: form.incomeSourceName,
     accountId: Number(form.accountId),
-    date: new Date(income.value.date),
+    date: form.date,
     description: form.description.text,
   });
 
@@ -101,6 +109,10 @@ async function handleUpdate() {
           }))
         "
       />
+
+      <div class="px-2">
+        <CDateInput v-model:date="form.date" dateLabel="Fecha" />
+      </div>
     </div>
 
     <CButton :click-function="handleUpdate">Actualizar</CButton>
