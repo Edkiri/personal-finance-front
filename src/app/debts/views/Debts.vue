@@ -2,11 +2,12 @@
 import { onMounted, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useDebtStore } from '../stores/useDebtsStore';
-import { CActionButton, CModal, CTable } from '@/core';
+import { CActionButton, CDeleteModal, CModal, CTable } from '@/core';
 import { CreateDebtForm, CreateDebtPaymentForm } from '../components';
 import type { TableHeader } from '@/core/CTable.vue';
 import { formatFloat } from '@/utils';
 import { DebtWithId } from '../types';
+import { useDeleteDebt } from '../hooks/useDeleteDebt';
 
 const debtStore = useDebtStore();
 const { debts, selectedDebt } = storeToRefs(debtStore);
@@ -40,6 +41,16 @@ function handleCheckboxChange(e: InputEvent, debt: DebtWithId) {
     selectedDebt.value = null;
   }
 }
+
+const deleteStore = useDeleteDebt();
+
+async function handleDelete() {
+  if (!selectedDebt.value) return;
+  const response = await deleteStore.deleteDebt(selectedDebt.value);
+  if (response) {
+    selectedDebt.value = null;
+  }
+}
 </script>
 
 <template>
@@ -57,7 +68,7 @@ function handleCheckboxChange(e: InputEvent, debt: DebtWithId) {
       <CActionButton
         :disabled="!selectedDebt"
         color="rgb(220, 67, 67)"
-        :click-function="() => {}"
+        :click-function="handleDelete"
       >
         Eliminar
       </CActionButton>
@@ -127,4 +138,11 @@ function handleCheckboxChange(e: InputEvent, debt: DebtWithId) {
       @create="() => ((creatingPayment = false), debtStore.find())"
     />
   </CModal>
+
+  <CDeleteModal
+    :show="deleteStore.deleting"
+    :message="deleteStore.message"
+    :on-cancel="deleteStore.cancel"
+    :on-confirm="deleteStore.accept"
+  />
 </template>

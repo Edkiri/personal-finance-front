@@ -1,3 +1,4 @@
+import { Currency } from '../accounts/hooks/useCurrencies';
 import type { ExpenseSource } from '../expenses/types';
 
 export type CreateDebtDto = {
@@ -22,7 +23,7 @@ export type DebtWithId = {
   paid: boolean;
   date: string;
   paidDate: string;
-  currencyId: number;
+  currency: Currency;
   expenseSource: ExpenseSource;
   description?: string;
 };
