@@ -2,20 +2,35 @@ import { defineStore } from 'pinia';
 import { useAxios, useConfirmationModal } from '@/hooks';
 import { useExpenseSourceStore } from '../stores/useExpenseSourceStore';
 import type { ExpenseSource } from '../types';
+import { useToastStore } from '@/store/toast-store';
 
 export const useDeleteExpenseSource = defineStore(
   'delete-expense-source',
   () => {
-    const { fetchApi, loading, error } = useAxios();
+    const { fetchApi, loading, error, status } = useAxios();
     const store = useExpenseSourceStore();
+    const toastStore = useToastStore();
 
     async function fetchDelete(expenseSourceId: number): Promise<boolean> {
-      const response = await fetchApi({
+      await fetchApi({
         method: 'DELETE',
         path: `expenses/sources/${expenseSourceId}`,
       });
-      if (response?.status === 204) {
+      if (status.value === 204) {
+        toastStore.addToast({
+          type: 'success',
+          message: 'Categoría eliminada',
+        });
+        status.value = null;
         return true;
+      }
+      if (status.value === 409) {
+        toastStore.addToast({
+          type: 'error',
+          message:
+            'Para borra esta categoría deberá eliminar todos los gastos asociados a esta',
+        });
+        status.value = null;
       }
       return false;
     }

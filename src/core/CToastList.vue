@@ -7,10 +7,12 @@ const { toasts } = storeToRefs(toastStore);
 
 function toastClasses(type: ToastType) {
   return {
-    'rounded-t-sm border-2 border-blue-500 bg-blue-500/25': type === 'info',
-    'rounded-t-sm border-2 border-green-500 bg-green-500/25':
+    'rounded-t-sm border-2 border-b-0 border-blue-500 bg-blue-500/25':
+      type === 'info',
+    'rounded-t-sm border-2 border-b-0 border-green-500 bg-green-500/25':
       type === 'success',
-    'rounded-t-sm border-2 border-red-500 bg-red-500/25': type === 'error',
+    'rounded-t-sm border-2 border-b-0 border-red-500 bg-red-500/25':
+      type === 'error',
   };
 }
 
@@ -23,38 +25,12 @@ function getTitle(type: ToastType) {
 </script>
 
 <template>
-  <div class="flex gap-4">
-    <button
-      class="text-black dark:text-white"
-      @click="toastStore.addToast({ message: 'INFO', type: 'info' })"
-    >
-      INFO
-    </button>
-    <button
-      class="text-black dark:text-white"
-      @click="toastStore.addToast({ message: 'ERROR', type: 'error' })"
-    >
-      ERROR
-    </button>
-    <button
-      class="text-black dark:text-white"
-      @click="
-        toastStore.addToast({
-          message: 'Tu cuenta ha sido creada satisfactoriamente',
-          type: 'success',
-        })
-      "
-    >
-      SUCCESS
-    </button>
-  </div>
-
-  <div class="absolute top-4 right-0 space-y-4 justify-stretch">
+  <div class="absolute top-4 right-0 space-y-4 justify-stretch z-50">
     <transition-group class="flex flex-col gap-4" name="toast" tag="div">
       <div
         v-for="toast in toasts"
         :key="toast.id"
-        class="rounded w-48 shadow-xl dark:shadow-custom-dark flex flex-col items-center cursor-pointer"
+        class="rounded w-60 shadow-xl dark:shadow-custom-dark flex flex-col items-center cursor-pointer"
         @click="toastStore.removeToast(toast.id)"
       >
         <div
@@ -64,7 +40,7 @@ function getTitle(type: ToastType) {
           {{ getTitle(toast.type) }}
         </div>
         <div
-          class="py-1 rounded-b-sm bg-neutral-200/25 dark:bg-neutral-600/25 w-full border border-t-0 border-neutral-600"
+          class="py-2 rounded-b-sm bg-neutral-200 dark:bg-neutral-700 w-full border border-t-0 border-neutral-600 dark:border-neutral-400"
         >
           <p class="px-2 text-sm w-full text-black text-center dark:text-white">
             {{ toast.message }}

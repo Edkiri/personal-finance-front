@@ -1,5 +1,5 @@
 import { ref, Ref } from 'vue';
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosError, type AxiosResponse } from 'axios';
 import { useAppStore } from '@/store/app-store';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL as string;
@@ -11,6 +11,11 @@ const AxiosClient = axios.create({
     Accept: 'application/json',
   },
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isAxiosError = (err: any): err is AxiosError => {
+  return err.isAxiosError;
+};
 
 AxiosClient.interceptors.request.use(
   (config) => {
@@ -54,10 +59,15 @@ function buildPayload(filters: object): object {
 export default function useAxios() {
   const error: Ref<string | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
+  const status: Ref<number | null | undefined> = ref(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleError = (err: any) => {
-    error.value = err.response?.data.message || 'An error occurred';
+  const handleError = (err: unknown) => {
+    if (isAxiosError(err)) {
+      status.value = err.response?.status;
+    } else {
+      error.value = 'An unexpected error occurred';
+      status.value = null;
+    }
   };
 
   async function fetchApi<T>(
@@ -71,20 +81,26 @@ export default function useAxios() {
 
       if (fetchParams.method === 'POST') {
         const response = await AxiosClient.post(fetchParams.path, payload);
+        status.value = response.status;
         return response;
       }
 
       if (fetchParams.method === 'DELETE') {
-        return AxiosClient.delete(fetchParams.path);
+        const response = await AxiosClient.delete(fetchParams.path);
+        status.value = response.status;
+        return response;
       }
 
       if (fetchParams.method === 'PUT') {
-        return AxiosClient.put(fetchParams.path, payload);
+        const response = await AxiosClient.put(fetchParams.path, payload);
+        status.value = response.status;
+        return response;
       }
 
       const response = await AxiosClient.get(fetchParams.path, {
         params: payload,
       });
+      status.value = response.status;
       return response;
     } catch (err) {
       handleError(err);
@@ -94,5 +110,5 @@ export default function useAxios() {
     }
   }
 
-  return { error, loading, fetchApi };
+  return { error, loading, fetchApi, status };
 }
