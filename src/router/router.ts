@@ -73,6 +73,11 @@ const routes = [
     component: () => import('@/app/incomes/views/UpdateIncome.vue'),
     meta: { requiresAuth: true },
   },
+  {
+    path: ROUTES.EXPENSE_SOURCES,
+    component: () => import('@/app/expense-sources/views/ExpenseSources.vue'),
+    meta: { requiresAuth: true },
+  },
 ];
 
 const router = createRouter({

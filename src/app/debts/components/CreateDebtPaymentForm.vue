@@ -49,7 +49,7 @@ async function handleCreate() {
     </h4>
 
     <div class="flex flex-col gap-4">
-      <CInput label="Amount" v-model:input-values="formData.amount" />
+      <CInput label="Cantidad" v-model:input-values="formData.amount" />
 
       <CSelection
         label="Cuenta"

@@ -1,13 +1,5 @@
 import { useAxios } from '@/hooks';
-
-type UpdateExpensePayload = {
-  id: number;
-  accountId: number;
-  date: Date;
-  expenseSourceName: string;
-  description: string;
-  amount: number;
-};
+import type { UpdateExpensePayload } from '../types';
 
 export const useUpdateExpense = () => {
   const { fetchApi, error, loading } = useAxios();

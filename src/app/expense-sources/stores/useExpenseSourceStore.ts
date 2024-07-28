@@ -5,6 +5,7 @@ import type { ExpenseSource } from '../types';
 
 export const useExpenseSourceStore = defineStore('expense-sources', () => {
   const expenseSources = ref<ExpenseSource[]>([]);
+  const selectedExpenseSource = ref<ExpenseSource | null>(null);
 
   const { fetchApi, loading, error } = useAxios();
 
@@ -21,5 +22,11 @@ export const useExpenseSourceStore = defineStore('expense-sources', () => {
     await findExpensesSource();
   });
 
-  return { expenseSources, findExpensesSource, loading, error };
+  return {
+    expenseSources,
+    selectedExpenseSource,
+    findExpensesSource,
+    loading,
+    error,
+  };
 });

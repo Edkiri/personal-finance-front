@@ -3,9 +3,9 @@ import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { CDateInput, CSelection, CButton } from '@/core';
 import { formatDate } from '@/utils';
-import ExpenseSourcesSelection from './ExpenseSourcesSelection.vue';
+import ExpenseSourcesSelection from '@/app/expense-sources/components/ExpenseSourcesSelection.vue';
 import { useAccountStore } from '@/app/accounts/stores';
-import { ExpenseFilter } from '../types';
+import type { ExpenseFilter } from '../types';
 
 interface ExpenseFilterProps {
   filters: ExpenseFilter;

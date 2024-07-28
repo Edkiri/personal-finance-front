@@ -3,3 +3,8 @@ export type ExpenseSource = {
   name: string;
   description?: string;
 };
+
+export type CreateExpenseSourceDto = {
+  name: string;
+  description?: string;
+};

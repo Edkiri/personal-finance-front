@@ -26,3 +26,12 @@ export type ExpenseFilter = {
   accountId: number | null;
   expenseSourceIds: number[];
 };
+
+export type UpdateExpensePayload = {
+  id: number;
+  accountId: number;
+  date: Date;
+  expenseSourceName: string;
+  description: string;
+  amount: number;
+};
