@@ -64,6 +64,7 @@ async function handleFocusOut() {
     ]"
   >
     <button
+      type="button"
       class="h-full w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
       @focus="focused = true"
       @focusout="handleFocusOut"
