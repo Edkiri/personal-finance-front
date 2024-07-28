@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ref, watch } from 'vue';
 
 export default function useLocalStorage<T>(
@@ -11,6 +12,7 @@ export default function useLocalStorage<T>(
     try {
       parsedValue = JSON.parse(storedValue);
     } catch (error) {
+      console.error(`Error parsing localStorage key "${key}":`, error);
       parsedValue = initialValue;
     }
   } else {
@@ -22,10 +24,14 @@ export default function useLocalStorage<T>(
   watch(
     value,
     (newValue) => {
-      if (newValue) {
-        localStorage.setItem(key, JSON.stringify(newValue));
-      } else {
-        localStorage.removeItem(key);
+      try {
+        if (newValue !== null && newValue !== undefined) {
+          localStorage.setItem(key, JSON.stringify(newValue));
+        } else {
+          localStorage.removeItem(key);
+        }
+      } catch (error) {
+        console.error(`Error setting localStorage key "${key}":`, error);
       }
     },
     { deep: true },

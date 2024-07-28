@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import ROUTES from './routes';
 import { useAppStore } from '@/store/app-store';
 
@@ -86,17 +87,23 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, _from, next) => {
+router.beforeEach(async (to, _from, next) => {
   const store = useAppStore();
-  const isAuthenticated = store.accessToken;
-  const isOnboarded = store.user?.profile.onboarded;
+  const { accessToken, user } = storeToRefs(store);
+
+  const isAuthenticated = !!accessToken.value;
 
   if (to.meta.requiresAuth && !isAuthenticated) {
     return next(ROUTES.LOGIN);
   }
 
-  if (to.meta.requiresOnboarding && !isOnboarded) {
-    return next(ROUTES.ONBOARDING);
+  if (to.meta.requiresOnboarding && isAuthenticated) {
+    if (store.isInitialized) {
+      const isOnboarded = user.value?.profile.onboarded;
+      if (user.value && !isOnboarded) {
+        return next(ROUTES.ONBOARDING);
+      }
+    }
   }
 
   return next();

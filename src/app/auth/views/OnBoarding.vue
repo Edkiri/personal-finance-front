@@ -9,7 +9,7 @@ import { useLocalStorage } from '@/hooks';
 import { CButton } from '@/core';
 import { useOnboardUser } from '../hooks';
 import { router, ROUTES } from '@/router';
-import { AppStore } from '@/store/app-store';
+import { useAppStore } from '@/store/app-store';
 
 const accounts = useLocalStorage<Account[]>('onboarding_accounts', []) as Ref<
   Account[]
@@ -47,7 +47,7 @@ const isValidAccount = computed(() => {
 });
 
 const { onboardUser } = useOnboardUser();
-const { getUserProfile } = AppStore();
+const { getUserProfile } = useAppStore();
 
 async function onboardingHandleSubmit() {
   if (!isValidAccount.value) return;

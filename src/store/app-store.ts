@@ -1,7 +1,8 @@
+import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useTheme } from '@/hooks/useTheme';
 import { useLocalStorage } from '@/hooks';
-import { useUserProfile } from '@/app/users/hooks';
+import { useUserProfile } from '@/app/auth/hooks/useUserProfile';
 
 export const useAppStore = defineStore('app', () => {
   // Theme
@@ -13,5 +14,29 @@ export const useAppStore = defineStore('app', () => {
   // User
   const { user, getUserProfile } = useUserProfile();
 
-  return { accessToken, user, getUserProfile, theme, changeTheme };
+  const isInitialized = ref(false);
+  const isInitializing = ref(false);
+
+  const init = async () => {
+    if (isInitialized.value || isInitializing.value) return;
+
+    isInitializing.value = true;
+
+    if (accessToken.value) {
+      await getUserProfile();
+    }
+
+    isInitialized.value = true;
+    isInitializing.value = false;
+  };
+
+  return {
+    init,
+    accessToken,
+    theme,
+    changeTheme,
+    user,
+    isInitialized,
+    getUserProfile,
+  };
 });
