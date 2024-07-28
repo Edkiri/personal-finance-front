@@ -13,7 +13,7 @@ defineProps<ModalProps>();
 
 <template>
   <div
-    class="absolute inset-0"
+    class="fixed inset-0"
     :class="{ 'opacity-100 z-50': show, 'opacity-0 z-[-1]': !show }"
   >
     <div

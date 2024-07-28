@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import { CHeader } from './layout';
+import { useAppStore } from './store/app-store';
+import { useToastStore } from './store/toast-store';
+
+useAppStore();
+useToastStore();
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
     <CHeader />
-    <div class="max-w-7xl m-auto w-full h-full grow py-2 flex flex-col">
+    <div
+      class="relative max-w-7xl m-auto w-full h-full grow py-2 flex flex-col"
+    >
       <router-view></router-view>
     </div>
   </div>
