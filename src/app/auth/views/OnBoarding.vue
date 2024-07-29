@@ -10,20 +10,28 @@ import { CButton } from '@/core';
 import { useOnboardUser } from '../hooks';
 import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
-
-const accounts = useLocalStorage<Account[]>('onboarding_accounts', []) as Ref<
-  Account[]
->;
+import type { ExpenseSource } from '@/app/expense-sources/types';
+import { DEFAULT_EXPENSE_SOURCES } from '@/app/expense-sources/constants';
+import ExpenseSourcesCreateForm from '@/app/expense-sources/components/ExpenseSourcesCreateForm.vue';
 
 const userCurrencies = useLocalStorage<Currency[]>(
   'onboarding_currencies',
   [],
 ) as Ref<Currency[]>;
 
+const accounts = useLocalStorage<Account[]>('onboarding_accounts', []) as Ref<
+  Account[]
+>;
+
+const expenseSources = useLocalStorage<ExpenseSource[]>(
+  'onboarding_expense_sources',
+  DEFAULT_EXPENSE_SOURCES,
+) as Ref<ExpenseSource[]>;
+
 const STEPS = {
   CURRENCIES: 1,
   ACCOUNTS: 2,
-  THEME: 3,
+  EXPENSE_SOURCES: 3,
 };
 
 const currentStep = useLocalStorage<number>(
@@ -110,7 +118,7 @@ async function onboardingHandleSubmit() {
         <CButton
           :disabled="!isValidAccount"
           color="rgb(244, 63, 94)"
-          :click-function="() => (currentStep = STEPS.THEME)"
+          :click-function="() => (currentStep = STEPS.EXPENSE_SOURCES)"
         >
           Siguiente
         </CButton>
@@ -128,7 +136,7 @@ async function onboardingHandleSubmit() {
       />
     </div>
 
-    <div class="flex flex-col" v-if="currentStep === STEPS.THEME">
+    <div class="flex flex-col" v-if="currentStep === STEPS.EXPENSE_SOURCES">
       <div class="flex justify-between">
         <CButton
           outlined
@@ -144,11 +152,14 @@ async function onboardingHandleSubmit() {
         </CButton>
       </div>
       <h1 class="font-bold text-center text-black dark:text-white">
-        Elige entre dark and light mode
+        Elije tus categorías para clasificar gastos o utiliza las nuestras por
+        defecto!
       </h1>
       <p class="text-center text-sm text-neutral-800 dark:text-neutral-200">
-        Podrás cambiarlo después siempre que quieras
+        Podrás modificarlas siempre que quieras
       </p>
+
+      <ExpenseSourcesCreateForm v-model:expenseSources="expenseSources" />
     </div>
   </div>
 </template>

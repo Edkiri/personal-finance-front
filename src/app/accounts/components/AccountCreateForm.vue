@@ -9,7 +9,7 @@ import validators from '@/utils/form-validators';
 
 import type { InputValues } from '@/types/form-validators';
 
-type AccountFormData = {
+export type AccountFormData = {
   [K in keyof Omit<Omit<Account, 'temporaryId'>, 'isDefault'>]: InputValues;
 } & { temporaryId: string };
 

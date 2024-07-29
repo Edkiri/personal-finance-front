@@ -13,7 +13,7 @@ export function useCurrencies() {
   const { fetchApi, loading } = useAxios();
 
   async function find() {
-    const response = await fetchApi<Currency[]>({ path: 'currencies' });
+    const response = await fetchApi<Currency[]>({ path: 'currencies/all' });
     if (response?.data) {
       currencies.value = response.data;
     }
