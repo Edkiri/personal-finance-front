@@ -67,6 +67,7 @@ async function onboardingHandleSubmit() {
       currencyId: account.currencyId,
     })),
     currencyIds: userCurrencies.value.map((currency) => currency.id),
+    expenseSources: expenseSources.value.map((item) => ({ name: item.name })),
   });
   if (response === true) {
     await getUserProfile();

@@ -86,7 +86,7 @@ async function handleDelete() {
         :click-function="() => (creating = true)"
         icon="add"
       >
-        Nueva
+        Crear
       </CActionButton>
     </div>
 

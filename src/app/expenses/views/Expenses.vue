@@ -89,7 +89,7 @@ async function handleUpdate() {
         :click-function="() => (creating = true)"
         icon="add"
       >
-        Nueva
+        Crear
       </CActionButton>
     </div>
     <div class="flex items-stretch gap-4 grow">

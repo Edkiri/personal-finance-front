@@ -1,8 +1,10 @@
-import { Account } from '@/app/accounts/hooks/useAccounts';
 import { useAxios } from '@/hooks';
+import { type Account } from '@/app/accounts/hooks/useAccounts';
+import { type ExpenseSource } from '@/app/expense-sources/types';
 
 type OnboardUserPayload = {
   accounts: Omit<Account, 'temporaryId'>[];
+  expenseSources: Omit<ExpenseSource, 'id'>[];
   currencyIds: number[];
 };
 
