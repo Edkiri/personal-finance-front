@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
-import { useCurrencies } from '../hooks/useCurrencies';
 import { useAccountDetail, useUpdateAccount } from '../hooks';
 import { router, ROUTES } from '@/router';
 import { CInput, CSelection } from '@/core';
@@ -35,7 +35,8 @@ onMounted(async () => {
   form.currencyId = String(account.value.currency.id);
 });
 
-const { currencies } = useCurrencies();
+const accountStore = useAccountStore();
+const { currencies } = storeToRefs(accountStore);
 
 function validateForm(): boolean {
   form.amount.validate();

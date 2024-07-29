@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { CInput, CSelection } from '@/core';
-import { useCurrencies } from '../hooks/useCurrencies';
 import { useCreateAccount } from '../hooks';
 import { router, ROUTES } from '@/router';
 import { useAccountStore } from '../stores';
@@ -16,7 +16,8 @@ const form = reactive({
   name: useInputValue(''),
 });
 
-const { currencies } = useCurrencies();
+const accountStore = useAccountStore();
+const { currencies } = storeToRefs(accountStore);
 
 function validateForm(): boolean {
   form.amount.validate();

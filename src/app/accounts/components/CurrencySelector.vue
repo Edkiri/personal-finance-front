@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { CSelection } from '@/core';
-import { useCurrencies } from '../hooks/useCurrencies';
+import { useAccountStore } from '../stores';
 
 interface CurrecySelectorProps {
   selectedCurrencyId: string;
@@ -18,12 +19,12 @@ watch(
   },
 );
 
-const { currencies, loading } = useCurrencies();
+const accountStore = useAccountStore();
+const { currencies } = storeToRefs(accountStore);
 </script>
 
 <template>
   <CSelection
-    v-if="!loading"
     label="Moneda"
     v-model:selected-value="localSelectedCurrencyId"
     :selecctions="

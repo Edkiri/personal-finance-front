@@ -3,15 +3,18 @@ import { defineStore } from 'pinia';
 
 import { useAccounts } from '../hooks';
 import { useAppStore } from '@/store/app-store';
+import { useUserCurrencies } from '../hooks/useUserCurrencies';
 
 export const useAccountStore = defineStore('accounts', () => {
   const { accounts, getAccounts, loading } = useAccounts();
+  const { currencies, getCurrencies } = useUserCurrencies();
 
   const appStore = useAppStore();
 
-  onMounted(() => {
+  onMounted(async () => {
     if (appStore.accessToken) {
-      getAccounts();
+      await getAccounts();
+      await getCurrencies();
     }
   });
 
@@ -24,5 +27,5 @@ export const useAccountStore = defineStore('accounts', () => {
     },
   );
 
-  return { accounts, getAccounts, loading };
+  return { accounts, loading, currencies, getAccounts };
 });

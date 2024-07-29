@@ -5,15 +5,17 @@ import validators from '@utils/form-validators';
 import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
 import { useInputValue } from '@/hooks';
-import { useCurrencies } from '@/app/accounts/hooks/useCurrencies';
 import { useCreateDebt } from '../hooks/useCreateDebt';
+import { useAccountStore } from '@/app/accounts/stores';
 
 export interface CreateDebtFormProps {
   onCreate: () => void;
 }
 const props = defineProps<CreateDebtFormProps>();
 
-const { currencies } = useCurrencies();
+const accountStore = useAccountStore();
+const { currencies } = storeToRefs(accountStore);
+
 const expenseSourceStore = useExpenseSourceStore();
 const { expenseSources } = storeToRefs(expenseSourceStore);
 const { create } = useCreateDebt();
