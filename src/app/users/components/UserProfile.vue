@@ -38,7 +38,7 @@ function toggleExpand() {
     </div>
 
     <button type="button" @click="toggleExpand" class="flex items-center">
-      <p class="text-black dark:text-white">{{ user.username }}</p>
+      <p class="text-black dark:text-white text-lg">{{ user.username }}</p>
       <CIcon
         name="arrow"
         :size="20"
