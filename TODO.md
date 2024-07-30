@@ -1,6 +1,7 @@
-* [ ] Create profile menu
 * [ ] Create empty items table template
+* [ ] Animate onBoarding process
 * [ ] TIME TO SELF HOSTING DEPLOY
+* [X] Create profile menu
 * [X] Change expense menu to dashbooard
 * [X] Use User categories and currencies
   * [X] Frontend
