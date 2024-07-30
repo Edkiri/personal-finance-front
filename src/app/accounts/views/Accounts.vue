@@ -6,9 +6,9 @@ import { router, ROUTES } from '@/router';
 
 <template>
   <div class="flex-col w-full">
-    <div class="flex items-center justify-between w-full py-2">
-      <h1 class="text-2xl text-black dark:text-white font-semibold">Cuentas</h1>
-
+    <div
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4 mb-4"
+    >
       <CActionButton
         color="rgb(35, 134, 54)"
         :click-function="() => router.push(ROUTES.ACCOUNTS_CREATE)"

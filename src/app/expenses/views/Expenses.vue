@@ -66,8 +66,15 @@ async function handleUpdate() {
 <template>
   <div class="flex flex-col grow gap-4 h-full">
     <div
-      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex justify-end gap-4"
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
     >
+      <CActionButton
+        color="rgb(35, 134, 54)"
+        :click-function="() => (creating = true)"
+        icon="add"
+      >
+        Crear
+      </CActionButton>
       <CActionButton
         :disabled="!selectedExpense"
         color="rgb(59, 130, 246)"
@@ -83,13 +90,6 @@ async function handleUpdate() {
         icon="delete"
       >
         Eliminar
-      </CActionButton>
-      <CActionButton
-        color="rgb(35, 134, 54)"
-        :click-function="() => (creating = true)"
-        icon="add"
-      >
-        Crear
       </CActionButton>
     </div>
     <div class="flex items-stretch gap-4 grow">

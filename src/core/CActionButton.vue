@@ -39,7 +39,7 @@ const styles = computed(() => {
 <template>
   <button
     class="py-[1px] px-2 text-white border-2 rounded-sm flex items-center gap-1"
-    :class="{ 'opacity-40': disabled }"
+    :class="{ 'opacity-20': disabled }"
     :style="styles"
     :type="type"
     @click="clickFunction"

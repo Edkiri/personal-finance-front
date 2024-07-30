@@ -64,6 +64,13 @@ async function handleDelete() {
       class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
     >
       <CActionButton
+        color="rgb(35, 134, 54)"
+        :click-function="() => (creating = true)"
+        icon="add"
+      >
+        Crear
+      </CActionButton>
+      <CActionButton
         :disabled="!selectedExpenseSource"
         color="rgb(59, 130, 246)"
         :click-function="() => (updating = true)"
@@ -78,13 +85,6 @@ async function handleDelete() {
         icon="delete"
       >
         Eliminar
-      </CActionButton>
-      <CActionButton
-        color="rgb(35, 134, 54)"
-        :click-function="() => (creating = true)"
-        icon="add"
-      >
-        Crear
       </CActionButton>
     </div>
     <CTable :headers="headers" :items="expenseSources">

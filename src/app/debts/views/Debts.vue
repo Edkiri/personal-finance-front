@@ -63,8 +63,15 @@ async function handleDelete() {
 <template>
   <div class="flex flex-col gap-4">
     <div
-      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex justify-end gap-4"
+      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
     >
+      <CActionButton
+        color="rgb(35, 134, 54)"
+        :click-function="() => (creating = true)"
+        icon="add"
+      >
+        Crear
+      </CActionButton>
       <CActionButton
         :disabled="!selectedDebt"
         color="rgb(35, 134, 54)"
@@ -80,13 +87,6 @@ async function handleDelete() {
         icon="delete"
       >
         Eliminar
-      </CActionButton>
-      <CActionButton
-        color="rgb(35, 134, 54)"
-        :click-function="() => (creating = true)"
-        icon="add"
-      >
-        Crear
       </CActionButton>
     </div>
 
