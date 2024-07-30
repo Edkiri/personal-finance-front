@@ -25,11 +25,6 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: ROUTES.DASHBOARD,
-    component: () => import('@app/dashboard/views/Dashboard.vue'),
-    meta: { requiresAuth: true, requiresOnboarding: true },
-  },
-  {
     path: ROUTES.DASHBOARD_SUCCESS,
     component: () => import('@app/auth/views/OnBoardingSuccess.vue'),
     meta: { requiresAuth: true },

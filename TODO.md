@@ -1,5 +1,7 @@
-* [ ] Change expense menu to dashbooard
+* [ ] Create profile menu
+* [ ] Create empty items table template
 * [ ] TIME TO SELF HOSTING DEPLOY
+* [X] Change expense menu to dashbooard
 * [X] Use User categories and currencies
   * [X] Frontend
   * [X] Backend

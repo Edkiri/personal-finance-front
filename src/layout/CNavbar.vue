@@ -5,17 +5,13 @@ import { ROUTES } from '@/router';
 
 <template>
   <div class="flex max-w-7xl m-auto w-full py-2 gap-2">
-    <CNavbarItem icon="dashboard" :route="ROUTES.DASHBOARD">
-      Dashboard
-    </CNavbarItem>
-
-    <CNavbarItem icon="bank" :route="ROUTES.ACCOUNTS"> Cuentas </CNavbarItem>
-
     <CNavbarItem icon="expenses" :route="ROUTES.EXPENSES"> Gastos </CNavbarItem>
 
     <CNavbarItem icon="incomes" :route="ROUTES.INCOMES"> Ingresos </CNavbarItem>
 
     <CNavbarItem icon="debts" :route="ROUTES.DEBTS"> Deudas </CNavbarItem>
+
+    <CNavbarItem icon="bank" :route="ROUTES.ACCOUNTS"> Cuentas </CNavbarItem>
 
     <CNavbarItem icon="categories" :route="ROUTES.EXPENSE_SOURCES">
       Categorías

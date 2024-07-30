@@ -8,7 +8,7 @@ import { useAppStore } from '@/store/app-store';
 const store = useAppStore();
 
 function handleStart() {
-  router.push(ROUTES.DASHBOARD);
+  router.push(ROUTES.EXPENSES);
 }
 </script>
 

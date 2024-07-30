@@ -33,7 +33,7 @@ async function handleSubmit(): Promise<void> {
   });
 
   if (success) {
-    router.push(ROUTES.DASHBOARD);
+    router.push(ROUTES.EXPENSES);
   }
 }
 </script>

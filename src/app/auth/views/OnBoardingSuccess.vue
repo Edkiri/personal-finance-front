@@ -10,7 +10,7 @@ import { router, ROUTES } from '@/router';
       ¡La configuración de tu cuenta se guardó correctamente!
     </h1>
 
-    <CButton @click="() => router.push(ROUTES.DASHBOARD)" class="mt-4">
+    <CButton @click="() => router.push(ROUTES.EXPENSES)" class="mt-4">
       Empezar
     </CButton>
   </div>
