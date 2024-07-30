@@ -35,7 +35,7 @@ function getDivStyles(step: number): string {
 </script>
 
 <template>
-  <div class="flex items-center w-100 max-w-sm mx-auto">
+  <div class="flex items-center">
     <div
       class="flex items-center"
       v-for="index in range(steps)"
