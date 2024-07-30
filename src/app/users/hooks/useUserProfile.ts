@@ -1,7 +1,5 @@
-import { onMounted, ref, watch } from 'vue';
-import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
 import { useAxios } from '@/hooks';
-import { useAppStore } from '@/store/app-store';
 
 interface UserProfile {
   id: number;
@@ -18,8 +16,6 @@ interface User {
 
 export function useUserProfile() {
   const user = ref<User | null>(null);
-  const store = useAppStore();
-  const { accessToken } = storeToRefs(store);
 
   const { fetchApi, error, loading } = useAxios();
 
@@ -31,21 +27,6 @@ export function useUserProfile() {
       user.value = null;
     }
   }
-
-  onMounted(async () => {
-    if (accessToken.value) {
-      await getUserProfile();
-    }
-  });
-
-  watch(
-    () => accessToken.value,
-    async (newToken: string | null | undefined): Promise<void> => {
-      if (!newToken) {
-        user.value = null;
-      }
-    },
-  );
 
   return { user, getUserProfile, error, loading };
 }

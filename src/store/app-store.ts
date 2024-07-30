@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { defineStore } from 'pinia';
 import { useTheme } from '@/hooks/useTheme';
 import { useLocalStorage } from '@/hooks';
-import { useUserProfile } from '@/app/auth/hooks/useUserProfile';
+import { useUserProfile } from '@/app/users/hooks';
 
 export const useAppStore = defineStore('app', () => {
   // Theme

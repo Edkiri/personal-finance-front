@@ -1,18 +1,13 @@
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia';
 import { useAppStore } from '@/store/app-store';
 import CIcon from '@/core/CIcon.vue';
 import { router, ROUTES } from '@/router';
-import { useLogout } from '@/app/auth/hooks';
 import CNavbar from './CNavbar.vue';
+import UserProfile from '@/app/users/components/UserProfile.vue';
 
 const appStore = useAppStore();
-
-const logout = useLogout();
-
-function handleLogout() {
-  logout();
-  router.push(ROUTES.HOME);
-}
+const { user } = storeToRefs(appStore);
 </script>
 
 <template>
@@ -36,14 +31,10 @@ function handleLogout() {
         </button>
 
         <button
-          v-if="appStore.accessToken"
-          @click="handleLogout"
-          class="text-red-600 dark:text-red-400 hover:underline"
+          v-if="!user"
+          class="flex gap-2 items-center"
+          @click="appStore.changeTheme"
         >
-          Cerrar sesión
-        </button>
-
-        <button class="flex gap-2 items-center" @click="appStore.changeTheme">
           <p class="text-black dark:text-white">{{ appStore.theme }}</p>
           <CIcon
             name="moon"
@@ -51,6 +42,8 @@ function handleLogout() {
             :color="appStore.theme === 'dark' ? 'white' : 'black'"
           />
         </button>
+
+        <UserProfile v-if="user" :user="user" />
       </div>
     </div>
     <CNavbar v-if="appStore.user?.profile.onboarded" />

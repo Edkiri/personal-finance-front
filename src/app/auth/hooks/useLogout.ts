@@ -1,3 +1,4 @@
+import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
 
 export function useLogout() {
@@ -7,6 +8,7 @@ export function useLogout() {
     store.accessToken = undefined;
     store.user = null;
     localStorage.clear();
+    router.push(ROUTES.HOME);
   }
 
   return logout;
