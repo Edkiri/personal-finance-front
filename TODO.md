@@ -1,6 +1,7 @@
-* [ ] Create empty items table template
-* [ ] Animate onBoarding process
+* [ ] Create clickOutsideComponent hook
 * [ ] TIME TO SELF HOSTING DEPLOY
+* [X] Animate onBoarding process
+* [X] Create empty items table template
 * [X] Create profile menu
 * [X] Change expense menu to dashbooard
 * [X] Use User categories and currencies

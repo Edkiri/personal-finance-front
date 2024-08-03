@@ -27,9 +27,16 @@ export default function useLocalStorage<T>(
       try {
         if (newValue !== null && newValue !== undefined) {
           localStorage.setItem(key, JSON.stringify(newValue));
-        } else {
-          localStorage.removeItem(key);
+          return;
         }
+
+        const isEmptyArray = Array.isArray(newValue) && newValue.length === 0;
+        if (isEmptyArray) {
+          localStorage.setItem(key, JSON.stringify(newValue));
+          return;
+        }
+
+        localStorage.removeItem(key);
       } catch (error) {
         console.error(`Error setting localStorage key "${key}":`, error);
       }

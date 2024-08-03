@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
@@ -14,7 +14,8 @@ import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 import { useExpenseStore } from '../stores/useExpenseStore';
 import { useDeleteExpense } from '../hooks/useDeleteExpense';
 import { useAccountStore } from '@/app/accounts/stores';
-import { router } from '@/router';
+import { router, ROUTES } from '@/router';
+import { useAppStore } from '@/store/app-store';
 
 const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -31,6 +32,15 @@ const { expenses, loading, selectedExpense } = storeToRefs(expenseStore);
 onBeforeRouteLeave((_to, _from, next) => {
   selectedExpense.value = null;
   next();
+});
+
+const store = useAppStore();
+const { isInitialized, user } = storeToRefs(store);
+
+onMounted(() => {
+  if (isInitialized.value && user.value && !user.value.profile.onboarded) {
+    router.push(ROUTES.ONBOARDING);
+  }
 });
 
 const creating = ref(false);

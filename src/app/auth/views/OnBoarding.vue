@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, Ref } from 'vue';
+import { computed, onMounted, Ref } from 'vue';
 import { Account } from '@/app/accounts/hooks/useAccounts';
 import AccountCreateForm from '@/app/accounts/components/AccountCreateForm.vue';
 import CurrenciesSelector from '@/app/accounts/components/CurrenciesSelector.vue';
@@ -40,6 +40,8 @@ const currentStep = useLocalStorage<number>(
   'onboarding_step',
   STEPS.CURRENCIES,
 ) as Ref<number>;
+
+onMounted(() => {});
 
 const stepTitle = computed(() => {
   if (currentStep.value === STEPS.CURRENCIES) {
@@ -90,7 +92,7 @@ const disableNext = computed(() => {
 });
 
 const { onboardUser } = useOnboardUser();
-const { getUserProfile } = useAppStore();
+const store = useAppStore();
 
 const isValidForm = computed(() => {
   return expenseSources.value.every((item) => item.name.length > 0);
@@ -109,14 +111,27 @@ async function onboardingHandleSubmit() {
     expenseSources: expenseSources.value.map((item) => ({ name: item.name })),
   });
   if (response === true) {
-    await getUserProfile();
+    accounts.value = [];
+    userCurrencies.value = [];
+    expenseSources.value = [];
+    await store.getUserProfile();
     router.push(ROUTES.DASHBOARD_SUCCESS);
   }
+}
+
+function next() {
+  if (currentStep.value >= 3) return;
+  currentStep.value += 1;
+}
+
+function prev() {
+  if (currentStep.value === 1) return;
+  currentStep.value -= 1;
 }
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col grow">
     <h1 class="text-xl font-bold text-center text-black dark:text-white">
       {{ stepTitle }}
     </h1>
@@ -130,8 +145,9 @@ async function onboardingHandleSubmit() {
           v-if="currentStep !== 1"
           outlined
           color="rgb(244, 63, 94)"
-          :click-function="() => (currentStep -= 1)"
-          >Anterior
+          :click-function="prev"
+        >
+          Anterior
         </CButton>
       </div>
 
@@ -144,14 +160,14 @@ async function onboardingHandleSubmit() {
         <CButton
           v-if="currentStep !== LAST_STEP"
           :disabled="disableNext"
-          :click-function="() => (currentStep += 1)"
+          :click-function="next"
           color="rgb(244, 63, 94)"
         >
           Siguiente
         </CButton>
 
         <CButton
-          v-if="currentStep === LAST_STEP"
+          v-else
           :disabled="!isValidForm"
           :click-function="onboardingHandleSubmit"
         >
@@ -160,24 +176,42 @@ async function onboardingHandleSubmit() {
       </div>
     </div>
 
-    <div class="flex flex-col" v-if="currentStep === STEPS.CURRENCIES">
-      <div class="flex justify-end"></div>
+    <div
+      class="relative w-full border border-gray-300 rounded-md shadow-md grow overflow-hidden"
+    >
+      <div
+        class="flex flex-col w-full transition-translate duration-500 absolute top-0 bottom-0 p-8"
+        :class="[
+          `${STEPS.CURRENCIES < currentStep ? '-x-translate-96 -translate-x-full' : ''}`,
+          `${STEPS.CURRENCIES > currentStep ? '-x-translate-96 translate-x-full' : ''}`,
+        ]"
+      >
+        <CurrenciesSelector class="mt-0" v-model:currencies="userCurrencies" />
+      </div>
 
-      <CurrenciesSelector class="mt-4" v-model:currencies="userCurrencies" />
-    </div>
+      <div
+        class="flex flex-col w-full transition-translate duration-500 absolute top-0 bottom-0 p-8"
+        :class="[
+          `${STEPS.ACCOUNTS < currentStep ? '-x-translate-96 -translate-x-full' : ''}`,
+          `${STEPS.ACCOUNTS > currentStep ? '-x-translate-96 translate-x-full' : ''}`,
+        ]"
+      >
+        <AccountCreateForm
+          class="m-0"
+          :user-currencies="userCurrencies"
+          v-model:accounts="accounts"
+        />
+      </div>
 
-    <div class="flex flex-col" v-if="currentStep === STEPS.ACCOUNTS">
-      <AccountCreateForm
-        class="mt-8"
-        :user-currencies="userCurrencies"
-        v-model:accounts="accounts"
-      />
-    </div>
-
-    <div class="flex flex-col" v-if="currentStep === STEPS.EXPENSE_SOURCES">
-      <div class="flex justify-between"></div>
-
-      <ExpenseSourcesCreateForm v-model:expenseSources="expenseSources" />
+      <div
+        class="flex flex-col w-full transition-translate duration-500 absolute top-0 bottom-0 p-8"
+        :class="[
+          `${STEPS.EXPENSE_SOURCES < currentStep ? '-x-translate-96 -translate-x-full' : ''}`,
+          `${STEPS.EXPENSE_SOURCES > currentStep ? '-x-translate-96 translate-x-full' : ''}`,
+        ]"
+      >
+        <ExpenseSourcesCreateForm v-model:expenseSources="expenseSources" />
+      </div>
     </div>
   </div>
 </template>

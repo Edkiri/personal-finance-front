@@ -135,6 +135,12 @@ async function handleDelete() {
             Pendiente
           </span>
         </template>
+
+        <template #empty="{}">
+          <span class="text-black dark:text-white font-xl font-semibold my-2">
+            No existen cuentas
+          </span>
+        </template>
       </CTable>
     </div>
   </div>

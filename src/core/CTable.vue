@@ -47,25 +47,43 @@ function getItemValue(header: TableHeader, item: TableItem) {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, item_index) in items" :key="`item-${item_index}`">
-        <td
-          class="py-2 px-3 text-left"
-          :class="`
-            ${
-              item_index % 2 === 0
-                ? 'bg-neutral-300 dark:bg-neutral-800'
-                : 'bg-neutral-200 dark:bg-neutral-900'
-            }`"
-          v-for="(header, header_index) in headers"
-          :key="`header-${header_index}`"
-        >
-          <slot :name="`item-${header.itemKey}`" :item="item">
-            <span class="text-black dark:text-white">
-              {{ getItemValue(header, item) }}
-            </span>
-          </slot>
-        </td>
-      </tr>
+      <template v-if="items.length === 0">
+        <tr>
+          <td
+            :colspan="headers.length"
+            class="py-2 px-3 text-center bg-neutral-300 dark:bg-neutral-800"
+          >
+            <slot name="empty">
+              <span
+                class="text-black dark:text-white font-xl font-semibold my-2"
+              >
+                Vacía
+              </span>
+            </slot>
+          </td>
+        </tr>
+      </template>
+      <template v-else>
+        <tr v-for="(item, item_index) in items" :key="`item-${item_index}`">
+          <td
+            class="py-2 px-3 text-left"
+            :class="`
+              ${
+                item_index % 2 === 0
+                  ? 'bg-neutral-300 dark:bg-neutral-800'
+                  : 'bg-neutral-200 dark:bg-neutral-900'
+              }`"
+            v-for="(header, header_index) in headers"
+            :key="`header-${header_index}`"
+          >
+            <slot :name="`item-${header.itemKey}`" :item="item">
+              <span class="text-black dark:text-white">
+                {{ getItemValue(header, item) }}
+              </span>
+            </slot>
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
