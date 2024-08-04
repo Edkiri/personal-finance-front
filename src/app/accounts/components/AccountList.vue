@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue';
+import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { router } from '@/router';
-import { CDeleteModal, CIcon } from '@/core';
+import { CDeleteModal, CIcon, CModal } from '@/core';
 import { useAxios, useConfirmationModal } from '@/hooks';
 import { AccountWithId } from '../hooks/useAccounts';
 import { useAccountStore } from '../stores';
+import AccountUpdateForm from './AccountUpdateForm.vue';
 
 const accountStore = useAccountStore();
-const { accounts } = storeToRefs(accountStore);
+const { accounts, selectedAccount } = storeToRefs(accountStore);
 
 const { accept, cancel, openConfirmationModal, show, message } =
   useConfirmationModal();
@@ -27,6 +29,25 @@ async function handleDelete(account: AccountWithId) {
     }
   }
 }
+
+const updating = ref(false);
+
+function handleUpdate(account: AccountWithId) {
+  if (!account) return;
+  selectedAccount.value = account;
+  updating.value = true;
+}
+
+onBeforeRouteLeave((_to, _from, next) => {
+  selectedAccount.value = null;
+  next();
+});
+
+watch([selectedAccount], ([newValue]) => {
+  if (!newValue) {
+    updating.value = false;
+  }
+});
 </script>
 
 <template>
@@ -39,7 +60,7 @@ async function handleDelete(account: AccountWithId) {
     >
       <div class="flex flex-col">
         <button
-          @click="() => router.push(`/accounts/update/${account.id}`)"
+          @click="() => handleUpdate(account)"
           class="self-start text-md font-bold text-blue-500 hover:underline"
         >
           {{ account.bank }} - {{ account.name }}
@@ -54,10 +75,15 @@ async function handleDelete(account: AccountWithId) {
       </button>
     </div>
   </div>
+
   <CDeleteModal
     :show="show"
     :message="message"
     :on-cancel="cancel"
     :on-confirm="accept"
   />
+
+  <CModal v-model:show="updating">
+    <AccountUpdateForm @update="() => (updating = false)" />
+  </CModal>
 </template>

@@ -48,7 +48,7 @@ function toggleExpand() {
 
     <div
       v-if="expanded"
-      class="absolute right-0 top-10 w-48 bg-neutral-300 dark:bg-neutral-800 border border-neutral-400 dark:border-neutral-700 rounded shadow-md z-50"
+      class="absolute right-0 top-10 w-48 bg-neutral-300 dark:bg-neutral-800 border border-neutral-400 dark:border-neutral-700 rounded shadow-md z-[100]"
     >
       <button
         class="flex gap-2 items-center w-full px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700"

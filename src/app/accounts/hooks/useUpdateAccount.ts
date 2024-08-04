@@ -1,8 +1,12 @@
 import { useAxios } from '@/hooks';
 import { Account } from './useAccounts';
+import { useAccountStore } from '../stores';
+import { useToastStore } from '@/store/toast-store';
 
 export function useUpdateAccount() {
   const { fetchApi, loading, error } = useAxios();
+  const store = useAccountStore();
+  const toastStore = useToastStore();
 
   async function updateAccount(
     accountId: number,
@@ -14,6 +18,8 @@ export function useUpdateAccount() {
       payload,
     });
     if (response?.status === 200) {
+      toastStore.addToast({ message: 'Cuenta actualizada', type: 'success' });
+      await store.getAccounts();
       return true;
     }
     return false;
