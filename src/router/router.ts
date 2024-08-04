@@ -55,11 +55,6 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: ROUTES.INCOME_UPDATE,
-    component: () => import('@/app/incomes/views/UpdateIncome.vue'),
-    meta: { requiresAuth: true },
-  },
-  {
     path: ROUTES.EXPENSE_SOURCES,
     component: () => import('@/app/expense-sources/views/ExpenseSources.vue'),
     meta: { requiresAuth: true },

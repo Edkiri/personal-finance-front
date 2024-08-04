@@ -38,7 +38,8 @@ interface FetchParams {
   path: string;
 }
 
-function buildPayload(filters: object): object {
+function buildQueryParams(filters: object | null | undefined): object {
+  if (!filters) return {};
   const payload = Object.entries(filters)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     .filter(([_, value]) => {
@@ -79,32 +80,40 @@ export default function useAxios() {
   ): Promise<AxiosResponse<T> | undefined> {
     try {
       loading.value = true;
-      const payload = fetchParams.payload
-        ? buildPayload(fetchParams.payload)
-        : null;
 
       if (fetchParams.method === 'POST') {
-        const response = await AxiosClient.post(fetchParams.path, payload);
+        const response = await AxiosClient.post(
+          fetchParams.path,
+          fetchParams.payload,
+        );
         status.value = response.status;
         return response;
       }
 
       if (fetchParams.method === 'DELETE') {
-        const response = await AxiosClient.delete(fetchParams.path);
+        const response = await AxiosClient.delete(
+          fetchParams.path,
+          fetchParams.payload,
+        );
         status.value = response.status;
         return response;
       }
 
       if (fetchParams.method === 'PUT') {
-        const response = await AxiosClient.put(fetchParams.path, payload);
+        const response = await AxiosClient.put(
+          fetchParams.path,
+          fetchParams.payload,
+        );
         status.value = response.status;
         return response;
       }
 
       const response = await AxiosClient.get(fetchParams.path, {
-        params: payload,
+        params: buildQueryParams(fetchParams.payload),
       });
+
       status.value = response.status;
+
       return response;
     } catch (err) {
       handleError(err);

@@ -21,5 +21,6 @@ export type IncomeWithId = {
   incomeSource: IncomeSource;
   description?: string;
   currency: Currency;
+  accountId: number;
   account: AccountWithId;
 };

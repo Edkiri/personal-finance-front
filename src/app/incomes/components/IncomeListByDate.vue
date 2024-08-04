@@ -7,9 +7,8 @@ import { IncomeWithId } from '../types';
 const incomeStore = useIncomesStore();
 const { incomesGroupedByDay, selectedIncome } = storeToRefs(incomeStore);
 
-function selectIncome(expense: IncomeWithId) {
-  selectedIncome.value =
-    selectedIncome.value?.id !== expense.id ? expense : null;
+function selectIncome(income: IncomeWithId) {
+  selectedIncome.value = selectedIncome.value?.id !== income.id ? income : null;
 }
 </script>
 

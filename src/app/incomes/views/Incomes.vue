@@ -2,7 +2,6 @@
 import { onMounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { router } from '@/router';
 import { useIncomesStore } from '../stores/useIncomesStore';
 import { useAccountStore } from '@/app/accounts/stores';
 import IncomeFilterForm from '../components/IncomeFilterForm.vue';
@@ -13,6 +12,7 @@ import { CActionButton, CDeleteModal, CLoading, CModal } from '@/core';
 import CreateIncomeForm from '../components/CreateIncomeForm.vue';
 import IncomeStats from '../components/IncomeStats.vue';
 import { useDeleteIncome } from '../hooks/useDeleteIncomes';
+import IncomeUpdateForm from '../components/IncomeUpdateForm.vue';
 
 const incomeSourcesStore = useIncomeSources();
 const incomeStore = useIncomesStore();
@@ -20,6 +20,9 @@ const { incomes, selectedIncome, loading } = storeToRefs(incomeStore);
 
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
+
+const creating = ref(false);
+const updating = ref(false);
 
 const selectedAccountId = ref<number | null>(null);
 
@@ -41,10 +44,9 @@ onMounted(async () => {
   selectedAccountId.value = accounts.value[0].id;
 });
 
-const creating = ref(false);
-
 async function handleFind() {
   if (filters.accountId === null) return;
+  selectedIncome.value = null;
   incomeStore.getIncomes({
     accountId: filters.accountId,
     dateFrom: filters.dateFrom,
@@ -54,7 +56,7 @@ async function handleFind() {
 }
 async function handleUpdate() {
   if (!selectedIncome.value) return;
-  router.push(`incomes/update/${selectedIncome.value.id}`);
+  updating.value = true;
 }
 
 const deleteStore = useDeleteIncome();
@@ -136,6 +138,11 @@ async function handleDelete() {
           :accountId="filters.accountId"
         />
       </CModal>
+
+      <CModal v-model:show="updating">
+        <IncomeUpdateForm @update="() => ((updating = false), handleFind())" />
+      </CModal>
+
       <CDeleteModal
         :show="deleteStore.deleting"
         :message="deleteStore.message"

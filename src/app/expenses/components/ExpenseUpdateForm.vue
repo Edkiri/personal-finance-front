@@ -38,13 +38,26 @@ const form = reactive({
   date: new Date(),
 });
 
-watch([selectedExpense], () => {
-  if (!selectedExpense.value) return;
-  form.source = selectedExpense.value.expenseSource.name;
-  form.accountId = String(selectedExpense.value.accountId);
-  form.amount.text = String(selectedExpense.value.amount);
-  form.description.text = selectedExpense.value.description;
-  form.date = new Date(selectedExpense.value.date);
+function reset() {
+  form.description.text = '';
+  form.amount.text = '';
+  form.source = '';
+  form.accountId = '';
+  form.date = new Date();
+}
+
+watch([selectedExpense], ([newValue]) => {
+  if (!newValue) {
+    reset();
+    return;
+  }
+
+  const { date, accountId, expenseSource, amount, description } = newValue;
+  form.source = expenseSource.name;
+  form.accountId = String(accountId);
+  form.amount.text = String(amount);
+  form.description.text = description;
+  form.date = new Date(date);
 });
 
 const { update } = useUpdateExpense();
@@ -60,11 +73,6 @@ async function handleUpdate() {
     expenseSourceName: form.source,
   });
   if (updated) {
-    form.description.text = '';
-    form.amount.text = '';
-    form.source = '';
-    form.accountId = '';
-    form.date = new Date();
     selectedExpense.value = null;
     props.onUpdate();
   }

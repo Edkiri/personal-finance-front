@@ -1,32 +1,28 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { watch, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useInputValue } from '@/hooks';
-import validators from '@/utils/form-validators';
-import { router, ROUTES } from '@/router';
 import {
   CButton,
-  CDateInput,
   CInput,
   CInputSelection,
+  CDateInput,
   CSelection,
 } from '@/core';
-import { useIncomeDetail } from '../hooks/useIncomeDetail';
-import { useIncomeSources } from '../stores/useIncomeSources';
+import { useInputValue } from '@/hooks';
+import validators from '@/utils/form-validators';
 import { useAccountStore } from '@/app/accounts/stores';
-import { useUpdateExpense } from '../hooks/useUpdateIncome';
+import { useIncomesStore } from '../stores/useIncomesStore';
+import { useIncomeSources } from '../stores/useIncomeSources';
+import { useUpdateIncome } from '../hooks/useUpdateIncome';
 
-const { incomeId } = router.currentRoute.value.params;
+interface AccountUpdateFormProps {
+  onUpdate: () => void;
+}
 
-const { income, getIncome } = useIncomeDetail();
+const props = defineProps<AccountUpdateFormProps>();
 
-const form = reactive({
-  amount: useInputValue('', validators.nonNegativeNumber),
-  accountId: '',
-  description: useInputValue(''),
-  incomeSourceName: '',
-  date: new Date(),
-});
+const incomeStore = useIncomesStore();
+const { selectedIncome } = storeToRefs(incomeStore);
 
 const incomeSourceSource = useIncomeSources();
 const { incomeSources } = storeToRefs(incomeSourceSource);
@@ -34,43 +30,51 @@ const { incomeSources } = storeToRefs(incomeSourceSource);
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
 
-onMounted(async () => {
-  if (!incomeId) {
-    router.push(ROUTES.INCOMES);
-    return;
-  }
-
-  await getIncome(Number(incomeId));
-  if (!income.value || !income.value.account) {
-    router.push(ROUTES.INCOMES);
-    return;
-  }
-
-  form.amount.text = String(income.value.amount);
-  form.accountId = String(income.value.account.id);
-  form.description.text = income.value.description ?? '';
-  form.incomeSourceName = income.value.incomeSource.name;
-  form.date = new Date(income.value.date);
+const form = reactive({
+  source: '',
+  accountId: '',
+  description: useInputValue(''),
+  amount: useInputValue('', validators.nonNegativeNumber),
+  date: new Date(),
 });
 
-const { update } = useUpdateExpense();
+function reset() {
+  form.description.text = '';
+  form.amount.text = '';
+  form.source = '';
+  form.accountId = '';
+  form.date = new Date();
+}
+
+watch([selectedIncome], ([newValue]) => {
+  if (!newValue) {
+    return;
+  }
+
+  const { date, accountId, incomeSource, amount, description } = newValue;
+  form.source = incomeSource.name;
+  form.accountId = String(accountId);
+  form.amount.text = String(amount);
+  form.description.text = String(description);
+  form.date = new Date(date);
+});
+
+const { update } = useUpdateIncome();
 
 async function handleUpdate() {
-  if (!income.value) return;
-
+  if (!selectedIncome.value || !form.accountId) return;
   const updated = await update({
-    id: income.value.id,
-    amount: Number(form.amount.text),
-    incomeSourceName: form.incomeSourceName,
+    id: selectedIncome.value.id,
     accountId: Number(form.accountId),
+    amount: form.amount.text,
     date: form.date,
     description: form.description.text,
+    incomeSourceName: form.source,
   });
-
   if (updated) {
-    await incomeSourceSource.getIncomeSources();
-    await accountStore.getAccounts();
-    router.push(ROUTES.INCOMES);
+    selectedIncome.value = null;
+    reset();
+    props.onUpdate();
   }
 }
 </script>
@@ -82,7 +86,7 @@ async function handleUpdate() {
     <div class="flex flex-col gap-4">
       <CInputSelection
         label="Categoría"
-        v-model:text="form.incomeSourceName"
+        v-model:text="form.source"
         :selecctions="
           incomeSources.map((source) => ({
             text: source.name,
@@ -93,11 +97,7 @@ async function handleUpdate() {
 
       <CInput label="Cantidad" v-model:input-values="form.amount" />
 
-      <CInput
-        label="Descripción"
-        :required="false"
-        v-model:input-values="form.description"
-      />
+      <CInput label="Descripción" v-model:input-values="form.description" />
 
       <CSelection
         label="Cuenta"

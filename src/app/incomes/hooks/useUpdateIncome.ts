@@ -9,7 +9,7 @@ type UpdateIncomePayload = {
   amount: number;
 };
 
-export const useUpdateExpense = () => {
+export const useUpdateIncome = () => {
   const { fetchApi, error, loading } = useAxios();
 
   async function update(data: UpdateIncomePayload): Promise<boolean> {
