@@ -7,7 +7,7 @@ import CNavbar from './CNavbar.vue';
 import UserProfile from '@/app/users/components/UserProfile.vue';
 
 const appStore = useAppStore();
-const { user } = storeToRefs(appStore);
+const { user, theme } = storeToRefs(appStore);
 </script>
 
 <template>
@@ -35,11 +35,11 @@ const { user } = storeToRefs(appStore);
           class="flex gap-2 items-center"
           @click="appStore.changeTheme"
         >
-          <p class="text-black dark:text-white">{{ appStore.theme }}</p>
+          <p class="text-black dark:text-white">{{ theme }}</p>
           <CIcon
             name="moon"
             :size="15"
-            :color="appStore.theme === 'dark' ? 'white' : 'black'"
+            :color="theme === 'dark' ? 'white' : 'black'"
           />
         </button>
 

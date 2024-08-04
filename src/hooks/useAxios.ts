@@ -1,6 +1,7 @@
 import { ref, Ref } from 'vue';
 import axios, { type AxiosError, type AxiosResponse } from 'axios';
 import { useAppStore } from '@/store/app-store';
+import { useToastStore } from '@/store/toast-store';
 
 const baseURL = import.meta.env.VITE_API_BASE_URL as string;
 
@@ -60,13 +61,16 @@ export default function useAxios() {
   const error: Ref<string | null> = ref(null);
   const loading: Ref<boolean> = ref(false);
   const status: Ref<number | null | undefined> = ref(null);
+  const toastStore = useToastStore();
 
   const handleError = (err: unknown) => {
     if (isAxiosError(err)) {
       status.value = err.response?.status;
     } else {
-      error.value = 'An unexpected error occurred';
+      const message = 'An unexpected error occurred';
+      error.value = message;
       status.value = null;
+      toastStore.addToast({ type: 'error', message });
     }
   };
 

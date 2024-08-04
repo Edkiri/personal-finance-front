@@ -1,23 +1,31 @@
-import { onMounted } from 'vue';
+import { watch } from 'vue';
 import useLocalStorage from './useLocalStorage';
 
 export function useTheme() {
   const theme = useLocalStorage<string>('user_theme', 'light');
 
-  onMounted(() => {
-    if (theme.value === 'dark') {
-      document.documentElement.classList.add('dark');
-    }
-  });
+  watch(
+    [theme],
+    ([newTheme]) => {
+      if (!newTheme) return;
+
+      if (
+        newTheme === 'dark' &&
+        !document.documentElement.classList.contains('dark')
+      ) {
+        document.documentElement.classList.add('dark');
+        return;
+      }
+
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+      }
+    },
+    { immediate: true },
+  );
 
   function changeTheme() {
-    if (document.documentElement.classList.contains('dark')) {
-      document.documentElement.classList.remove('dark');
-      theme.value = 'light';
-    } else {
-      document.documentElement.classList.add('dark');
-      theme.value = 'dark';
-    }
+    theme.value = theme.value === 'dark' ? 'light' : 'dark';
   }
 
   return { theme, changeTheme };
