@@ -16,6 +16,7 @@ import { useDeleteExpense } from '../hooks/useDeleteExpense';
 import { useAccountStore } from '@/app/accounts/stores';
 import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
+import ExpenseUpdateForm from '../components/ExpenseUpdateForm.vue';
 
 const filters = reactive({
   dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
@@ -23,6 +24,8 @@ const filters = reactive({
   accountId: null,
   expenseSourceIds: [],
 });
+const updating = ref(false);
+const creating = ref(false);
 
 useExpenseSourceStore();
 const accountStore = useAccountStore();
@@ -43,10 +46,9 @@ onMounted(() => {
   }
 });
 
-const creating = ref(false);
-
 async function handleFindExpenses() {
   if (filters.accountId === null) return;
+  selectedExpense.value = null;
   expenseStore.findExpenses({
     accountId: filters.accountId,
     dateFrom: filters.dateFrom,
@@ -69,7 +71,7 @@ async function handleDelete() {
 
 async function handleUpdate() {
   if (!selectedExpense.value) return;
-  router.push(`expenses/update/${selectedExpense.value.id}`);
+  updating.value = true;
 }
 </script>
 
@@ -135,12 +137,20 @@ async function handleUpdate() {
         <ExpenseStats :expenses="expenses" />
       </div>
     </div>
+
     <CModal v-model:show="creating">
       <CreateExpenseForm
         :on-create="() => ((creating = false), handleFindExpenses())"
         :accountId="filters.accountId"
       />
     </CModal>
+
+    <CModal v-model:show="updating">
+      <ExpenseUpdateForm
+        @update="() => ((updating = false), handleFindExpenses())"
+      />
+    </CModal>
+
     <CDeleteModal
       :show="deleteStore.deleting"
       :message="deleteStore.message"

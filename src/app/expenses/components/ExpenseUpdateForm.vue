@@ -1,32 +1,28 @@
 <script setup lang="ts">
-import { onMounted, reactive } from 'vue';
+import { watch, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
-import { useInputValue } from '@/hooks';
-import validators from '@/utils/form-validators';
-import { router, ROUTES } from '@/router';
-import { useExpenseDetail } from '../hooks/useExpenseDetail';
-import { useAccountStore } from '@/app/accounts/stores';
-import { useUpdateExpense } from '../hooks/useUpdateExpense';
 import {
   CButton,
-  CDateInput,
   CInput,
   CInputSelection,
+  CDateInput,
   CSelection,
 } from '@/core';
+import { useInputValue } from '@/hooks';
+import validators from '@/utils/form-validators';
+import { useExpenseStore } from '../stores/useExpenseStore';
+import { useUpdateExpense } from '../hooks/useUpdateExpense';
+import { useExpenseSourceStore } from '@/app/expense-sources/stores/useExpenseSourceStore';
+import { useAccountStore } from '@/app/accounts/stores';
 
-const { expenseId } = router.currentRoute.value.params;
+interface AccountUpdateFormProps {
+  onUpdate: () => void;
+}
 
-const { expense, getExpense } = useExpenseDetail();
+const props = defineProps<AccountUpdateFormProps>();
 
-const form = reactive({
-  amount: useInputValue('', validators.nonNegativeNumber),
-  accountId: '',
-  description: useInputValue(''),
-  expenseSourceName: '',
-  date: new Date(),
-});
+const expenseStore = useExpenseStore();
+const { selectedExpense } = storeToRefs(expenseStore);
 
 const expenseSourceSource = useExpenseSourceStore();
 const { expenseSources } = storeToRefs(expenseSourceSource);
@@ -34,43 +30,43 @@ const { expenseSources } = storeToRefs(expenseSourceSource);
 const accountStore = useAccountStore();
 const { accounts } = storeToRefs(accountStore);
 
-onMounted(async () => {
-  if (!expenseId) {
-    router.push(ROUTES.EXPENSES);
-    return;
-  }
+const form = reactive({
+  source: '',
+  accountId: '',
+  description: useInputValue(''),
+  amount: useInputValue('', validators.nonNegativeNumber),
+  date: new Date(),
+});
 
-  await getExpense(Number(expenseId));
-  if (!expense.value || !expense.value.account) {
-    router.push(ROUTES.EXPENSES);
-    return;
-  }
-
-  form.amount.text = String(expense.value.amount);
-  form.accountId = String(expense.value.account.id);
-  form.description.text = expense.value.description ?? '';
-  form.expenseSourceName = expense.value.expenseSource.name;
-  form.date = new Date(expense.value.date);
+watch([selectedExpense], () => {
+  if (!selectedExpense.value) return;
+  form.source = selectedExpense.value.expenseSource.name;
+  form.accountId = String(selectedExpense.value.accountId);
+  form.amount.text = String(selectedExpense.value.amount);
+  form.description.text = selectedExpense.value.description;
+  form.date = new Date(selectedExpense.value.date);
 });
 
 const { update } = useUpdateExpense();
 
 async function handleUpdate() {
-  if (!expense.value) return;
-
+  if (!selectedExpense.value || !form.accountId) return;
   const updated = await update({
-    id: expense.value.id,
-    amount: Number(form.amount.text),
-    expenseSourceName: form.expenseSourceName,
+    id: selectedExpense.value.id,
     accountId: Number(form.accountId),
+    amount: form.amount.text,
     date: form.date,
     description: form.description.text,
+    expenseSourceName: form.source,
   });
-
   if (updated) {
-    await expenseSourceSource.findExpensesSource();
-    await accountStore.getAccounts();
-    router.push(ROUTES.EXPENSES);
+    form.description.text = '';
+    form.amount.text = '';
+    form.source = '';
+    form.accountId = '';
+    form.date = new Date();
+    selectedExpense.value = null;
+    props.onUpdate();
   }
 }
 </script>
@@ -84,7 +80,7 @@ async function handleUpdate() {
     <div class="flex flex-col gap-4">
       <CInputSelection
         label="Categoría"
-        v-model:text="form.expenseSourceName"
+        v-model:text="form.source"
         :selecctions="
           expenseSources.map((source) => ({
             text: source.name,

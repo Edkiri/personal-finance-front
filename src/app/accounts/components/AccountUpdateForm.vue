@@ -55,11 +55,11 @@ async function handleUpdate() {
 <template>
   <form class="flex flex-col gap-8">
     <h4 class="text-2xl text-center text-black dark:text-white">
-      Actualizar Categoría
+      Actualizar Cuenta
     </h4>
 
     <div class="flex flex-col gap-4">
-      <CInput label="Nombre" v-model:input-values="form.bank" />
+      <CInput label="Banco" v-model:input-values="form.bank" />
 
       <CInput label="Nombre" v-model:input-values="form.name" />
 

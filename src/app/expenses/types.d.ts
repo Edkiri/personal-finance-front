@@ -17,6 +17,7 @@ export type ExpenseWithId = {
   expenseSource: ExpenseSource;
   description?: string;
   currency: Currency;
+  accountId: number;
   account?: AccountWithId;
 };
 
