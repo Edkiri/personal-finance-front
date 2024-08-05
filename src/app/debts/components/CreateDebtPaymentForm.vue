@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia';
 import { reactive } from 'vue';
 import { CButton, CDateInput, CInput, CSelection } from '@/core';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { useDebtStore } from '../stores/useDebtsStore';

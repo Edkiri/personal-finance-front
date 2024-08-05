@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { computed, onMounted, Ref } from 'vue';
-import { Account } from '@/app/accounts/hooks/useAccounts';
 import AccountCreateForm from '@/app/accounts/components/AccountCreateForm.vue';
 import CurrenciesSelector from '@/app/accounts/components/CurrenciesSelector.vue';
 import OnBoardingSteps from '../components/OnBoardingSteps.vue';
-import { Currency } from '@/app/accounts/hooks/useCurrencies';
 import { useLocalStorage } from '@/hooks';
 import { CButton } from '@/core';
 import { useOnboardUser } from '../hooks';
 import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
-import type { ExpenseSource } from '@/app/expense-sources/types';
 import { DEFAULT_EXPENSE_SOURCES } from '@/app/expense-sources/constants';
 import ExpenseSourcesCreateForm from '@/app/expense-sources/components/ExpenseSourcesCreateForm.vue';
+
+import type { Currency, Account } from '@/app/accounts/types';
+import type { ExpenseSource } from '@/app/expense-sources/types';
 
 const userCurrencies = useLocalStorage<Currency[]>(
   'onboarding_currencies',

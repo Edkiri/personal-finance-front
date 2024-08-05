@@ -2,11 +2,10 @@
 import { onMounted, reactive, watch } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { CInput, CSelection, CButton } from '@/core';
-import { Account } from '../hooks/useAccounts';
-import { Currency } from '../hooks/useCurrencies';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 
+import type { Account, Currency } from '../types';
 import type { InputValues } from '@/types/form-validators';
 
 export type AccountFormData = {

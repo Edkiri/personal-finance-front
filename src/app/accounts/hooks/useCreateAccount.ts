@@ -1,5 +1,6 @@
 import { useAxios } from '@/hooks';
-import { Account } from './useAccounts';
+
+import type { Account } from '../types';
 
 export function useCreateAccount() {
   const { fetchApi, loading, error } = useAxios();

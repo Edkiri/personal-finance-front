@@ -10,7 +10,7 @@ import {
 } from '@/core';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { useIncomesStore } from '../stores/useIncomesStore';
 import { useIncomeSources } from '../stores/useIncomeSources';
 import { useUpdateIncome } from '../hooks/useUpdateIncome';

@@ -1,7 +1,7 @@
 import { useAxios } from '@/hooks';
 import { CreateDebtPaymentDto } from '../types';
 import { useDebtStore } from '../stores/useDebtsStore';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 
 export function useCreateDebtPay() {
   const { fetchApi, loading, error } = useAxios();

@@ -1,6 +1,6 @@
 import { useAxios } from '@/hooks';
 import type { UpdateExpensePayload } from '../types';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { useExpenseSourceStore } from '@/app/expense-sources/stores/useExpenseSourceStore';
 import { useToastStore } from '@/store/toast-store';
 

@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useIncomesStore } from '../stores/useIncomesStore';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import IncomeFilterForm from '../components/IncomeFilterForm.vue';
 import { useIncomeSources } from '../stores/useIncomeSources';
 import IncomeListByDate from '../components/IncomeListByDate.vue';
@@ -31,11 +31,13 @@ onBeforeRouteLeave((_to, _from, next) => {
   next();
 });
 
-const filters = reactive({
-  dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-  dateTo: new Date(),
-  accountId: undefined,
-  incomeSourceIds: [],
+const form = reactive({
+  filters: {
+    dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    dateTo: new Date(),
+    accountId: undefined,
+    incomeSourceIds: [],
+  },
 });
 
 onMounted(async () => {
@@ -45,13 +47,13 @@ onMounted(async () => {
 });
 
 async function handleFind() {
-  if (filters.accountId === null) return;
+  if (form.filters.accountId === null) return;
   selectedIncome.value = null;
   incomeStore.getIncomes({
-    accountId: filters.accountId,
-    dateFrom: filters.dateFrom,
-    dateTo: filters.dateTo,
-    incomeSourceIds: filters.incomeSourceIds,
+    accountId: form.filters.accountId,
+    dateFrom: form.filters.dateFrom,
+    dateTo: form.filters.dateTo,
+    incomeSourceIds: form.filters.incomeSourceIds,
   });
 }
 async function handleUpdate() {
@@ -106,7 +108,7 @@ async function handleDelete() {
       <div
         class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
       >
-        <IncomeFilterForm v-model:filters="filters" :find="handleFind" />
+        <IncomeFilterForm v-model:filters="form.filters" :find="handleFind" />
       </div>
 
       <div
@@ -135,7 +137,7 @@ async function handleDelete() {
       <CModal v-model:show="creating">
         <CreateIncomeForm
           :on-create="() => ((creating = false), handleFind())"
-          :accountId="filters.accountId"
+          :accountId="form.filters.accountId"
         />
       </CModal>
 

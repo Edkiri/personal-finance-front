@@ -6,7 +6,7 @@ import validators from '@/utils/form-validators';
 import { CInput, CSelection } from '@/core';
 import { useCreateAccount } from '../hooks';
 import { router, ROUTES } from '@/router';
-import { useAccountStore } from '../stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 
 // TODO: Uso zod to validate form data
 const form = reactive({

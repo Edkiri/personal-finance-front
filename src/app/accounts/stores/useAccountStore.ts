@@ -1,10 +1,10 @@
 import { onMounted, ref, watch } from 'vue';
 import { defineStore } from 'pinia';
-
 import { useAccounts } from '../hooks';
 import { useAppStore } from '@/store/app-store';
 import { useUserCurrencies } from '../hooks/useUserCurrencies';
-import { AccountWithId } from '../hooks/useAccounts';
+
+import type { AccountWithId } from '../types';
 
 export const useAccountStore = defineStore('accounts', () => {
   const { accounts, getAccounts, loading } = useAccounts();

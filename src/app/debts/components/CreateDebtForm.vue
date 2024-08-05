@@ -6,7 +6,7 @@ import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSou
 import { CButton, CInput, CInputSelection, CSelection } from '@/core';
 import { useInputValue } from '@/hooks';
 import { useCreateDebt } from '../hooks/useCreateDebt';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 
 export interface CreateDebtFormProps {
   onCreate: () => void;

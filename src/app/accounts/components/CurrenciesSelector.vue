@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import { Currency, useCurrencies } from '../hooks/useCurrencies';
+import { useCurrencies } from '../hooks/useCurrencies';
+
+import type { Currency } from '../types';
 
 const { currencies: allCurrencies } = useCurrencies();
 

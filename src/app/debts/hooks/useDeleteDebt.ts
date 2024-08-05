@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { useAxios, useConfirmationModal } from '@/hooks';
 import { DebtWithId } from '../types';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { useDebtStore } from '../stores/useDebtsStore';
 
 export const useDeleteDebt = defineStore('delete-debt', () => {

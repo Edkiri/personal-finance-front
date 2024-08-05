@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { CSelection } from '@/core';
-import { useAccountStore } from '../stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 
 interface CurrecySelectorProps {
   selectedCurrencyId: string;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
@@ -13,24 +13,33 @@ import ExpensesListByDate from '../components/ExpensesListByDate.vue';
 import CreateExpenseForm from '../components/CreateExpenseForm.vue';
 import { useExpenseStore } from '../stores/useExpenseStore';
 import { useDeleteExpense } from '../hooks/useDeleteExpense';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
 import ExpenseUpdateForm from '../components/ExpenseUpdateForm.vue';
 
-const filters = reactive({
-  dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-  dateTo: new Date(),
-  accountId: null,
-  expenseSourceIds: [],
+const form = reactive({
+  filters: {
+    dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    dateTo: new Date(),
+    accountId: null as null | number,
+    expenseSourceIds: [],
+  },
 });
 const updating = ref(false);
 const creating = ref(false);
 
 useExpenseSourceStore();
 const accountStore = useAccountStore();
+const { accounts, loading: accountsLoading } = storeToRefs(accountStore);
 const expenseStore = useExpenseStore();
-const { expenses, loading, selectedExpense } = storeToRefs(expenseStore);
+const {
+  expenses,
+  loading: expenseLoading,
+  selectedExpense,
+} = storeToRefs(expenseStore);
+
+const loading = computed(() => accountsLoading.value || expenseLoading.value);
 
 onBeforeRouteLeave((_to, _from, next) => {
   selectedExpense.value = null;
@@ -40,22 +49,31 @@ onBeforeRouteLeave((_to, _from, next) => {
 const store = useAppStore();
 const { isInitialized, user } = storeToRefs(store);
 
-onMounted(() => {
+async function handleFindExpenses() {
+  if (form.filters.accountId === null) return;
+  selectedExpense.value = null;
+  expenseStore.findExpenses({
+    accountId: Number(form.filters.accountId),
+    dateFrom: form.filters.dateFrom,
+    dateTo: form.filters.dateTo,
+    expenseSourceIds: form.filters.expenseSourceIds,
+  });
+}
+
+onMounted(async () => {
   if (isInitialized.value && user.value && !user.value.profile.onboarded) {
     router.push(ROUTES.ONBOARDING);
   }
-});
 
-async function handleFindExpenses() {
-  if (filters.accountId === null) return;
-  selectedExpense.value = null;
-  expenseStore.findExpenses({
-    accountId: filters.accountId,
-    dateFrom: filters.dateFrom,
-    dateTo: filters.dateTo,
-    expenseSourceIds: filters.expenseSourceIds,
-  });
-}
+  if (!accounts.value.length) {
+    await accountStore.getAccounts();
+  }
+
+  if (accounts.value.length) {
+    form.filters.accountId = accounts.value[0].id;
+    await handleFindExpenses();
+  }
+});
 
 const deleteStore = useDeleteExpense();
 
@@ -109,7 +127,7 @@ async function handleUpdate() {
         class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
       >
         <ExpenseFilterForm
-          v-model:filters="filters"
+          v-model:filters="form.filters"
           :search="handleFindExpenses"
         />
       </div>
@@ -141,7 +159,7 @@ async function handleUpdate() {
     <CModal v-model:show="creating">
       <CreateExpenseForm
         :on-create="() => ((creating = false), handleFindExpenses())"
-        :accountId="filters.accountId"
+        :accountId="form.filters.accountId"
       />
     </CModal>
 

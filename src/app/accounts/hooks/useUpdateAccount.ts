@@ -1,7 +1,8 @@
 import { useAxios } from '@/hooks';
-import { Account } from './useAccounts';
-import { useAccountStore } from '../stores';
+import { useAccountStore } from '../stores/useAccountStore';
 import { useToastStore } from '@/store/toast-store';
+
+import type { Account } from '../types';
 
 export function useUpdateAccount() {
   const { fetchApi, loading, error } = useAxios();

@@ -8,7 +8,7 @@ import {
   CInputSelection,
   CSelection,
 } from '@/core';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { useIncomeSources } from '../stores/useIncomeSources';

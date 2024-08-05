@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 import { useAxios } from '@/hooks';
-import type { Currency } from './useCurrencies';
+import type { Currency } from '../types';
 
 export function useUserCurrencies() {
   const currencies = ref<Currency[]>([]);

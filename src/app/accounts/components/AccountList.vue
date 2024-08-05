@@ -4,8 +4,8 @@ import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { CDeleteModal, CIcon, CModal } from '@/core';
 import { useAxios, useConfirmationModal } from '@/hooks';
-import { AccountWithId } from '../hooks/useAccounts';
-import { useAccountStore } from '../stores';
+import { AccountWithId } from '../types';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import AccountUpdateForm from './AccountUpdateForm.vue';
 import { useToastStore } from '@/store/toast-store';
 

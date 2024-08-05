@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import { CButton, CInput, CSelection } from '@/core';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
-import { useAccountStore } from '../stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { useUpdateAccount } from '../hooks';
 
 interface AccountUpdateFormProps {

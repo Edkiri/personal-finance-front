@@ -2,7 +2,7 @@
 import { onMounted, reactive, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { IncomesQueryParams } from '../types';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { formatDate } from '@/utils';
 import { CButton, CDateInput, CSelection } from '@/core';
 import IncomeSourceSelection from './IncomeSourceSelection.vue';
@@ -33,7 +33,7 @@ onMounted(async () => {
 watch(
   () => localFilters,
   (newFilters) => {
-    emit('update:filters', newFilters);
+    emit('update:filters', { ...newFilters });
   },
   { deep: true },
 );

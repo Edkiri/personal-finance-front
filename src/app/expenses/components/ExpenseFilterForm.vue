@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia';
 import { CDateInput, CSelection, CButton } from '@/core';
 import { formatDate } from '@/utils';
 import ExpenseSourcesSelection from '@/app/expense-sources/components/ExpenseSourcesSelection.vue';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import type { ExpenseFilter } from '../types';
 
 interface ExpenseFilterProps {
@@ -17,7 +17,7 @@ const emit = defineEmits<{
   (e: 'update:filters', value: ExpenseFilter): void;
 }>();
 
-const localFilters = reactive(props.filters);
+const localFilters = reactive({ ...props.filters });
 
 const accountStore = useAccountStore();
 const { accounts, loading } = storeToRefs(accountStore);
@@ -28,14 +28,13 @@ onMounted(async () => {
   }
   if (accounts.value.length) {
     localFilters.accountId = accounts.value[0].id;
-    props.search();
   }
 });
 
 watch(
   () => localFilters,
   (newFilters) => {
-    emit('update:filters', newFilters);
+    emit('update:filters', { ...newFilters });
   },
   { deep: true },
 );

@@ -1,14 +1,7 @@
 import { ref } from 'vue';
 import { useAxios } from '@/hooks';
-import { Currency } from './useCurrencies';
 
-export type AccountWithId = {
-  id: number;
-  name: string;
-  bank: string;
-  amount: number;
-  currency: Currency;
-};
+import type { AccountWithId } from '../types';
 
 export function useAccountDetail() {
   const account = ref<AccountWithId | undefined>(undefined);

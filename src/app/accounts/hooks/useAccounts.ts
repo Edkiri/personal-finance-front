@@ -1,21 +1,6 @@
 import { ref } from 'vue';
 import { useAxios } from '@/hooks';
-import { Currency } from './useCurrencies';
-
-export type Account = {
-  temporaryId: string;
-  name: string;
-  amount: string;
-  bank: string;
-  currencyId: string;
-  isDefault?: boolean;
-};
-
-export type AccountWithId = Omit<Omit<Account, 'amount'>, 'temporaryId'> & {
-  id: number;
-  amount: number;
-  currency: Currency;
-};
+import type { AccountWithId } from '../types';
 
 export function useAccounts() {
   const accounts = ref<AccountWithId[]>([]);

@@ -1,11 +1,6 @@
 import { onMounted, ref } from 'vue';
 import useAxios from '@/hooks/useAxios';
-
-export type Currency = {
-  id: number;
-  name: string;
-  symbol: string;
-};
+import type { Currency } from '../types';
 
 export function useCurrencies() {
   const currencies = ref<Currency[]>([]);

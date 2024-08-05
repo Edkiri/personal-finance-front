@@ -35,11 +35,7 @@ function range(n: number) {
       :key="review.name"
     >
       <div class="flex justify-between items-center">
-        <img
-          width="130"
-          :src="`../../../public/${review.photo}`"
-          :alt="review.name"
-        />
+        <img width="130" :src="`/${review.photo}`" :alt="review.name" />
         <div class="flex flex-col grow gap-2">
           <p class="text-xl font-bold text-black dark:text-white text-center">
             {{ review.name }}

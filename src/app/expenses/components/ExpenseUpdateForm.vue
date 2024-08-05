@@ -13,7 +13,7 @@ import validators from '@/utils/form-validators';
 import { useExpenseStore } from '../stores/useExpenseStore';
 import { useUpdateExpense } from '../hooks/useUpdateExpense';
 import { useExpenseSourceStore } from '@/app/expense-sources/stores/useExpenseSourceStore';
-import { useAccountStore } from '@/app/accounts/stores';
+import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 
 interface AccountUpdateFormProps {
   onUpdate: () => void;
