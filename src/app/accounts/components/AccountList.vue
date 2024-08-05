@@ -7,6 +7,7 @@ import { useAxios, useConfirmationModal } from '@/hooks';
 import { AccountWithId } from '../hooks/useAccounts';
 import { useAccountStore } from '../stores';
 import AccountUpdateForm from './AccountUpdateForm.vue';
+import { useToastStore } from '@/store/toast-store';
 
 const accountStore = useAccountStore();
 const { accounts, selectedAccount } = storeToRefs(accountStore);
@@ -14,18 +15,27 @@ const { accounts, selectedAccount } = storeToRefs(accountStore);
 const { accept, cancel, openConfirmationModal, show, message } =
   useConfirmationModal();
 
-const { fetchApi: deleteAccount } = useAxios();
+const { fetchApi: deleteAccount, status: responseStatus } = useAxios();
+const toastStore = useToastStore();
 
 async function handleDelete(account: AccountWithId) {
   const msj = `¿Quieres eliminar la cuenta ${account.bank} - ${account.name}?`;
   const confirmed = await openConfirmationModal(msj);
   if (confirmed) {
-    const response = await deleteAccount({
+    await deleteAccount({
       path: `accounts/${account.id}`,
       method: 'DELETE',
     });
-    if (response?.status === 204) {
+
+    if (responseStatus.value === 204) {
       accountStore.getAccounts();
+    }
+
+    if (responseStatus.value === 409) {
+      toastStore.addToast({
+        type: 'error',
+        message: 'Esta cuenta tiene pagos asociados',
+      });
     }
   }
 }

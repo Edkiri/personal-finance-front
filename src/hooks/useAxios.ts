@@ -66,7 +66,7 @@ export default function useAxios() {
 
   const handleError = (err: unknown) => {
     if (isAxiosError(err)) {
-      status.value = err.response?.status;
+      status.value = err.response!.status;
     } else {
       const message = 'An unexpected error occurred';
       error.value = message;
