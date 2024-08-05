@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
-import { CButton, CInput } from '@/core';
+import { CButton, CInput, CSelection } from '@/core';
 import { useInputValue } from '@/hooks';
 import validators from '@/utils/form-validators';
 import { useAccountStore } from '../stores';
@@ -23,13 +23,17 @@ const form = reactive({
   currencyId: '',
 });
 
-watch([selectedAccount], () => {
-  if (!selectedAccount.value) return;
-  form.name.text = selectedAccount.value.name;
-  form.amount.text = String(selectedAccount.value.amount);
-  form.bank.text = selectedAccount.value.bank;
-  form.currencyId = selectedAccount.value.currencyId;
-});
+watch(
+  [selectedAccount],
+  ([newValue]) => {
+    if (!newValue) return;
+    form.name.text = newValue.name;
+    form.amount.text = String(newValue.amount);
+    form.bank.text = newValue.bank;
+    form.currencyId = newValue.currencyId;
+  },
+  { immediate: true },
+);
 
 const { updateAccount } = useUpdateAccount();
 

@@ -1,4 +1,6 @@
 import { useAxios } from '@/hooks';
+import { useIncomeSources } from '../stores/useIncomeSources';
+import { useToastStore } from '@/store/toast-store';
 
 type UpdateIncomePayload = {
   id: number;
@@ -11,6 +13,8 @@ type UpdateIncomePayload = {
 
 export const useUpdateIncome = () => {
   const { fetchApi, error, loading } = useAxios();
+  const sourceStore = useIncomeSources();
+  const toastStore = useToastStore();
 
   async function update(data: UpdateIncomePayload): Promise<boolean> {
     const response = await fetchApi({
@@ -24,7 +28,11 @@ export const useUpdateIncome = () => {
         description: data.description,
       },
     });
-    if (response?.status === 200) return true;
+    if (response?.status === 200) {
+      toastStore.addToast({ type: 'success', message: 'Ingreso actualizado' });
+      await sourceStore.getIncomeSources();
+      return true;
+    }
     return false;
   }
 

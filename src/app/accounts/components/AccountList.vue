@@ -43,8 +43,8 @@ onBeforeRouteLeave((_to, _from, next) => {
   next();
 });
 
-watch([selectedAccount], ([newValue]) => {
-  if (!newValue) {
+watch([selectedAccount, updating], ([newValue]) => {
+  if (updating.value && !newValue) {
     updating.value = false;
   }
 });
@@ -84,6 +84,9 @@ watch([selectedAccount], ([newValue]) => {
   />
 
   <CModal v-model:show="updating">
-    <AccountUpdateForm @update="() => (updating = false)" />
+    <AccountUpdateForm
+      v-if="selectedAccount"
+      @update="() => (updating = false)"
+    />
   </CModal>
 </template>

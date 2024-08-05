@@ -1,6 +1,7 @@
-* [ ] Make modals to update things and trigger toasts messages
-* [ ] Create clickOutsideComponent hook
+* [ ] Throw an error on update not empty account
 * [ ] TIME TO SELF HOSTING DEPLOY
+* [X] Create clickOutsideComponent hook
+* [X] Make modals to update things and trigger toasts messages
 * [X] Create toast error messajes on generic axios error
 * [X] Animate onBoarding process
 * [X] Create empty items table template
