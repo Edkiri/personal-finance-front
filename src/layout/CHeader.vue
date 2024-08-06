@@ -19,6 +19,10 @@ const { user, theme } = storeToRefs(appStore);
       >
         <CIcon name="bank-piggy" :size="40" />
         <h1 class="text-xl font-bold text-black dark:text-white">CashSave</h1>
+
+        <span class="ml-8 text-2xl text-black dark:text-white"
+          >Venezuela libre 🇻🇪 ❤️</span
+        >
       </button>
 
       <div class="flex items-center gap-4">
