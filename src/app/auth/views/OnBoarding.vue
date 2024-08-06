@@ -102,7 +102,7 @@ async function onboardingHandleSubmit() {
   if (!isValidForm.value) return;
   const response = await onboardUser({
     accounts: accounts.value.map((account) => ({
-      amount: account.amount,
+      amount: Number(account.amount),
       bank: account.bank,
       name: account.name,
       currencyId: account.currencyId,
@@ -177,7 +177,7 @@ function prev() {
     </div>
 
     <div
-      class="relative w-full border border-gray-300 rounded-md shadow-md grow overflow-hidden"
+      class="relative w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-md grow overflow-hidden"
     >
       <div
         class="flex flex-col w-full transition-translate duration-500 absolute top-0 bottom-0 p-8"

@@ -29,7 +29,10 @@ onMounted(() => {
     props.accounts.forEach((account) => {
       const accountForm: AccountFormData = {
         temporaryId: account.temporaryId,
-        amount: useInputValue(account.amount, validators.nonNegativeNumber),
+        amount: useInputValue(
+          String(account.amount),
+          validators.nonNegativeNumber,
+        ),
         bank: useInputValue(account.bank),
         currencyId: useInputValue(account.currencyId),
         name: useInputValue(account.name),
@@ -88,7 +91,7 @@ function removeAccount(accountTemporaryId: string): void {
 </script>
 
 <template>
-  <form class="flex flex-col m-auto w-full">
+  <form class="flex flex-col mx-auto w-full">
     <div
       class="flex gap-2 py-4 items-center"
       v-for="(account, index) in formData"

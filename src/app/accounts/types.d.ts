@@ -1,7 +1,7 @@
 export type Account = {
   temporaryId: string;
   name: string;
-  amount: string;
+  amount: string | number;
   bank: string;
   currencyId: string;
   isDefault?: boolean;
