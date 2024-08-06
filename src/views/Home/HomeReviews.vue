@@ -28,29 +28,34 @@ function range(n: number) {
 </script>
 
 <template>
-  <div class="flex w-full justify-between">
-    <div
-      class="w-full max-w-[300px] p-2"
-      v-for="review in reviews"
-      :key="review.name"
-    >
-      <div class="flex justify-between items-center">
-        <img width="130" :src="`/${review.photo}`" :alt="review.name" />
-        <div class="flex flex-col grow gap-2">
-          <p class="text-xl font-bold text-black dark:text-white text-center">
-            {{ review.name }}
-          </p>
-          <div class="flex gap-1 justify-center">
-            <CIcon
-              v-for="index in range(5)"
-              :key="`${review.name}-star-${index}`"
-              name="star"
-              :size="15"
-            />
+  <div class="flex flex-col gap-4 mt-24">
+    <h2 class="text-black dark:text-white font-bold text-3xl">
+      [FAKE] Reviews
+    </h2>
+    <div class="flex w-full justify-between">
+      <div
+        class="w-full max-w-[300px] p-2"
+        v-for="review in reviews"
+        :key="review.name"
+      >
+        <div class="flex justify-between items-center">
+          <img width="130" :src="`/${review.photo}`" :alt="review.name" />
+          <div class="flex flex-col grow gap-2">
+            <p class="text-xl font-bold text-black dark:text-white text-center">
+              {{ review.name }}
+            </p>
+            <div class="flex gap-1 justify-center">
+              <CIcon
+                v-for="index in range(5)"
+                :key="`${review.name}-star-${index}`"
+                name="star"
+                :size="15"
+              />
+            </div>
           </div>
         </div>
+        <p class="mt-4 text-neutral-500 text-center">"{{ review.review }}"</p>
       </div>
-      <p class="mt-4 text-neutral-500 text-center">"{{ review.review }}"</p>
     </div>
   </div>
 </template>

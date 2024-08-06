@@ -17,7 +17,7 @@ const store = useAppStore();
       <a
         target="_blank"
         class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-300 hover:underline"
-        href="https://portfolio-700f9n9pk-edkiris-projects.vercel.app/"
+        href="https://eduardok.site"
         >edkiriakos.com/projects</a
       >
     </div>

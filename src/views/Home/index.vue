@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import CIcon from '@/core/CIcon.vue';
+import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import HomeReviews from './HomeReviews.vue';
 import HomeFooter from './HomeFooter.vue';
 import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
 
 const store = useAppStore();
+const { theme } = storeToRefs(store);
 
 function handleStart() {
   router.push(ROUTES.EXPENSES);
 }
+
+const appImage = computed(() => {
+  return theme.value === 'dark' ? 'app-dark.png' : 'app-light.png';
+});
 </script>
 
 <template>
@@ -24,12 +30,12 @@ function handleStart() {
       </p>
       <button
         @click="handleStart"
-        class="mt-4 text-black dark:text-white text-xl font-bold self-start bg-rose-500 hover:bg-rose-600 py-2 px-8 rounded-full"
+        class="mt-4 text-white text-xl font-bold self-start bg-rose-500 hover:bg-rose-600 py-2 px-8 rounded-full"
       >
         {{ store.accessToken ? 'Ir al dashboard' : 'Empieza gratis ahora!' }}
       </button>
     </div>
-    <CIcon name="money" :size="300" class="ml-24" />
+    <img class="w-[800px] rotate-3d" :src="appImage" alt="app preview" />
   </div>
 
   <HomeReviews class="mt-16" />
@@ -51,3 +57,10 @@ function handleStart() {
 
   <HomeFooter />
 </template>
+
+<style>
+.rotate-3d {
+  transform: perspective(1000px) rotateY(-20deg);
+  transition: transform 0.5s ease;
+}
+</style>
