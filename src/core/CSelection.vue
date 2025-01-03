@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 type SelectionItem = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,7 +24,9 @@ const emit = defineEmits(['update:selectedValue']);
 
 const focused = ref(false);
 const isLabelTop = computed(() => focused.value || props.selectedValue);
-const selectionIndex = ref<number | null>(null);
+const { element } = useClickOutside(() => {
+  focused.value = false;
+});
 
 const show = computed(() => {
   if (!focused.value || props.selecctions.length === 0) return false;
@@ -32,6 +35,7 @@ const show = computed(() => {
 
 function selectSource(selection: SelectionItem) {
   emit('update:selectedValue', selection.value);
+  focused.value = false;
 }
 
 function getSelectedText() {
@@ -40,19 +44,11 @@ function getSelectedText() {
   );
   return selectedItem ? selectedItem.text : '';
 }
-
-async function handleFocusOut() {
-  // TODO: Find a better way to do this
-  // eslint-disable-next-line no-promise-executor-return
-  await new Promise((res) => setTimeout(() => res(null), 80));
-  if (selectionIndex.value === null) {
-    focused.value = false;
-  }
-}
 </script>
 
 <template>
   <div
+    ref="element"
     :class="[
       'relative w-full h-[40px] flex flex-col items-center justify-center border rounded',
       `${
@@ -67,7 +63,6 @@ async function handleFocusOut() {
       type="button"
       class="h-full w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
       @focus="focused = true"
-      @focusout="handleFocusOut"
     >
       <p>
         {{ getSelectedText() }}

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useClickOutside } from '@/hooks/useClickOutside';
 import { formatString } from '@/utils';
 
 type SelectionItem = {
@@ -23,24 +24,38 @@ const emit = defineEmits(['update:text']);
 const focused = ref(false);
 const input = ref<HTMLInputElement | null>(null);
 const selectionIndex = ref<number | null>(null);
-
-const filteredSelections = computed(() => {
-  if (!props.text) return [];
-
-  const filtered = props.selecctions.filter((seleccition) => {
-    return (
-      seleccition.text !== props.text &&
-      formatString(seleccition.text).includes(formatString(props.text))
-    );
-  });
-  return filtered;
+const show = ref(false);
+const { element } = useClickOutside(() => {
+  show.value = false;
 });
 
-const show = computed(() => {
-  if (!focused.value || !props.text || filteredSelections.value.length === 0)
-    return false;
-  return true;
-});
+const filteredSelections = ref<SelectionItem[]>([]);
+
+watch(
+  () => props.text,
+  (newValue) => {
+    if (!newValue) {
+      filteredSelections.value = [];
+      show.value = false;
+      return;
+    }
+
+    const filtered = props.selecctions.filter((seleccition) => {
+      return (
+        seleccition.text !== props.text &&
+        formatString(seleccition.text).includes(formatString(props.text))
+      );
+    });
+
+    filteredSelections.value = filtered;
+
+    if (filteredSelections.value.length) {
+      show.value = true;
+    } else {
+      show.value = false;
+    }
+  },
+);
 
 async function focusInput() {
   input.value?.focus();
@@ -77,22 +92,26 @@ function selectSource(selection: SelectionItem) {
   emit('update:text', selection.text);
 }
 
-const isLabelTop = computed(() => focused.value || props.text.length > 0);
+function handleChange(event: Event) {
+  const target = event.target as HTMLInputElement;
+  emit('update:text', target.value);
+}
 
-async function handleFocusOut() {
-  await new Promise((res) => {
-    // TODO: Find a better way to do this
-    // eslint-disable-next-line no-promise-executor-return
-    return setTimeout(() => res(null), 80);
-  });
-  if (selectionIndex.value === null) {
-    focused.value = false;
+function handleFocus() {
+  focused.value = true;
+  selectionIndex.value = null;
+
+  if (filteredSelections.value.length) {
+    show.value = true;
   }
 }
+
+const isLabelTop = computed(() => focused.value || props.text.length > 0);
 </script>
 
 <template>
   <div
+    ref="element"
     class="relative flex border flex-col items-center justify-center p-3 rounded-[4px] h-[40px] cursor-text"
     :class="[
       `${
@@ -108,9 +127,8 @@ async function handleFocusOut() {
       type="text"
       ref="input"
       :value="text"
-      @input="$emit('update:text', ($event.target as HTMLInputElement).value)"
-      @focus="(focused = true), (selectionIndex = null)"
-      @focusout="handleFocusOut"
+      @input="handleChange"
+      @focus="handleFocus"
       @keydown.down="inputArrowDown"
     />
 
@@ -127,7 +145,7 @@ async function handleFocusOut() {
     <div
       class="select-list-container"
       :class="[
-        'absolute right-[-1px] left-[-1px] top-[35px]',
+        'absolute right-[-2px] left-[-2px] top-[35px]',
         'border-b border-l border-r border-neutral-300 dark:border-neutral-700',
       ]"
       v-if="show"
@@ -138,8 +156,8 @@ async function handleFocusOut() {
           :key="selecction.text"
           :class="[
             'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left',
-            'z-10 bg-neutral-100 dark:bg-neutral-900 cursor-pointer',
-            'hover:bg-neutral-200 dark:hover:bg-neutral-800',
+            'z-10 bg-neutral-300 dark:bg-neutral-900 cursor-pointer',
+            'hover:bg-neutral-400 dark:hover:bg-neutral-800',
             {
               'border-b border-neutral-300 dark:border-neutral-700':
                 index !== selecctions.length - 1,
