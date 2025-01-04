@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useDebtStore } from '../stores/useDebtsStore';
-import { CActionButton, CDeleteModal, CModal, CTable } from '@/core';
+import { CActionButton, CCheckbox, CDeleteModal, CModal, CTable } from '@/core';
 import { CreateDebtForm, CreateDebtPaymentForm } from '../components';
 import type { TableHeader } from '@/core/CTable.vue';
 import { formatFloat } from '@/utils';
@@ -12,9 +12,17 @@ import { useDeleteDebt } from '../hooks/useDeleteDebt';
 
 const debtStore = useDebtStore();
 const { debts, selectedDebt } = storeToRefs(debtStore);
+const onlyPen = ref(true);
 
 const creating = ref(false);
 const creatingPayment = ref(false);
+
+const orderedDebts = computed(() => {
+  return debts.value
+    .filter((debt) => (onlyPen.value ? !debt.paid : true))
+    .slice()
+    .sort((a, b) => b.amount - a.amount);
+});
 
 const headers = ref<TableHeader[]>([
   { text: 'Estado', itemKey: 'paid', width: 140 },
@@ -88,10 +96,14 @@ async function handleDelete() {
       >
         Eliminar
       </CActionButton>
+
+      <div class="flex gap-2 items-center">
+        <CCheckbox label="Solo pendientes" v-model:modelValue="onlyPen" />
+      </div>
     </div>
 
     <div class="w-full flex flex-col">
-      <CTable :headers="headers" :items="debts">
+      <CTable :headers="headers" :items="orderedDebts">
         <template #item-amount="{ item }">
           <span class="text-black dark:text-white">
             {{ item.currency.symbol }}{{ formatFloat(item.amount) }}
