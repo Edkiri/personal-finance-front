@@ -94,9 +94,9 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div class="flex flex-col grow gap-4 h-full">
+  <div class="flex flex-col grow h-full">
     <div
-      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
+      class="w-full border-t border-neutral-400 p-2 bg-neutral-300 rounded-sm flex gap-4"
     >
       <CActionButton
         color="rgb(35, 134, 54)"
@@ -122,9 +122,10 @@ async function handleUpdate() {
         Eliminar
       </CActionButton>
     </div>
+
     <div class="flex items-stretch gap-4 grow">
       <div
-        class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+        class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm hidden md:flex"
       >
         <ExpenseFilterForm
           v-model:filters="form.filters"
@@ -150,7 +151,7 @@ async function handleUpdate() {
       </div>
 
       <div
-        class="border border-neutral-400 dark:border-neutral-600 w-80 rounded-sm p-4"
+        class="border border-neutral-400 dark:border-neutral-600 w-80 rounded-sm p-4 hidden md:flex"
       >
         <ExpenseStats :expenses="expenses" />
       </div>

@@ -68,7 +68,7 @@ async function handleCreate() {
 </script>
 
 <template>
-  <form class="flex flex-col gap-6">
+  <form class="flex flex-col gap-6 pb-[800px]">
     <h4 class="text-2xl text-black dark:text-white text-center">Nuevo Gasto</h4>
 
     <div class="flex flex-col gap-4">

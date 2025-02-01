@@ -12,7 +12,10 @@ const { user, theme } = storeToRefs(appStore);
 
 <template>
   <header class="flex flex-col bg-gray-300 dark:bg-gray-950 py-1 px-2">
-    <div class="flex justify-between max-w-7xl m-auto w-full py-1">
+    <div
+      v-if="!user?.profile.onboarded"
+      class="flex justify-between max-w-7xl m-auto w-full py-1"
+    >
       <button
         @click="() => router.push(ROUTES.HOME)"
         class="flex gap-1 items-center"
@@ -46,6 +49,6 @@ const { user, theme } = storeToRefs(appStore);
         <UserProfile v-if="user" :user="user" />
       </div>
     </div>
-    <CNavbar v-if="appStore.user?.profile.onboarded" />
+    <CNavbar v-else />
   </header>
 </template>
