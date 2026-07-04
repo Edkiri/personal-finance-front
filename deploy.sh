@@ -42,6 +42,7 @@ SUDO=""
 [ -w "$PARENT" ] || SUDO="sudo"
 
 STAGE="$($SUDO mktemp -d "$PARENT/.pf-front.XXXXXX")"
+$SUDO chmod 755 "$STAGE"
 
 $SUDO cp -r dist/. "$STAGE/"
 $SUDO rm -rf "$OLD"
