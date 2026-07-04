@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
@@ -17,15 +17,44 @@ import { useAccountStore } from '@/app/accounts/stores/useAccountStore';
 import { router, ROUTES } from '@/router';
 import { useAppStore } from '@/store/app-store';
 import ExpenseUpdateForm from '../components/ExpenseUpdateForm.vue';
+import type { ExpenseFilter } from '../types';
 
-const form = reactive({
-  filters: {
+const FILTERS_STORAGE_KEY = 'expense_filters';
+
+function loadFilters(): ExpenseFilter {
+  const stored = localStorage.getItem(FILTERS_STORAGE_KEY);
+  if (stored) {
+    try {
+      const parsed = JSON.parse(stored);
+      return {
+        dateFrom: new Date(parsed.dateFrom),
+        dateTo: new Date(parsed.dateTo),
+        accountId: parsed.accountId ?? null,
+        expenseSourceIds: parsed.expenseSourceIds ?? [],
+      };
+    } catch {
+      /* fall through to defaults */
+    }
+  }
+  return {
     dateFrom: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
     dateTo: new Date(),
-    accountId: null as null | number,
+    accountId: null,
     expenseSourceIds: [],
-  },
+  };
+}
+
+const form = reactive({
+  filters: loadFilters(),
 });
+
+watch(
+  () => form.filters,
+  (filters) => {
+    localStorage.setItem(FILTERS_STORAGE_KEY, JSON.stringify(filters));
+  },
+  { deep: true },
+);
 const updating = ref(false);
 const creating = ref(false);
 const filtersCollapsed = ref(false);
@@ -71,7 +100,9 @@ onMounted(async () => {
   }
 
   if (accounts.value.length) {
-    form.filters.accountId = accounts.value[0].id;
+    if (form.filters.accountId === null) {
+      form.filters.accountId = accounts.value[0].id;
+    }
     await handleFindExpenses();
   }
 });
