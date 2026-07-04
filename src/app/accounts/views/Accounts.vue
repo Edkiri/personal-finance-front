@@ -14,7 +14,7 @@ import { router, ROUTES } from '@/router';
         :click-function="() => router.push(ROUTES.ACCOUNTS_CREATE)"
         icon="add"
       >
-        Crear cuenta
+        Crear
       </CActionButton>
     </div>
 
