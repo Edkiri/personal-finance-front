@@ -53,7 +53,7 @@ watch([selectedExpense], ([newValue]) => {
   }
 
   const { date, accountId, expenseSource, amount, description } = newValue;
-  form.source = expenseSource.name;
+  form.source = expenseSource.concept;
   form.accountId = String(accountId);
   form.amount.text = String(amount);
   form.description.text = description;
@@ -89,7 +89,7 @@ async function handleUpdate() {
         v-model:text="form.source"
         :selecctions="
           expenseSources.map((source) => ({
-            text: source.name,
+            text: source.concept,
             value: source.id,
           }))
         "

@@ -21,8 +21,8 @@ onBeforeRouteLeave((_to, _from, next) => {
 
 const headers = ref<TableHeader[]>([
   { text: '', itemKey: 'actions', width: 50 },
-  { text: 'Categoría', itemKey: 'name', width: 200 },
-  { text: 'Descripción', itemKey: 'description' },
+  { text: 'Concepto', itemKey: 'concept', width: 200 },
+  { text: 'Alias', itemKey: 'alias' },
 ]);
 
 const creating = ref(false);

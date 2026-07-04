@@ -42,8 +42,8 @@ export const useDeleteExpenseSource = defineStore(
       expenseSource: ExpenseSource,
     ): Promise<boolean> {
       if (!expenseSource) return false;
-      const { name } = expenseSource;
-      const msj = `¿Quieres eliminar la categoría ${name}?`;
+      const { concept } = expenseSource;
+      const msj = `¿Quieres eliminar la categoría ${concept}?`;
       const confirmed = await openConfirmationModal(msj);
       if (confirmed) {
         const deleted = await fetchDelete(expenseSource.id);

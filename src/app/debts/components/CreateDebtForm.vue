@@ -57,11 +57,11 @@ async function handleCreate() {
       <CInput label="Creditor" v-model:input-values="formData.creditor" />
 
       <CInputSelection
-        label="Categoría"
+        label="Concepto"
         v-model:text="formData.expenseSourceName"
         :selecctions="
           expenseSources.map((source) => ({
-            text: source.name,
+            text: source.concept,
             value: source.id,
           }))
         "

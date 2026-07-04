@@ -73,11 +73,11 @@ async function handleCreate() {
 
     <div class="flex flex-col gap-4">
       <CInputSelection
-        label="Categoría"
+        label="Concepto"
         v-model:text="formData.source"
         :selecctions="
           expenseSources.map((source) => ({
-            text: source.name,
+            text: source.concept,
             value: source.id,
           }))
         "

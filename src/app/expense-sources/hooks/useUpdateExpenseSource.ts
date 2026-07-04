@@ -14,8 +14,8 @@ export function useUpdateExpenseSource() {
       method: 'PUT',
       path: `expenses/sources/${expenseSource.id}`,
       payload: {
-        name: expenseSource.name,
-        description: expenseSource.description,
+        concept: expenseSource.concept,
+        alias: expenseSource.alias,
       },
     });
     if (response?.status === 200) {

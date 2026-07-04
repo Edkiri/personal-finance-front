@@ -46,7 +46,7 @@ function selectExpense(expense: ExpenseWithId) {
         >
           <div class="flex gap-1 items-center text-sm">
             <p class="capitalize text-primary">
-              {{ expense.expenseSource.name }}
+              {{ expense.expenseSource.concept }}
             </p>
             <p v-if="expense.description" class="text-secondary">-</p>
             <p v-if="expense.description" class="text-secondary">

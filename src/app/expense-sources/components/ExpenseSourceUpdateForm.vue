@@ -17,28 +17,28 @@ const expenseSourceStore = useExpenseSourceStore();
 const { selectedExpenseSource } = storeToRefs(expenseSourceStore);
 
 const form = reactive({
-  name: useInputValue('', validators.notEmpty),
-  description: useInputValue(''),
+  concept: useInputValue('', validators.notEmpty),
+  alias: useInputValue(''),
 });
 
 watch([selectedExpenseSource], () => {
   if (!selectedExpenseSource.value) return;
-  form.name.text = selectedExpenseSource.value.name;
-  form.description.text = selectedExpenseSource.value.description ?? '';
+  form.concept.text = selectedExpenseSource.value.concept;
+  form.alias.text = selectedExpenseSource.value.alias ?? '';
 });
 
 const { update } = useUpdateExpenseSource();
 
 async function handleUpdate() {
-  if (form.name.error || !selectedExpenseSource.value) return;
+  if (form.concept.error || !selectedExpenseSource.value) return;
   const updated = await update({
     id: selectedExpenseSource.value.id,
-    name: form.name.text,
-    description: form.description.text,
+    concept: form.concept.text,
+    alias: form.alias.text,
   });
   if (updated) {
-    form.name.text = '';
-    form.description.text = '';
+    form.concept.text = '';
+    form.alias.text = '';
     selectedExpenseSource.value = null;
     props.onUpdate();
   }
@@ -48,13 +48,13 @@ async function handleUpdate() {
 <template>
   <form class="flex flex-col gap-8">
     <h4 class="text-2xl text-center text-black dark:text-white">
-      Actualizar Categoría
+      Actualizar Concepto
     </h4>
 
     <div class="flex flex-col gap-4">
-      <CInput label="Nombre" v-model:input-values="form.name" />
+      <CInput label="Concepto" v-model:input-values="form.concept" />
 
-      <CInput label="Descripción" v-model:input-values="form.description" />
+      <CInput label="Alias" v-model:input-values="form.alias" />
     </div>
 
     <CButton :click-function="handleUpdate">Actualizar</CButton>

@@ -1,10 +1,10 @@
 export type ExpenseSource = {
   id: number;
-  name: string;
-  description?: string;
+  concept: string;
+  alias?: string;
 };
 
 export type CreateExpenseSourceDto = {
-  name: string;
-  description?: string;
+  concept: string;
+  alias?: string;
 };

@@ -27,7 +27,7 @@ const orderedDebts = computed(() => {
 const headers = ref<TableHeader[]>([
   { text: 'Estado', itemKey: 'paid', width: 140 },
   { text: 'Deudor', itemKey: 'creditor' },
-  { text: 'Categoría', itemKey: 'expenseSource.name' },
+  { text: 'Concepto', itemKey: 'expenseSource.concept' },
   { text: 'Cantidad', itemKey: 'amount' },
   { text: 'Pagado', itemKey: 'totalPaid' },
   { text: 'Restante', itemKey: 'remaining' },

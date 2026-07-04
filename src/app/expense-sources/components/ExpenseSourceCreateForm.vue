@@ -12,21 +12,21 @@ interface ExpenseSourceCreateForm {
 const props = defineProps<ExpenseSourceCreateForm>();
 
 const form = reactive({
-  name: useInputValue('', validators.notEmpty),
-  description: useInputValue(''),
+  concept: useInputValue('', validators.notEmpty),
+  alias: useInputValue(''),
 });
 
 const { create } = useCreateExpenseSource();
 
 async function handleCreate() {
-  if (form.name.error) return;
+  if (form.concept.error) return;
   const created = await create({
-    name: form.name.text,
-    description: form.description.text,
+    concept: form.concept.text,
+    alias: form.alias.text,
   });
   if (created) {
-    form.name.text = '';
-    form.description.text = '';
+    form.concept.text = '';
+    form.alias.text = '';
     props.onCreate();
   }
 }
@@ -39,9 +39,9 @@ async function handleCreate() {
     </h4>
 
     <div class="flex flex-col gap-4">
-      <CInput label="Nombre" v-model:input-values="form.name" />
+      <CInput label="Concepto" v-model:input-values="form.concept" />
 
-      <CInput label="Descripción" v-model:input-values="form.description" />
+      <CInput label="Alias" v-model:input-values="form.alias" />
     </div>
 
     <CButton :click-function="handleCreate">Crear</CButton>

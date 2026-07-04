@@ -32,7 +32,7 @@ const currencySymbol = computed(() => {
 
 const totalBySource = computed(() => {
   const grouped = props.expenses.reduce((acc, expense) => {
-    const sourceName = expense.expenseSource.name;
+    const sourceName = expense.expenseSource.concept;
     acc.set(sourceName, (acc.get(sourceName) ?? 0) + expense.amount);
     return acc;
   }, new Map<string, number>());
@@ -89,7 +89,7 @@ function sparklinePoints(sourceName: string): string {
 
   const totalsByDay = new Map(days.map((day) => [day, 0]));
   props.expenses
-    .filter((expense) => expense.expenseSource.name === sourceName)
+    .filter((expense) => expense.expenseSource.concept === sourceName)
     .forEach((expense) => {
       const day = expense.date.split('T')[0];
       totalsByDay.set(day, (totalsByDay.get(day) ?? 0) + expense.amount);

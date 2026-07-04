@@ -26,14 +26,14 @@ onMounted(() => {
     props.expenseSources.forEach((expenseSource) => {
       const expenseSourceForm: ExpenseSourceFormData = {
         id: String(expenseSource.id),
-        name: useInputValue(expenseSource.name, validators.notEmpty),
+        concept: useInputValue(expenseSource.concept, validators.notEmpty),
       };
       formData.push(expenseSourceForm);
     });
   } else {
     const expenseSourceForm: ExpenseSourceFormData = {
       id: uuidv4(),
-      name: useInputValue('', validators.notEmpty),
+      concept: useInputValue('', validators.notEmpty),
     };
     formData.push(expenseSourceForm);
   }
@@ -45,7 +45,7 @@ watch(
     const updatedExpenseSources = newValue.map((form) => {
       return {
         id: form.id,
-        name: form.name.text,
+        concept: form.concept.text,
       };
     });
     emit('update:expenseSources', updatedExpenseSources);
@@ -64,7 +64,7 @@ function reset() {
   DEFAULT_EXPENSE_SOURCES.forEach((source) => {
     formData.push({
       id: String(source.id),
-      name: useInputValue(source.name, validators.notEmpty),
+      concept: useInputValue(source.concept, validators.notEmpty),
     });
   });
 }
@@ -72,7 +72,7 @@ function reset() {
 function add() {
   formData.push({
     id: uuidv4(),
-    name: useInputValue(''),
+    concept: useInputValue(''),
   });
 }
 </script>
@@ -96,7 +96,7 @@ function add() {
       <CInput
         label=""
         :required="false"
-        v-model:input-values="expenseSource.name"
+        v-model:input-values="expenseSource.concept"
       />
       <button
         type="button"

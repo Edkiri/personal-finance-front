@@ -95,7 +95,7 @@ const { onboardUser } = useOnboardUser();
 const store = useAppStore();
 
 const isValidForm = computed(() => {
-  return expenseSources.value.every((item) => item.name.length > 0);
+  return expenseSources.value.every((item) => item.concept.length > 0);
 });
 
 async function onboardingHandleSubmit() {
@@ -108,7 +108,9 @@ async function onboardingHandleSubmit() {
       currencyId: account.currencyId,
     })),
     currencyIds: userCurrencies.value.map((currency) => currency.id),
-    expenseSources: expenseSources.value.map((item) => ({ name: item.name })),
+    expenseSources: expenseSources.value.map((item) => ({
+      concept: item.concept,
+    })),
   });
   if (response === true) {
     accounts.value = [];

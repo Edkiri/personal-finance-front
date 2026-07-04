@@ -22,7 +22,7 @@ export const useDeleteExpense = defineStore('delete-expense', () => {
   async function deleteExpense(expense: ExpenseWithId): Promise<boolean> {
     if (!expense) return false;
     const { expenseSource, amount, currency } = expense;
-    const msj = `¿Quieres eliminar el gasto ${expenseSource.name} - ${currency.symbol}${amount}?`;
+    const msj = `¿Quieres eliminar el gasto ${expenseSource.concept} - ${currency.symbol}${amount}?`;
     const confirmed = await openConfirmationModal(msj);
     if (confirmed) {
       const deleted = await fetchDelete(expense.id);

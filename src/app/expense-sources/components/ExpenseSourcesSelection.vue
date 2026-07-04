@@ -44,7 +44,7 @@ function handleToggleChange(isChecked: boolean, expenseSourceId: number) {
           )
         "
       >
-        {{ expenseSource.name }}
+        {{ expenseSource.concept }}
       </label>
       <CToggle
         :model-value="selectedExpenseSourcesIds.includes(expenseSource.id)"
