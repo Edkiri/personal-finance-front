@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useIncomeSources } from '../stores/useIncomeSources';
+import { CToggle } from '@/core';
 
 interface Props {
   selectedIncomeSourcesIds: number[];
@@ -12,16 +13,15 @@ const emit = defineEmits(['update:selectedIncomeSourcesIds']);
 const incomeSourceStore = useIncomeSources();
 const { incomeSources } = storeToRefs(incomeSourceStore);
 
-function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
-  const isChecked = (e.target as HTMLInputElement).checked;
+function handleToggleChange(isChecked: boolean, incomeSourceId: number) {
   let updatedIds = [...props.selectedIncomeSourcesIds];
 
   if (isChecked) {
-    if (!updatedIds.includes(expenseSourceId)) {
-      updatedIds.push(expenseSourceId);
+    if (!updatedIds.includes(incomeSourceId)) {
+      updatedIds.push(incomeSourceId);
     }
   } else {
-    updatedIds = updatedIds.filter((id) => id !== expenseSourceId);
+    updatedIds = updatedIds.filter((id) => id !== incomeSourceId);
   }
 
   emit('update:selectedIncomeSourcesIds', updatedIds);
@@ -29,24 +29,29 @@ function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-2">
     <div
-      class="flex items-center gap-1"
+      class="flex items-center justify-between"
       v-for="incomeSource in incomeSources"
       :key="`income-source-${incomeSource.id}`"
     >
-      <input
-        type="checkbox"
-        :checked="selectedIncomeSourcesIds.includes(incomeSource.id)"
-        @input="handleCheckboxChange($event as InputEvent, incomeSource.id)"
-        :id="'checkbox-' + incomeSource.id"
-      />
       <label
-        :for="'checkbox-' + incomeSource.id"
-        class="text-black dark:text-white capitalize cursor-pointer"
+        class="capitalize cursor-pointer text-sm"
+        @click="
+          handleToggleChange(
+            !selectedIncomeSourcesIds.includes(incomeSource.id),
+            incomeSource.id,
+          )
+        "
       >
         {{ incomeSource.name }}
       </label>
+      <CToggle
+        :model-value="selectedIncomeSourcesIds.includes(incomeSource.id)"
+        @update:model-value="
+          (value: boolean) => handleToggleChange(value, incomeSource.id)
+        "
+      />
     </div>
   </div>
 </template>

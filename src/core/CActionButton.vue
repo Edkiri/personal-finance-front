@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   disabled: false,
   loading: false,
   outlined: true,
-  color: 'rgb(244, 63, 94)',
+  color: '#5c6b7a',
 });
 
 const isDisabled = computed(() => props.disabled || props.loading);
@@ -38,8 +38,8 @@ const styles = computed(() => {
 
 <template>
   <button
-    class="py-[1px] px-2 text-white border-2 rounded-sm flex items-center gap-1"
-    :class="{ 'opacity-20': disabled }"
+    class="py-0.5 px-3 border rounded-full flex items-center gap-1.5 text-sm font-medium transition-colors"
+    :class="{ 'opacity-30': disabled }"
     :style="styles"
     :type="type"
     @click="clickFunction"

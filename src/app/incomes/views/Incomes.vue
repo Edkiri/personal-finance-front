@@ -8,7 +8,7 @@ import IncomeFilterForm from '../components/IncomeFilterForm.vue';
 import { useIncomeSources } from '../stores/useIncomeSources';
 import IncomeListByDate from '../components/IncomeListByDate.vue';
 import EmptyIncomeList from '../components/EmptyIncomeList.vue';
-import { CActionButton, CDeleteModal, CLoading, CModal } from '@/core';
+import { CActionButton, CDeleteModal, CLoading, CModal, CIcon } from '@/core';
 import CreateIncomeForm from '../components/CreateIncomeForm.vue';
 import IncomeStats from '../components/IncomeStats.vue';
 import { useDeleteIncome } from '../hooks/useDeleteIncomes';
@@ -23,6 +23,7 @@ const { accounts } = storeToRefs(accountStore);
 
 const creating = ref(false);
 const updating = ref(false);
+const filtersCollapsed = ref(false);
 
 const selectedAccountId = ref<number | null>(null);
 
@@ -75,12 +76,10 @@ async function handleDelete() {
 </script>
 
 <template>
-  <div class="flex grow flex-col gap-4">
-    <div
-      class="w-full border border-neutral-400 dark:border-neutral-600 rounded-sm p-2 flex gap-4"
-    >
+  <div class="flex flex-col grow h-full gap-4 pb-6">
+    <div class="w-full flex gap-3">
       <CActionButton
-        color="rgb(35, 134, 54)"
+        color="#5c8782"
         :click-function="() => (creating = true)"
         icon="add"
       >
@@ -88,7 +87,7 @@ async function handleDelete() {
       </CActionButton>
       <CActionButton
         :disabled="!selectedIncome"
-        color="rgb(59, 130, 246)"
+        color="#5c6b7a"
         :click-function="handleUpdate"
         icon="edit"
       >
@@ -96,7 +95,7 @@ async function handleDelete() {
       </CActionButton>
       <CActionButton
         :disabled="!selectedIncome"
-        color="#e74c3c"
+        color="#d15e5e"
         :click-function="handleDelete"
         icon="delete"
       >
@@ -104,16 +103,47 @@ async function handleDelete() {
       </CActionButton>
     </div>
 
-    <div class="flex gap-4 grow">
+    <div class="flex items-start gap-4 grow">
       <div
-        class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm"
+        class="shrink-0 bg-surface rounded-xl shadow-soft hidden md:flex flex-col overflow-hidden transition-[width] duration-300 ease-in-out"
+        :class="filtersCollapsed ? 'w-14' : 'w-80'"
       >
-        <IncomeFilterForm v-model:filters="form.filters" :find="handleFind" />
+        <div
+          class="flex items-center p-3"
+          :class="filtersCollapsed ? 'justify-center' : 'justify-between'"
+        >
+          <span
+            v-if="!filtersCollapsed"
+            class="font-medium whitespace-nowrap pl-1"
+            >Filtros</span
+          >
+          <button
+            type="button"
+            class="shrink-0 p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            :title="filtersCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'"
+            @click="filtersCollapsed = !filtersCollapsed"
+          >
+            <CIcon
+              name="arrow"
+              :size="20"
+              class="transition-transform duration-300"
+              :class="filtersCollapsed ? '-rotate-90' : 'rotate-90'"
+              :styles="{ stroke: 'currentColor', fill: 'none', strokeWidth: 2 }"
+            />
+          </button>
+        </div>
+
+        <div
+          class="w-80 transition-opacity duration-200"
+          :class="
+            filtersCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          "
+        >
+          <IncomeFilterForm v-model:filters="form.filters" :find="handleFind" />
+        </div>
       </div>
 
-      <div
-        class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
-      >
+      <div class="grow bg-surface rounded-xl shadow-soft min-h-[200px]">
         <IncomeListByDate v-if="!loading && incomes.length > 0" />
 
         <div
@@ -128,29 +158,27 @@ async function handleDelete() {
         </div>
       </div>
 
-      <div
-        class="border border-neutral-400 dark:border-neutral-600 w-80 rounded-sm p-4"
-      >
+      <div class="w-80 shrink-0 hidden md:flex">
         <IncomeStats />
       </div>
-
-      <CModal v-model:show="creating">
-        <CreateIncomeForm
-          :on-create="() => ((creating = false), handleFind())"
-          :accountId="form.filters.accountId"
-        />
-      </CModal>
-
-      <CModal v-model:show="updating">
-        <IncomeUpdateForm @update="() => ((updating = false), handleFind())" />
-      </CModal>
-
-      <CDeleteModal
-        :show="deleteStore.deleting"
-        :message="deleteStore.message"
-        :on-cancel="deleteStore.cancel"
-        :on-confirm="deleteStore.accept"
-      />
     </div>
+
+    <CModal v-model:show="creating">
+      <CreateIncomeForm
+        :on-create="() => ((creating = false), handleFind())"
+        :accountId="form.filters.accountId"
+      />
+    </CModal>
+
+    <CModal v-model:show="updating">
+      <IncomeUpdateForm @update="() => ((updating = false), handleFind())" />
+    </CModal>
+
+    <CDeleteModal
+      :show="deleteStore.deleting"
+      :message="deleteStore.message"
+      :on-cancel="deleteStore.cancel"
+      :on-confirm="deleteStore.accept"
+    />
   </div>
 </template>

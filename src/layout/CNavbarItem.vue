@@ -24,10 +24,11 @@ const store = useAppStore();
 <template>
   <button
     @click="() => navigate(route)"
-    class="cursor-pointer px-2 py-1 border-b-2 rounded-sm flex gap-1 items-center hover:bg-gray-400 dark:hover:bg-gray-600"
+    class="cursor-pointer px-3 py-1.5 border-b-2 flex gap-1.5 items-center transition-colors"
     :class="{
-      'border-rose-500 font-semibold': currentRute === route,
-      'border-transparent': currentRute !== route,
+      'border-accent-primary font-semibold text-primary': currentRute === route,
+      'border-transparent text-secondary hover:text-primary':
+        currentRute !== route,
     }"
   >
     <CIcon
@@ -35,7 +36,7 @@ const store = useAppStore();
       :size="12"
       :color="store.theme === 'dark' ? 'white' : 'black'"
     />
-    <span class="pf-text-bold text-black dark:text-white">
+    <span>
       <slot></slot>
     </span>
   </button>

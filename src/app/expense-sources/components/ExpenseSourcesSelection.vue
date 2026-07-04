@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
+import { CToggle } from '@/core';
 
 interface Props {
   selectedExpenseSourcesIds: number[];
@@ -12,8 +13,7 @@ const emit = defineEmits(['update:selectedExpenseSourcesIds']);
 const expenseSourceStore = useExpenseSourceStore();
 const { expenseSources } = storeToRefs(expenseSourceStore);
 
-function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
-  const isChecked = (e.target as HTMLInputElement).checked;
+function handleToggleChange(isChecked: boolean, expenseSourceId: number) {
   let updatedIds = [...props.selectedExpenseSourcesIds];
 
   if (isChecked) {
@@ -29,24 +29,29 @@ function handleCheckboxChange(e: InputEvent, expenseSourceId: number) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-2">
     <div
-      class="flex items-center gap-1"
+      class="flex items-center justify-between"
       v-for="expenseSource in expenseSources"
       :key="`expense-source-${expenseSource.id}`"
     >
-      <input
-        type="checkbox"
-        :checked="selectedExpenseSourcesIds.includes(expenseSource.id)"
-        @input="handleCheckboxChange($event as InputEvent, expenseSource.id)"
-        :id="'checkbox-' + expenseSource.id"
-      />
       <label
-        :for="'checkbox-' + expenseSource.id"
-        class="text-black dark:text-white capitalize cursor-pointer"
+        class="capitalize cursor-pointer text-sm"
+        @click="
+          handleToggleChange(
+            !selectedExpenseSourcesIds.includes(expenseSource.id),
+            expenseSource.id,
+          )
+        "
       >
         {{ expenseSource.name }}
       </label>
+      <CToggle
+        :model-value="selectedExpenseSourcesIds.includes(expenseSource.id)"
+        @update:model-value="
+          (value: boolean) => handleToggleChange(value, expenseSource.id)
+        "
+      />
     </div>
   </div>
 </template>

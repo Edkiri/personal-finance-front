@@ -69,7 +69,7 @@ async function handleCreate() {
 
 <template>
   <form class="flex flex-col gap-6">
-    <h4 class="text-2xl text-black dark:text-white text-center">Nuevo Gasto</h4>
+    <h4 class="text-2xl text-primary text-center">Nuevo Gasto</h4>
 
     <div class="flex flex-col gap-4">
       <CInputSelection
@@ -101,9 +101,7 @@ async function handleCreate() {
           }))
         "
       />
-      <div class="px-2">
-        <CDateInput v-model:date="formData.date" dateLabel="Fecha" />
-      </div>
+      <CDateInput v-model:date="formData.date" dateLabel="Fecha" />
     </div>
 
     <CButton :click-function="handleCreate">Crear</CButton>

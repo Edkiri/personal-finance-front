@@ -21,13 +21,13 @@ const formatDate = (date: Date): string => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1 text-black dark:text-white">
-    <span class="text-sm">
+  <div class="flex flex-col gap-1 text-primary">
+    <span class="text-xs text-secondary">
       {{ dateLabel ? dateLabel : formatLabel(props.date) }}
     </span>
     <input
       type="date"
-      class="bg-transparent"
+      class="bg-surface border border-chart-grayLight rounded-lg px-3 py-1.5 text-sm"
       :max="formatDate(new Date())"
       :value="formatDate(props.date)"
       @change="handleChange($event)"

@@ -41,7 +41,7 @@ watch(
 </script>
 
 <template>
-  <div class="w-full flex flex-col gap-4 p-4">
+  <div class="w-full flex flex-col gap-4 px-4 pb-4">
     <CSelection
       label="Cuenta"
       v-model:selected-value="localFilters.accountId"
@@ -64,6 +64,8 @@ watch(
     <ExpenseSourcesSelection
       v-model:selected-expense-sources-ids="localFilters.expenseSourceIds"
     />
-    <CButton :click-function="search">Buscar</CButton>
+    <CButton class="w-full mt-2" :click-function="search"
+      >Filtrar Resultados</CButton
+    >
   </div>
 </template>

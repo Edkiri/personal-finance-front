@@ -13,3 +13,4 @@ export { default as CDateInput } from './CDateInput.vue';
 export { default as CLoading } from './CLoading.vue';
 export { default as CActionButton } from './CActionButton.vue';
 export { default as CCheckbox } from './CCheckbox.vue';
+export { default as CToggle } from './CToggle.vue';

@@ -18,12 +18,12 @@ defineEmits(['update:show']);
       @click="$emit('update:show', false)"
     ></div>
     <div
-      class="relative w-full max-w-lg mx-auto mt-0 md:mt-24 p-6 rounded-none md:rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 z-50"
+      class="relative w-full max-w-lg mx-auto mt-0 md:mt-24 p-6 rounded-none md:rounded-xl bg-surface shadow-soft z-50"
     >
       <slot></slot>
       <button
         @click="$emit('update:show', false)"
-        class="text-bold absolute top-6 right-6 text-2xl"
+        class="absolute top-6 right-6 text-2xl font-bold text-secondary transition-colors hover:text-primary"
       >
         X
       </button>

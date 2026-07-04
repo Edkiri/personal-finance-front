@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { formatFloat } from '@/utils';
 import { ExpenseWithId } from '../types';
 
 type Props = {
@@ -7,6 +8,19 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const DONUT_RADIUS = 44;
+const DONUT_CIRCUMFERENCE = 2 * Math.PI * DONUT_RADIUS;
+const SEGMENT_GAP = 2.5;
+
+// Rampa oscuro→claro asignada por ranking de magnitud (no identidad):
+// la identidad la da siempre la leyenda con nombre + porcentaje.
+const SLICE_COLORS = [
+  'var(--color-chart-blue)',
+  'var(--color-chart-green)',
+  'var(--color-chart-gray-blue)',
+  'var(--color-chart-slate)',
+];
 
 const totalExpenses = computed(() => {
   return props.expenses.reduce((acc, expense) => acc + expense.amount, 0);
@@ -19,76 +33,177 @@ const currencySymbol = computed(() => {
 const totalBySource = computed(() => {
   const grouped = props.expenses.reduce((acc, expense) => {
     const sourceName = expense.expenseSource.name;
-    if (!acc.has(sourceName)) {
-      acc.set(sourceName, 0);
-    }
-    acc.set(sourceName, acc.get(sourceName) + expense.amount);
+    acc.set(sourceName, (acc.get(sourceName) ?? 0) + expense.amount);
     return acc;
-  }, new Map());
+  }, new Map<string, number>());
 
-  const sortedGrouped = new Map(
-    [...grouped.entries()].sort((a, b) => b[1] - a[1]),
-  );
-
-  return sortedGrouped;
+  return new Map([...grouped.entries()].sort((a, b) => b[1] - a[1]));
 });
+
+const donutSlices = computed(() => {
+  const entries = [...totalBySource.value.entries()].filter(
+    ([, total]) => total > 0,
+  );
+  const shown =
+    entries.length > SLICE_COLORS.length
+      ? entries.slice(0, SLICE_COLORS.length - 1)
+      : entries;
+  const rest = entries.slice(shown.length);
+  const slices = shown.map(([name, total]) => ({ name, total }));
+  if (rest.length) {
+    slices.push({
+      name: 'otros',
+      total: rest.reduce((acc, [, total]) => acc + total, 0),
+    });
+  }
+
+  let offset = 0;
+  return slices.map((slice, index) => {
+    const fraction = totalExpenses.value
+      ? slice.total / totalExpenses.value
+      : 0;
+    const length = fraction * DONUT_CIRCUMFERENCE;
+    const visible = Math.max(0.5, length - SEGMENT_GAP);
+    const result = {
+      ...slice,
+      color: SLICE_COLORS[index],
+      percent: Math.round(fraction * 100),
+      dashArray: `${visible} ${DONUT_CIRCUMFERENCE - visible}`,
+      dashOffset: -offset,
+    };
+    offset += length;
+    return result;
+  });
+});
+
+const sparklineDays = computed(() => {
+  const days = new Set(
+    props.expenses.map((expense) => expense.date.split('T')[0]),
+  );
+  return [...days].sort();
+});
+
+function sparklinePoints(sourceName: string): string {
+  const days = sparklineDays.value;
+  if (days.length < 2) return '';
+
+  const totalsByDay = new Map(days.map((day) => [day, 0]));
+  props.expenses
+    .filter((expense) => expense.expenseSource.name === sourceName)
+    .forEach((expense) => {
+      const day = expense.date.split('T')[0];
+      totalsByDay.set(day, (totalsByDay.get(day) ?? 0) + expense.amount);
+    });
+
+  const values = days.map((day) => totalsByDay.get(day) ?? 0);
+  const max = Math.max(...values, 1);
+  const width = 72;
+  const height = 20;
+  const step = width / (values.length - 1);
+
+  return values
+    .map(
+      (value, index) =>
+        `${(index * step).toFixed(1)},${(
+          height -
+          2 -
+          (value / max) * (height - 4)
+        ).toFixed(1)}`,
+    )
+    .join(' ');
+}
 </script>
 
 <template>
-  <div class="flex flex-col text-black dark:text-white">
-    <h1 class="mb-4 text-lg font-semibold text-blue-500">
-      Estadísticas generales
-    </h1>
-    <div class="flex items-center justify-between">
-      <p
-        class="font-semibold capitalize text-neutral-700 dark:text-neutral-300"
-      >
-        Total
-      </p>
-      <p class="font-semibold text-neutral-700 dark:text-neutral-300">
-        {{ currencySymbol }}{{ totalExpenses.toFixed(2) }}
-      </p>
+  <div class="flex flex-col gap-4 w-full">
+    <div class="bg-surface rounded-xl shadow-soft p-4">
+      <h1 class="mb-2 font-semibold text-primary">Estadísticas Generales</h1>
+      <div class="flex items-end justify-between">
+        <p class="text-lg font-semibold text-primary">Total</p>
+        <p class="text-2xl font-bold text-primary">
+          {{ currencySymbol }}{{ formatFloat(totalExpenses) }}
+        </p>
+      </div>
     </div>
 
-    <div class="flex flex-col gap-1">
-      <p class="text-lg font-semibold capitalize text-blue-500 mt-4">
-        Total por categoría
-      </p>
+    <div
+      v-if="donutSlices.length"
+      class="bg-surface rounded-xl shadow-soft p-4"
+    >
+      <h2 class="mb-3 font-semibold text-primary">
+        Distribución por Categoría
+      </h2>
+      <svg
+        viewBox="0 0 120 120"
+        class="w-44 h-44 mx-auto"
+        role="img"
+        aria-label="Distribución de gastos por categoría"
+      >
+        <g transform="rotate(-90 60 60)">
+          <circle
+            v-for="slice in donutSlices"
+            :key="`donut-${slice.name}`"
+            cx="60"
+            cy="60"
+            :r="DONUT_RADIUS"
+            fill="none"
+            :stroke="slice.color"
+            stroke-width="22"
+            :stroke-dasharray="slice.dashArray"
+            :stroke-dashoffset="slice.dashOffset"
+            class="transition-opacity hover:opacity-80"
+          >
+            <title>
+              {{ slice.name }} — {{ currencySymbol
+              }}{{ formatFloat(slice.total) }} ({{ slice.percent }}%)
+            </title>
+          </circle>
+        </g>
+      </svg>
+      <div class="mt-3 flex flex-col gap-1.5">
+        <div
+          v-for="slice in donutSlices"
+          :key="`legend-${slice.name}`"
+          class="flex items-center justify-between text-sm"
+        >
+          <div class="flex items-center gap-2 min-w-0">
+            <span
+              class="w-2.5 h-2.5 rounded-full shrink-0"
+              :style="{ backgroundColor: slice.color }"
+            />
+            <p class="capitalize text-primary truncate">{{ slice.name }}</p>
+          </div>
+          <p class="text-secondary">~{{ slice.percent }}%</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
       <div
         v-for="[source, total] in totalBySource"
         :key="`expense-source-total-${source}`"
+        class="bg-surface rounded-xl shadow-soft p-3 flex flex-col gap-1"
       >
-        <div class="flex items-center justify-between" v-if="total > 0">
-          <p
-            class="font-semibold capitalize text-neutral-700 dark:text-neutral-300"
-          >
-            {{ source }}
-          </p>
-          <p class="text-neutral-700 dark:text-neutral-300">
-            {{ currencySymbol }}{{ total.toFixed(2) }}
-          </p>
-        </div>
-      </div>
-
-      <div v-if="totalBySource.size > 1">
-        <p class="text-lg font-semibold capitalize text-blue-500 mt-4">
-          Porcentaje por categoría
+        <p class="capitalize text-sm text-secondary truncate">{{ source }}</p>
+        <p class="font-bold text-primary">
+          {{ currencySymbol }}{{ formatFloat(total) }}
         </p>
-        <div
-          v-for="[source, total] in totalBySource"
-          :key="`expense-source-total-${source}`"
+        <svg
+          v-if="sparklinePoints(source)"
+          viewBox="0 0 72 20"
+          class="w-full h-5"
+          preserveAspectRatio="none"
+          aria-hidden="true"
         >
-          <div class="flex items-center justify-between" v-if="total > 0">
-            <p
-              class="font-semibold capitalize text-neutral-700 dark:text-neutral-300"
-            >
-              {{ source }}
-            </p>
-            <p class="text-neutral-700 dark:text-neutral-300">
-              ~{{ Math.ceil((total / totalExpenses) * 100) }}%
-            </p>
-          </div>
-        </div>
+          <polyline
+            :points="sparklinePoints(source)"
+            fill="none"
+            stroke="var(--color-accent-secondary)"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+          />
+        </svg>
       </div>
     </div>
   </div>

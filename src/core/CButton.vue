@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   disabled: false,
   loading: false,
   outlined: false,
-  color: 'rgb(244, 63, 94)',
+  color: 'var(--color-accent-primary)',
 });
 
 const isDisabled = computed(() => props.disabled || props.loading);
@@ -31,7 +31,7 @@ const styles = computed(() => {
 
 <template>
   <button
-    class="py-[1px] font-bold px-4 text-white border-2 rounded-sm"
+    class="py-1.5 font-semibold px-4 text-white border-2 rounded-lg transition-opacity hover:opacity-90"
     :class="{ 'opacity-40': disabled }"
     :style="styles"
     :type="type"

@@ -112,18 +112,14 @@ const isLabelTop = computed(() => focused.value || props.text.length > 0);
 <template>
   <div
     ref="element"
-    class="relative flex border flex-col items-center justify-center p-3 rounded-[4px] h-[40px] cursor-text"
+    class="relative w-full flex border flex-col items-center justify-center px-4 rounded-lg h-[40px] cursor-text bg-surface"
     :class="[
-      `${
-        focused
-          ? 'border-neutral-800 dark:border-neutral-200'
-          : 'border-neutral-400 dark:border-neutral-600'
-      }`,
+      `${focused ? 'border-accent-primary' : 'border-chart-grayLight'}`,
     ]"
     @click="focusInput"
   >
     <input
-      class="w-full text-black dark:text-white bg-transparent outline-none"
+      class="w-full text-primary bg-transparent outline-none"
       type="text"
       ref="input"
       :value="text"
@@ -134,10 +130,10 @@ const isLabelTop = computed(() => focused.value || props.text.length > 0);
 
     <label
       :class="[
-        'text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900',
+        'text-secondary bg-surface',
         'block pointer-events-none absolute left-2 top-1/2 px-2',
         'transition-transform ease-in-out duration-100',
-        `${isLabelTop ? 'text-sm -translate-y-7' : '-translate-y-1/2'}`,
+        `${isLabelTop ? 'text-xs -translate-y-7' : '-translate-y-1/2'}`,
       ]"
       >{{ label }}
     </label>
@@ -145,8 +141,8 @@ const isLabelTop = computed(() => focused.value || props.text.length > 0);
     <div
       class="select-list-container"
       :class="[
-        'absolute right-[-2px] left-[-2px] top-[35px]',
-        'border-b border-l border-r border-neutral-300 dark:border-neutral-700',
+        'absolute right-[-1px] left-[-1px] top-[42px] z-20',
+        'border border-chart-grayLight rounded-lg overflow-hidden shadow-soft',
       ]"
       v-if="show"
     >
@@ -155,11 +151,11 @@ const isLabelTop = computed(() => focused.value || props.text.length > 0);
           v-for="(selecction, index) in filteredSelections"
           :key="selecction.text"
           :class="[
-            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left',
-            'z-10 bg-neutral-300 dark:bg-neutral-900 cursor-pointer',
-            'hover:bg-neutral-400 dark:hover:bg-neutral-800',
+            'text-primary outline-none p-2 text-left text-sm',
+            'z-10 bg-surface cursor-pointer',
+            'hover:bg-chart-grayLight',
             {
-              'border-b border-neutral-300 dark:border-neutral-700':
+              'border-b border-chart-grayLight':
                 index !== selecctions.length - 1,
             },
           ]"

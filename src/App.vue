@@ -12,7 +12,9 @@ useToastStore();
 <template>
   <div class="min-h-screen flex flex-col">
     <CHeader />
-    <div class="relative max-w-7xl m-auto w-full h-full grow flex flex-col">
+    <div
+      class="relative max-w-7xl m-auto w-full h-full grow flex flex-col px-2 md:px-4"
+    >
       <router-view></router-view>
       <CToastList />
     </div>

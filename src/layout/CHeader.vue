@@ -11,7 +11,9 @@ const { user, theme } = storeToRefs(appStore);
 </script>
 
 <template>
-  <header class="flex flex-col bg-gray-300 dark:bg-gray-950 py-1 px-2">
+  <header
+    class="flex flex-col bg-surface shadow-soft border-b border-chart-grayLight py-1 px-2 mb-4"
+  >
     <div
       v-if="!user?.profile.onboarded"
       class="flex justify-between max-w-7xl m-auto w-full py-1"
@@ -28,7 +30,7 @@ const { user, theme } = storeToRefs(appStore);
         <button
           v-if="!appStore.accessToken"
           @click="() => router.push(ROUTES.LOGIN)"
-          class="text-white font-bold dark:text-white bg-rose-500 hover:bg-rose-600 px-4 rounded-full"
+          class="text-white font-bold bg-accent-primary hover:opacity-90 px-4 py-1 rounded-full"
         >
           Inicia sesión
         </button>

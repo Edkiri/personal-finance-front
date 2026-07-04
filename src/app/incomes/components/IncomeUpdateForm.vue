@@ -80,8 +80,8 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <form class="flex flex-col w-full max-w-md mx-auto gap-6 mt-2">
-    <h4 class="text-2xl text-black dark:text-white">Actualizar Ingreso</h4>
+  <form class="flex flex-col gap-6">
+    <h4 class="text-2xl text-primary text-center">Actualizar Ingreso</h4>
 
     <div class="flex flex-col gap-4">
       <CInputSelection
@@ -110,9 +110,7 @@ async function handleUpdate() {
         "
       />
 
-      <div class="px-2">
-        <CDateInput v-model:date="form.date" dateLabel="Fecha" />
-      </div>
+      <CDateInput v-model:date="form.date" dateLabel="Fecha" />
     </div>
 
     <CButton :click-function="handleUpdate">Actualizar</CButton>

@@ -22,14 +22,13 @@ function selectExpense(expense: ExpenseWithId) {
 </script>
 
 <template>
-  <div class="px-4 m-auto">
+  <div class="px-5 py-4 m-auto">
     <div
-      class="border-neutral-500 pb-2"
-      v-for="([date, expenses], index) in expensesGroupedByDay"
+      class="pb-4"
+      v-for="[date, expenses] in expensesGroupedByDay"
       :key="date"
-      :class="{ 'border-t': index > 0 }"
     >
-      <p class="my-3 text-blue-500 font-semibold text-lg">
+      <p class="mb-2 text-primary font-semibold">
         {{ formatDate(new Date(date)) }}
       </p>
       <div
@@ -38,45 +37,33 @@ function selectExpense(expense: ExpenseWithId) {
         :key="expense.id"
       >
         <div
-          class="flex w-full justify-between border-b border-neutral-700 select-none p-1 rounded-sm"
+          class="flex w-full justify-between items-center select-none px-2 py-1.5 rounded-lg"
           :class="{
-            'bg-neutral-300 dark:bg-neutral-700':
-              expense.id === selectedExpense?.id,
-            'hover:bg-neutral-200 dark:hover:bg-neutral-800':
-              expense.id !== selectedExpense?.id,
+            'bg-chart-grayLight': expense.id === selectedExpense?.id,
+            'hover:bg-page': expense.id !== selectedExpense?.id,
           }"
           @click="selectExpense(expense)"
         >
-          <div class="flex gap-1 items-center">
-            <p class="capitalize text-black dark:text-white">
+          <div class="flex gap-1 items-center text-sm">
+            <p class="capitalize text-primary">
               {{ expense.expenseSource.name }}
             </p>
-            <p
-              v-if="expense.description"
-              class="text-neutral-600 dark:text-neutral-400"
-            >
-              -
-            </p>
-            <p
-              v-if="expense.description"
-              class="text-neutral-600 dark:text-neutral-400"
-            >
+            <p v-if="expense.description" class="text-secondary">-</p>
+            <p v-if="expense.description" class="text-secondary">
               {{ expense.description }}
             </p>
           </div>
-          <p class="text-black dark:text-white">
-            <span class="text-red-500 font-semibold">-</span>
-            {{ currencySymbol }}{{ formatFloat(expense.amount) }}
+          <p class="text-accent-negative text-sm font-medium whitespace-nowrap">
+            - {{ currencySymbol }}{{ formatFloat(expense.amount) }}
           </p>
         </div>
       </div>
       <div
-        class="mt-4 flex w-full justify-between text-black dark:text-white font-semibold"
+        class="mt-2 flex w-full justify-between font-semibold text-sm bg-page rounded-lg px-2 py-1.5"
       >
-        <p>Total</p>
-        <p>
-          <span class="text-red-500 font-semibold">-</span>
-          {{ currencySymbol
+        <p class="text-primary">Total</p>
+        <p class="text-primary">
+          - {{ currencySymbol
           }}{{
             formatFloat(expenses.reduce((acc, exp) => acc + exp.amount, 0))
           }}

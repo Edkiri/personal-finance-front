@@ -3,7 +3,7 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useExpenseSourceStore } from '@app/expense-sources/stores/useExpenseSourceStore';
-import { CActionButton, CDeleteModal, CLoading, CModal } from '@/core';
+import { CActionButton, CDeleteModal, CLoading, CModal, CIcon } from '@/core';
 import {
   EmptyExpenseList,
   ExpenseFilterForm,
@@ -28,6 +28,7 @@ const form = reactive({
 });
 const updating = ref(false);
 const creating = ref(false);
+const filtersCollapsed = ref(false);
 
 useExpenseSourceStore();
 const accountStore = useAccountStore();
@@ -94,12 +95,10 @@ async function handleUpdate() {
 </script>
 
 <template>
-  <div class="flex flex-col grow h-full">
-    <div
-      class="w-full border-t border-neutral-400 p-2 bg-neutral-300 rounded-sm flex gap-4"
-    >
+  <div class="flex flex-col grow h-full gap-4 pb-6">
+    <div class="w-full flex gap-3">
       <CActionButton
-        color="rgb(35, 134, 54)"
+        color="#5c8782"
         :click-function="() => (creating = true)"
         icon="add"
       >
@@ -107,7 +106,7 @@ async function handleUpdate() {
       </CActionButton>
       <CActionButton
         :disabled="!selectedExpense"
-        color="rgb(59, 130, 246)"
+        color="#5c6b7a"
         :click-function="handleUpdate"
         icon="edit"
       >
@@ -115,7 +114,7 @@ async function handleUpdate() {
       </CActionButton>
       <CActionButton
         :disabled="!selectedExpense"
-        color="#e74c3c"
+        color="#d15e5e"
         :click-function="handleDelete"
         icon="delete"
       >
@@ -123,19 +122,50 @@ async function handleUpdate() {
       </CActionButton>
     </div>
 
-    <div class="flex items-stretch gap-4 grow">
+    <div class="flex items-start gap-4 grow">
       <div
-        class="w-80 border border-neutral-400 dark:border-neutral-600 rounded-sm hidden md:flex"
+        class="shrink-0 bg-surface rounded-xl shadow-soft hidden md:flex flex-col overflow-hidden transition-[width] duration-300 ease-in-out"
+        :class="filtersCollapsed ? 'w-14' : 'w-80'"
       >
-        <ExpenseFilterForm
-          v-model:filters="form.filters"
-          :search="handleFindExpenses"
-        />
+        <div
+          class="flex items-center p-3"
+          :class="filtersCollapsed ? 'justify-center' : 'justify-between'"
+        >
+          <span
+            v-if="!filtersCollapsed"
+            class="font-medium whitespace-nowrap pl-1"
+            >Filtros</span
+          >
+          <button
+            type="button"
+            class="shrink-0 p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            :title="filtersCollapsed ? 'Mostrar filtros' : 'Ocultar filtros'"
+            @click="filtersCollapsed = !filtersCollapsed"
+          >
+            <CIcon
+              name="arrow"
+              :size="20"
+              class="transition-transform duration-300"
+              :class="filtersCollapsed ? '-rotate-90' : 'rotate-90'"
+              :styles="{ stroke: 'currentColor', fill: 'none', strokeWidth: 2 }"
+            />
+          </button>
+        </div>
+
+        <div
+          class="w-80 transition-opacity duration-200"
+          :class="
+            filtersCollapsed ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          "
+        >
+          <ExpenseFilterForm
+            v-model:filters="form.filters"
+            :search="handleFindExpenses"
+          />
+        </div>
       </div>
 
-      <div
-        class="grow-1 border border-neutral-400 dark:border-neutral-600 grow rounded-sm"
-      >
+      <div class="grow bg-surface rounded-xl shadow-soft min-h-[200px]">
         <ExpensesListByDate v-if="!loading && expenses.length > 0" />
 
         <div
@@ -150,9 +180,7 @@ async function handleUpdate() {
         </div>
       </div>
 
-      <div
-        class="border border-neutral-400 dark:border-neutral-600 w-80 rounded-sm p-4 hidden md:flex"
-      >
+      <div class="w-80 shrink-0 hidden md:flex">
         <ExpenseStats :expenses="expenses" />
       </div>
     </div>

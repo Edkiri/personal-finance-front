@@ -50,36 +50,32 @@ function getSelectedText() {
   <div
     ref="element"
     :class="[
-      'relative w-full h-[40px] flex flex-col items-center justify-center border rounded',
-      `${
-        focused
-          ? 'border-neutral-800 dark:border-neutral-200'
-          : 'border-neutral-400 dark:border-neutral-600'
-      }`,
+      'relative w-full h-[40px] flex flex-col items-center justify-center border rounded-lg',
+      `${focused ? 'border-accent-primary' : 'border-chart-grayLight'}`,
       { 'opacity-80': disabled },
     ]"
   >
     <button
       type="button"
-      class="h-full w-full text-left px-4 text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900"
+      class="h-full w-full text-left px-4 text-primary bg-surface rounded-lg"
       @focus="focused = true"
     >
-      <p>
+      <p class="truncate text-sm">
         {{ getSelectedText() }}
       </p>
     </button>
 
     <label
       :class="[
-        'text-neutral-700 dark:text-neutral-300 bg-gray-100 dark:bg-gray-900',
+        'text-secondary bg-surface',
         'block pointer-events-none absolute left-2 top-1/2 px-2',
         'transition-transform ease-in-out duration-100',
-        `${isLabelTop ? 'text-sm -translate-y-7' : '-translate-y-1/2'}`,
+        `${isLabelTop ? 'text-xs -translate-y-7' : '-translate-y-1/2'}`,
       ]"
       >{{ label }}
       <span
         v-if="required && !isLabelTop"
-        class="text-red-600 font-bold dark:text-red-400"
+        class="text-accent-negative font-bold"
         >*</span
       ></label
     >
@@ -87,8 +83,8 @@ function getSelectedText() {
     <div
       v-if="show"
       :class="[
-        'absolute right-[-1px] left-[-1px] top-[35px]',
-        'border-b border-l border-r border-neutral-300 dark:border-neutral-700',
+        'absolute right-[-1px] left-[-1px] top-[42px] z-20',
+        'border border-chart-grayLight rounded-lg overflow-hidden shadow-soft',
       ]"
     >
       <div class="flex flex-col">
@@ -97,11 +93,10 @@ function getSelectedText() {
           v-for="(selecction, index) in selecctions"
           :key="selecction.text"
           :class="[
-            'text-neutral-800 dark:text-neutral-200 outline-none p-2 text-left',
-            'z-10 bg-neutral-100 dark:bg-neutral-900',
-            'hover:bg-neutral-200 dark:hover:bg-neutral-800',
+            'text-primary outline-none p-2 text-left text-sm',
+            'z-10 bg-surface hover:bg-chart-grayLight',
             {
-              'border-b border-neutral-300 dark:border-neutral-700':
+              'border-b border-chart-grayLight':
                 index !== selecctions.length - 1,
             },
           ]"
