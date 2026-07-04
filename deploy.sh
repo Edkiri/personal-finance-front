@@ -35,12 +35,13 @@ echo "==> [front] publish -> $DEST (atomic swap)"
 # Build into a staging dir next to DEST (same filesystem) then swap with mv,
 # so Caddy never serves a half-copied site.
 PARENT="$(dirname "$DEST")"
-STAGE="$(mktemp -d "$PARENT/.pf-front.XXXXXX")"
 OLD="$DEST.old"
 
 # use sudo only if DEST's parent isn't writable by us
 SUDO=""
 [ -w "$PARENT" ] || SUDO="sudo"
+
+STAGE="$($SUDO mktemp -d "$PARENT/.pf-front.XXXXXX")"
 
 $SUDO cp -r dist/. "$STAGE/"
 $SUDO rm -rf "$OLD"
