@@ -15,6 +15,11 @@ set -euo pipefail
 DEST="${DEST:-/var/www/personal-finance}"   # Caddy `root` for money.eduardok.space
 # -----------------------------------------------------------------------------
 
+# ssh <host> 'cmd' runs a non-login shell, which doesn't source ~/.bashrc, so
+# nvm (and npm/node/pm2 with it) wouldn't be on PATH without this.
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 cd "$(dirname "$0")"
 
 echo "==> [front] git pull"
