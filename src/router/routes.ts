@@ -5,6 +5,7 @@ const routes = {
   ONBOARDING: '/onboarding',
   DASHBOARD_SUCCESS: '/onboarding_success',
   EXPENSES: '/expenses',
+  EXPENSES_COMPARISON: '/expenses/comparison',
   INCOMES: '/incomes',
   DEBTS: '/debts',
   ACCOUNTS: '/accounts',

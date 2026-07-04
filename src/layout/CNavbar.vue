@@ -7,6 +7,14 @@ import { ROUTES } from '@/router';
   <div class="flex max-w-7xl m-auto w-full py-2 gap-2 flex-wrap">
     <CNavbarItem icon="expenses" :route="ROUTES.EXPENSES"> Gastos </CNavbarItem>
 
+    <CNavbarItem
+      class="hidden md:flex"
+      icon="dashboard"
+      :route="ROUTES.EXPENSES_COMPARISON"
+    >
+      Comparativa
+    </CNavbarItem>
+
     <CNavbarItem class="hidden md:flex" icon="incomes" :route="ROUTES.INCOMES">
       Ingresos
     </CNavbarItem>

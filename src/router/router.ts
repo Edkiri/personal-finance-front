@@ -35,6 +35,11 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: ROUTES.EXPENSES_COMPARISON,
+    component: () => import('@app/expenses/views/CategoryComparison.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: ROUTES.INCOMES,
     component: () => import('@/app/incomes/views/Incomes.vue'),
     meta: { requiresAuth: true },
