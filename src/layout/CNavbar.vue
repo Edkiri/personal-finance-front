@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import CNavbarItem from './CNavbarItem.vue';
 import { ROUTES } from '@/router';
+import { useLogout } from '@/app/auth/hooks';
+
+const logout = useLogout();
 </script>
 
 <template>
@@ -30,5 +33,12 @@ import { ROUTES } from '@/router';
     >
       Categorías
     </CNavbarItem>
+
+    <button
+      @click="logout"
+      class="ml-auto rounded-full border border-chart-grayBlue px-4 py-1.5 text-sm font-semibold text-secondary transition-colors hover:border-accent-negative hover:text-accent-negative"
+    >
+      Cerrar sesión
+    </button>
   </div>
 </template>
