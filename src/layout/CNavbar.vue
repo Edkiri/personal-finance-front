@@ -1,13 +1,21 @@
 <script lang="ts" setup>
 import CNavbarItem from './CNavbarItem.vue';
-import { ROUTES } from '@/router';
+import { router, ROUTES } from '@/router';
 import { useLogout } from '@/app/auth/hooks';
 
 const logout = useLogout();
 </script>
 
 <template>
-  <div class="flex max-w-7xl m-auto w-full py-2 gap-2 flex-wrap">
+  <div class="flex max-w-7xl m-auto w-full py-2 px-2 md:px-4 gap-2 flex-wrap items-center">
+    <button
+      @click="() => router.push(ROUTES.HOME)"
+      class="mr-1 flex shrink-0 items-center"
+      aria-label="Inicio"
+    >
+      <img src="/money.png" alt="Money Track" class="h-9 w-9 rounded-lg" />
+    </button>
+
     <CNavbarItem icon="expenses" :route="ROUTES.EXPENSES"> Gastos </CNavbarItem>
 
     <CNavbarItem
