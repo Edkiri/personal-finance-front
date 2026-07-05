@@ -11,10 +11,6 @@ function handleStart() {
   router.push(ROUTES.EXPENSES);
 }
 
-function handleAccess() {
-  router.push(store.accessToken ? ROUTES.EXPENSES : ROUTES.LOGIN);
-}
-
 const topFeatures = [
   {
     icon: 'dashboard',
@@ -22,7 +18,7 @@ const topFeatures = [
     subtitle: 'Interfaz limpia e intuitiva',
   },
   {
-    icon: 'arrow',
+    icon: 'sync',
     title: 'Sincronización',
     subtitle: 'Tus datos, siempre contigo',
   },
@@ -32,7 +28,7 @@ const topFeatures = [
     subtitle: 'Gráficos claros y dinámicos',
   },
   {
-    icon: 'bank-piggy',
+    icon: 'shield',
     title: 'Seguridad total',
     subtitle: 'Tus datos están protegidos',
   },
@@ -73,7 +69,7 @@ const highlights = [
         <CIcon
           :name="feature.icon"
           :size="20"
-          :color="store.theme === 'dark' ? '#6fa39d' : '#5c8782'"
+          color="var(--color-logo-green)"
         />
       </div>
       <div class="flex flex-col">
@@ -88,7 +84,7 @@ const highlights = [
     <div class="flex max-w-[520px] flex-col gap-6">
       <h1 class="text-5xl font-bold leading-tight text-primary">
         Tus finanzas, en perfecta
-        <span class="text-accent-secondary">armonía.</span>
+        <span class="text-[var(--color-logo-green)]">armonía.</span>
       </h1>
 
       <p class="text-lg text-secondary">
@@ -110,7 +106,7 @@ const highlights = [
             <CIcon
               :name="highlight.icon"
               :size="20"
-              :color="store.theme === 'dark' ? '#6fa39d' : '#5c8782'"
+              color="var(--color-logo-green)"
             />
           </div>
           <div class="flex flex-col">
@@ -123,7 +119,7 @@ const highlights = [
       <div class="mt-2 flex flex-wrap items-center gap-4">
         <button
           @click="handleStart"
-          class="rounded-full bg-accent-secondary px-8 py-3 text-lg font-bold text-white transition hover:opacity-90"
+          class="rounded-full bg-[var(--color-logo-green)] px-8 py-3 text-lg font-bold text-white transition hover:opacity-90"
         >
           {{ store.accessToken ? 'Ir al dashboard' : 'Empieza gratis ahora!' }}
         </button>
