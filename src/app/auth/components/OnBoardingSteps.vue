@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { CSSProperties } from 'vue';
 import { range } from '@/utils';
 
 interface OnBoadingStepsProps {
@@ -7,30 +8,38 @@ interface OnBoadingStepsProps {
 }
 const props = defineProps<OnBoadingStepsProps>();
 
-function getStepStyles(step: number): string {
-  let styles =
-    'border-neutral-400 dark:border-neutral-600 text-neutral-400 dark:text-neutral-600';
+const GREEN = 'var(--color-logo-green)';
+
+function getStepStyles(step: number): CSSProperties {
+  if (step < props.currentStep) {
+    // completed
+    return {
+      color: 'var(--color-surface)',
+      backgroundColor: GREEN,
+      borderColor: GREEN,
+    };
+  }
 
   if (step === props.currentStep) {
-    styles = 'text-black dark:text-white border-black dark:border-white';
+    // active
+    return {
+      color: GREEN,
+      borderColor: GREEN,
+    };
   }
 
-  if (step < props.currentStep) {
-    styles =
-      'text-green-500 dark:text-green-500 border-green-500 dark:border-green-500';
-  }
-
-  return styles;
+  // pending
+  return {
+    color: 'var(--color-text-secondary)',
+    borderColor: 'var(--color-chart-gray-light)',
+  };
 }
 
-function getDivStyles(step: number): string {
-  let styles = 'bg-neutral-400 dark:bg-neutral-600';
-
-  if (step < props.currentStep) {
-    styles = 'bg-green-500 dark:bg-green-500';
-  }
-
-  return styles;
+function getDivStyles(step: number): CSSProperties {
+  return {
+    backgroundColor:
+      step < props.currentStep ? GREEN : 'var(--color-chart-gray-light)',
+  };
 }
 </script>
 
@@ -42,18 +51,15 @@ function getDivStyles(step: number): string {
       :key="`step-${index}`"
     >
       <div
-        :class="[
-          'h-10 w-10 flex justify-center items-center',
-          'text-lg font-bold',
-          'rounded-full border-2 select-none',
-          `${getStepStyles(index + 1)}`,
-        ]"
+        class="h-10 w-10 flex justify-center items-center text-lg font-bold rounded-full border-2 select-none transition-colors"
+        :style="getStepStyles(index + 1)"
       >
         {{ index + 1 }}
       </div>
       <div
         v-if="index < steps - 1"
-        :class="['h-[2px] w-24', `${getDivStyles(index + 1)}`]"
+        class="h-[2px] w-24 transition-colors"
+        :style="getDivStyles(index + 1)"
       ></div>
     </div>
   </div>

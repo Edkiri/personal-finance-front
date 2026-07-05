@@ -5,12 +5,20 @@ import { router, ROUTES } from '@/router';
 
 <template>
   <div class="flex flex-col items-center gap-4 mt-8">
-    <CIcon name="success" :size="40" />
-    <h1 class="text-xl font-bold text-center text-black dark:text-white">
+    <div
+      class="flex h-20 w-20 items-center justify-center rounded-full bg-surface shadow-soft"
+    >
+      <CIcon name="success" :size="40" color="var(--color-logo-green)" />
+    </div>
+    <h1 class="text-2xl font-bold text-center text-primary">
       ¡La configuración de tu cuenta se guardó correctamente!
     </h1>
 
-    <CButton @click="() => router.push(ROUTES.EXPENSES)" class="mt-4">
+    <CButton
+      color="var(--color-logo-green)"
+      @click="() => router.push(ROUTES.EXPENSES)"
+      class="mt-4"
+    >
       Empezar
     </CButton>
   </div>

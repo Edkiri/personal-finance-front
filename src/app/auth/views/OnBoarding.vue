@@ -134,10 +134,10 @@ function prev() {
 
 <template>
   <div class="flex flex-col grow">
-    <h1 class="text-xl font-bold text-center text-black dark:text-white">
+    <h1 class="text-2xl font-bold text-center text-primary">
       {{ stepTitle }}
     </h1>
-    <p class="text-center text-neutral-800 dark:text-neutral-200">
+    <p class="text-center text-secondary">
       {{ stepSubtitle }}
     </p>
 
@@ -146,7 +146,7 @@ function prev() {
         <CButton
           v-if="currentStep !== 1"
           outlined
-          color="rgb(244, 63, 94)"
+          color="var(--color-logo-green)"
           :click-function="prev"
         >
           Anterior
@@ -163,7 +163,7 @@ function prev() {
           v-if="currentStep !== LAST_STEP"
           :disabled="disableNext"
           :click-function="next"
-          color="rgb(244, 63, 94)"
+          color="var(--color-logo-green)"
         >
           Siguiente
         </CButton>
@@ -172,6 +172,7 @@ function prev() {
           v-else
           :disabled="!isValidForm"
           :click-function="onboardingHandleSubmit"
+          color="var(--color-logo-green)"
         >
           Continuar
         </CButton>
@@ -179,7 +180,7 @@ function prev() {
     </div>
 
     <div
-      class="relative w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-md grow overflow-hidden"
+      class="relative w-full bg-surface border border-chart-grayLight rounded-2xl shadow-soft grow overflow-hidden"
     >
       <div
         class="flex flex-col w-full transition-translate duration-500 absolute top-0 bottom-0 p-8"
