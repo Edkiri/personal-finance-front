@@ -39,47 +39,57 @@ async function handleSubmit(): Promise<void> {
 </script>
 
 <template>
-  <form
-    @submit.prevent="handleSubmit"
-    class="max-w-[450px] w-full m-auto p-4 mt-8"
-  >
-    <div class="flex flex-col">
-      <h1 class="text-black dark:text-white font-bold text-center text-2xl">
-        Inicia sesión!
-      </h1>
-    </div>
+  <div class="flex grow items-center justify-center py-10">
+    <div
+      class="w-full max-w-md overflow-hidden rounded-2xl border border-chart-grayLight bg-surface shadow-soft"
+    >
+      <form @submit.prevent="handleSubmit" class="flex flex-col p-8 sm:p-10">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-2xl font-bold text-primary">Bienvenido de vuelta</h1>
+          <p class="text-sm text-secondary">
+            Inicia sesión para continuar con tus finanzas.
+          </p>
+        </div>
 
-    <div class="flex flex-col gap-6 mt-8">
-      <CInput
-        label="Correo electrónico"
-        v-model:input-values="formData.email"
-        :disabled="loading"
-      />
-      <CInput
-        type="password"
-        label="Contraseña"
-        v-model:input-values="formData.password"
-        :disabled="loading"
-      />
-      <div class="flex gap-2 items-center">
-        <p class="text-neutral-700 dark:text-neutral-300 text-base">
-          ¿Aún no tienes cuenta?
-        </p>
-        <button
-          class="text-base text-blue-700 hover:underline"
-          @click="() => router.push(ROUTES.SIGNUP)"
-        >
-          Regístrate
-        </button>
-      </div>
-      <button
-        type="submit"
-        class="text-white font-bold dark:text-white text-lg self-start bg-rose-500 hover:bg-rose-600 py-1 rounded-sm w-full"
-      >
-        Iniciar sesión
-      </button>
-      <CLoading :loading="loading" class="self-center" />
-      <p class="text-red-600 dark:text-red-400">{{ error }}</p>
+        <div class="mt-8 flex flex-col gap-6">
+          <CInput
+            label="Correo electrónico"
+            v-model:input-values="formData.email"
+            :disabled="loading"
+          />
+          <CInput
+            type="password"
+            label="Contraseña"
+            v-model:input-values="formData.password"
+            :disabled="loading"
+          />
+
+          <button
+            type="submit"
+            class="w-full rounded-full bg-[var(--color-logo-green)] py-3 text-base font-bold text-white transition hover:opacity-90 disabled:opacity-60"
+            :disabled="loading"
+          >
+            Iniciar sesión
+          </button>
+
+          <CLoading :loading="loading" class="self-center" />
+
+          <p v-if="error" class="text-center text-sm text-accent-negative">
+            {{ error }}
+          </p>
+
+          <div class="flex items-center justify-center gap-2 text-sm">
+            <span class="text-secondary">¿Aún no tienes cuenta?</span>
+            <button
+              type="button"
+              class="font-semibold text-[var(--color-logo-green)] hover:underline"
+              @click="() => router.push(ROUTES.SIGNUP)"
+            >
+              Regístrate
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </template>
